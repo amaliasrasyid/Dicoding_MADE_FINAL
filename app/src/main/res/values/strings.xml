@@ -1,3 +1,15 @@
 <resources>
     <string name="app_name">Dicoding MADE</string>
+
+    <string-array name="judul_film">
+        <item>Mortal Engine</item>
+        <item>Venom</item>
+        <item>Hunter Killer</item>
+    </string-array>
+
+    <string-array name="sinopsis_film">
+        <item>Many thousands of years in the future, Earth \’s cities roam the globe on huge wheels, devouring each other in a struggle for ever diminishing resources. On one of these massive traction cities, the old London, Tom Natsworthy has an unexpected encounter with a mysterious young woman from the wastelands who will change the course of his life forever.</item>
+        <item>Investigative journalist Eddie Brock attempts a comeback following a scandal, but accidentally becomes the host of Venom, a violent, super powerful alien symbiote. Soon, he must rely on his newfound powers to protect the world from a shadowy organization looking for a symbiote of their own.</item>
+        <item>Captain Glass of the USS Arkansas discovers that a coup d\'état is taking place in Russia, so he and his crew join an elite group working on the ground to prevent a war.</item>
+    </string-array>
 </resources>
