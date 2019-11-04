@@ -4,31 +4,24 @@ import android.os.Parcel;
 import android.os.Parcelable;
 
 public class Movie  implements  Parcelable{
-    private String judul;
-    private String sinopsis;
-    private int poster;
-    private double rating;
-    private Pemeran[] pemeran;
-    private String tglRilis;
-    private String status;
+    private final String judul;
+    private final String sinopsis;
+    private final String poster;
+    private final String tglRilis;
+    private String status = "Released";
 
-    public Movie(){}
 
-    public Movie(String judul, String sinopsis, int poster, double rating, Pemeran[] pemeran, String tglRilis, String status) {
+    Movie(String judul, String sinopsis, String poster, String tglRilis) {
         this.judul = judul;
         this.sinopsis = sinopsis;
         this.poster = poster;
-        this.rating = rating;
-        this.pemeran = pemeran;
         this.tglRilis = tglRilis;
-        this.status = status;
     }
 
-    protected Movie(Parcel in) {
+    private Movie(Parcel in) {
         judul = in.readString();
         sinopsis = in.readString();
-        poster = in.readInt();
-        rating = in.readDouble();
+        poster = in.readString();
         tglRilis = in.readString();
         status = in.readString();
     }
@@ -37,8 +30,7 @@ public class Movie  implements  Parcelable{
     public void writeToParcel(Parcel dest, int flags) {
         dest.writeString(judul);
         dest.writeString(sinopsis);
-        dest.writeInt(poster);
-        dest.writeDouble(rating);
+        dest.writeString(poster);
         dest.writeString(tglRilis);
         dest.writeString(status);
     }
@@ -60,59 +52,23 @@ public class Movie  implements  Parcelable{
         }
     };
 
-    public String getJudul() {
+    String getJudul() {
         return judul;
     }
 
-    public void setJudul(String judul) {
-        this.judul = judul;
-    }
-
-    public String getSinopsis() {
+    String getSinopsis() {
         return sinopsis;
     }
 
-    public void setSinopsis(String sinopsis) {
-        this.sinopsis = sinopsis;
-    }
-
-    public int getPoster() {
+    String getPoster() {
         return poster;
     }
 
-    public void setPoster(int poster) {
-        this.poster = poster;
-    }
-
-    public double getRating() {
-        return rating;
-    }
-
-    public void setRating(double rating) {
-        this.rating = rating;
-    }
-
-    public Pemeran[] getPemeran() {
-        return pemeran;
-    }
-
-    public void setPemeran(Pemeran[] pemeran) {
-        this.pemeran = pemeran;
-    }
-
-    public String getTglRilis() {
+    String getTglRilis() {
         return tglRilis;
     }
 
-    public void setTglRilis(String tglRilis) {
-        this.tglRilis = tglRilis;
-    }
-
-    public String getStatus() {
+    String getStatus() {
         return status;
-    }
-
-    public void setStatus(String status) {
-        this.status = status;
     }
 }

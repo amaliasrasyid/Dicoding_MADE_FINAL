@@ -2,6 +2,7 @@ package amalia.dev.dicodingmade;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.drawable.Drawable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,12 +12,14 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.ArrayList;
 
 public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.ViewHolder> {
     //load data from MovieData
-    private ArrayList<Movie> data;
-    private Context context; //ini diperlukan untuk mengetahui posisi awal saat Intent dilakukan
+    private final ArrayList<Movie> data;
+    private final Context context; //ini diperlukan untuk mengetahui posisi awal saat Intent dilakukan dan mendapatkan getAssets()
 
     MovieAdapter(Context context){
         this.context = context;
@@ -37,10 +40,24 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.ViewHolder> 
         Movie movie = data.get(position); // panggil objek Movie yang ingin diambil datanya
 
         //set data ke view
-        holder.poster.setImageResource(movie.getPoster());
         holder.judul.setText(movie.getJudul());
         holder.rilis.setText(movie.getTglRilis());
         holder.sinopsis.setText(movie.getSinopsis());
+        loadImageFromAssets(movie.getPoster(),holder.poster);
+    }
+
+    //method for loading image for assets folder
+    private void loadImageFromAssets(String namaFile, ImageView img){
+        try {
+            //get input stream
+            InputStream input = context.getAssets().open(namaFile);
+            //load image as drawable
+            Drawable drawable = Drawable.createFromStream(input,null);
+            //set image to ImageView
+            img.setImageDrawable(drawable);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     @Override
@@ -49,8 +66,10 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.ViewHolder> 
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
-        ImageView poster;
-        TextView judul,sinopsis,rilis;
+        final ImageView poster;
+        final TextView judul;
+        final TextView sinopsis;
+        final TextView rilis;
         ViewHolder(@NonNull View itemView) {
             super(itemView);
 

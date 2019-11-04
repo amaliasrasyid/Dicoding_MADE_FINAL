@@ -4,9 +4,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.content.res.Resources;
 import android.os.Bundle;
-import android.view.LayoutInflater;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -22,5 +20,7 @@ public class MainActivity extends AppCompatActivity {
         rv.setLayoutManager(new LinearLayoutManager(this));
         //set adapter ke recyclerview
         rv.setAdapter(adapter);
+
+
     }
 }

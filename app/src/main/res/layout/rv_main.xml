@@ -27,8 +27,9 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            android:src="@drawable/poster_hunterkiller"
-            android:scaleType="fitXY" />
+            android:scaleType="fitXY"
+            android:contentDescription="@string/content_description"
+            tools:src="@android:color/darker_gray"/>
 
         <LinearLayout
             android:layout_width="0dp"
@@ -36,6 +37,7 @@
             android:layout_marginStart="18dp"
             android:layout_marginEnd="15dp"
             android:orientation="vertical"
+            android:background="@android:color/transparent"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@+id/img_movieitem_poster"
@@ -45,12 +47,14 @@
                 android:id="@+id/tv_movieitem_judul"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="TextView"
                 android:textColor="@color/colorPrimaryText"
+                android:text="@string/lorep_ipsum"
                 android:textSize="16sp"
                 android:textStyle="bold"
+                android:background="@android:color/transparent"
                 tools:layout_editor_absoluteX="126dp"
-                tools:layout_editor_absoluteY="33dp" />
+                tools:layout_editor_absoluteY="33dp"
+                />
 
             <TextView
                 android:id="@+id/tv_movieitem_rilis"
@@ -58,9 +62,10 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="2dp"
                 android:alpha="0.5"
-                android:text="TextView"
+                android:background="@android:color/transparent"
+                android:text="@string/lorep_ipsum"
                 android:textColor="@color/colorPrimaryText"
-                android:textSize="8sp"
+                android:textSize="12sp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
                 tools:layout_editor_absoluteX="131dp" />
@@ -71,11 +76,12 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="11dp"
                 android:alpha="0.65"
+                android:background="@android:color/transparent"
                 android:ellipsize="end"
                 android:maxLines="3"
-                android:text="TextView"
+                android:text="@string/lorep_ipsum"
                 android:textColor="@color/colorPrimaryText"
-                android:textSize="12sp"
+                android:textSize="14sp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
                 tools:layout_editor_absoluteX="215dp" />
