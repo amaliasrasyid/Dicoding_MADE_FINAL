@@ -48,12 +48,12 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textColor="@color/colorPrimaryText"
-                android:text="@string/lorep_ipsum"
                 android:textSize="16sp"
                 android:textStyle="bold"
                 android:background="@android:color/transparent"
                 tools:layout_editor_absoluteX="126dp"
                 tools:layout_editor_absoluteY="33dp"
+                tools:text="How To Train Your Dragon"
                 />
 
             <TextView
@@ -63,12 +63,12 @@
                 android:layout_marginTop="2dp"
                 android:alpha="0.5"
                 android:background="@android:color/transparent"
-                android:text="@string/lorep_ipsum"
                 android:textColor="@color/colorPrimaryText"
                 android:textSize="12sp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                tools:layout_editor_absoluteX="131dp" />
+                tools:layout_editor_absoluteX="131dp"
+                tools:text="5 October,2019"/>
 
             <TextView
                 android:id="@+id/tv_movieitem_sinopsis"
@@ -79,12 +79,13 @@
                 android:background="@android:color/transparent"
                 android:ellipsize="end"
                 android:maxLines="3"
-                android:text="@string/lorep_ipsum"
+
                 android:textColor="@color/colorPrimaryText"
                 android:textSize="14sp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                tools:layout_editor_absoluteX="215dp" />
+                tools:layout_editor_absoluteX="215dp"
+                tools:text="Many thousands of years in the future, Earth ’s cities roam the globe on huge wheels, devouring each other in a struggle for ever diminishing resources. On one of these massive traction cities, the old London, Tom Natsworthy has an unexpected encounter with a mysterious young woman from the wastelands who will change the course of his life forever."/>
         </LinearLayout>
     </androidx.constraintlayout.widget.ConstraintLayout>
 

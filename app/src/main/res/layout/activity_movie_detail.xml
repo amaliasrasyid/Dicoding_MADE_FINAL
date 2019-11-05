@@ -14,7 +14,7 @@
         android:layout_marginTop="50dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        tools:srcCompat="@tools:sample/avatars"
+        tools:srcCompat="@android:color/darker_gray"
         android:contentDescription="@string/content_description"/>
 
     <TextView
@@ -23,14 +23,14 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
         android:layout_marginEnd="30dp"
-        android:text="@string/lorep_ipsum"
         android:textColor="@color/colorPrimaryText"
         android:textSize="18sp"
         android:textStyle="bold"
         app:layout_constraintBottom_toTopOf="@+id/tv_moviedetail_"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/img_moviedetail_poster"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        tools:text="How To Train Your Dragon"/>
 
     <TextView
         android:id="@+id/tv_moviedetail_"
@@ -54,12 +54,12 @@
         android:layout_marginEnd="30dp"
         android:alpha="0.8"
         android:lineSpacingMultiplier="1.2"
-        android:text="@string/example_sinopsis"
         android:textColor="@color/colorPrimaryText"
         android:textSize="12sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tv_moviedetail_" />
+        app:layout_constraintTop_toBottomOf="@+id/tv_moviedetail_"
+        tools:text="Many thousands of years in the future, Earth ’s cities roam the globe on huge wheels, devouring each other in a struggle for ever diminishing resources. On one of these massive traction cities, the old London, Tom Natsworthy has an unexpected encounter with a mysterious young woman from the wastelands who will change the course of his life forever." />
 
     <TextView
         android:id="@+id/tv_moviedetail_status"
@@ -68,24 +68,24 @@
         android:layout_marginStart="16dp"
         android:layout_marginTop="1dp"
         android:alpha="0.5"
-        android:text="@string/lorep_ipsum"
         android:textColor="@color/colorPrimaryText"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toEndOf="@+id/img_moviedetail_poster"
-        app:layout_constraintTop_toBottomOf="@+id/textView7" />
+        app:layout_constraintTop_toBottomOf="@+id/textView7"
+        tools:text="Released"/>
 
     <TextView
         android:id="@+id/tv_moviedetail_releasedate"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:alpha="0.5"
-        android:text="@string/lorep_ipsum"
         android:textColor="@color/colorPrimaryText"
         app:layout_constraintBaseline_toBaselineOf="@+id/tv_moviedetail_status"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.446"
-        app:layout_constraintStart_toEndOf="@+id/tv_moviedetail_status" />
+        app:layout_constraintStart_toEndOf="@+id/tv_moviedetail_status"
+        tools:text="5 October,2019"/>
 
     <TextView
         android:id="@+id/textView7"
