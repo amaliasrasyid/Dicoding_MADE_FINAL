@@ -21,9 +21,9 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.ViewHolder> 
     private final ArrayList<Movie> data;
     private final Context context; //ini diperlukan untuk mengetahui posisi awal saat Intent dilakukan dan mendapatkan getAssets()
 
-    MovieAdapter(Context context){
+    MovieAdapter(Context context,ArrayList<Movie> data){
         this.context = context;
-        data = MovieData.getListData(context);
+        this.data = data;
     }
 
     @NonNull
