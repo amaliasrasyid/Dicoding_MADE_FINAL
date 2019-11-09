@@ -32,9 +32,9 @@ public class MovieFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_movie,container,false);
+
         rvListMovies = view.findViewById(R.id.rv_item);
         rvListMovies.setHasFixedSize(true);
-
         mdata.addAll(getListMovies());
         showRecylerList();
 

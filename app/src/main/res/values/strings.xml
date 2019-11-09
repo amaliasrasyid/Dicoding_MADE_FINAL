@@ -5,6 +5,9 @@
     <string name="text_status">Status</string>
     <string name="text_overview">Overview</string>
 
+    <string name="tab_text1">Movies</string>
+    <string name="tab_text2">Tv Shows</string>
+
     <string-array name="judul_film">
         <item>Mortal Engine</item>
         <item>Venom</item>
