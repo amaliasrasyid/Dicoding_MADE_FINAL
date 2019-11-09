@@ -25,6 +25,7 @@ public class MovieDetailActivity extends AppCompatActivity {
         TextView judul = findViewById(R.id.tv_moviedetail_judul);
         TextView releaseDate = findViewById(R.id.tv_moviedetail_releasedate);
         TextView status = findViewById(R.id.tv_moviedetail_status);
+        TextView rating = findViewById(R.id.tv_moviedetail_rating);
 
 
         //getting data that sended
@@ -35,16 +36,8 @@ public class MovieDetailActivity extends AppCompatActivity {
         judul.setText(movie.getJudul());
         status.setText(movie.getStatus());
         releaseDate.setText(movie.getTglRilis());
-        try {
-            //get input stream
-            InputStream input = getAssets().open(movie.getPoster());
-            //load image as drawable
-            Drawable drawable = Drawable.createFromStream(input,null);
-            //set image to ImageView
-            poster.setImageDrawable(drawable);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        poster.setImageResource(movie.getPoster());
+        rating.setText(String.valueOf(movie.getRating()));
 
         //setting for navigation back
         ActionBar myActionBar = getSupportActionBar();

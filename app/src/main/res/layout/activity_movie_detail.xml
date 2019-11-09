@@ -6,57 +6,121 @@
     android:layout_height="match_parent"
     tools:context=".MovieDetailActivity">
 
+    <FrameLayout
+        android:id="@+id/frameLayout2"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:scaleType="fitXY"
+            android:src="@drawable/bg_moviedetail_img" />
+
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:scaleType="fitXY"
+            android:src="@drawable/bg_shape"/>
+    </FrameLayout>
+
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginStart="36dp"
+        android:layout_marginTop="150dp"
+        android:layout_marginEnd="36dp"
+        android:background="@drawable/bg_rounded_shape_grey"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+
     <ImageView
         android:id="@+id/img_moviedetail_poster"
         android:layout_width="91dp"
         android:layout_height="161dp"
-        android:layout_marginStart="30dp"
-        android:layout_marginTop="50dp"
+        android:layout_marginStart="47dp"
+        android:layout_marginTop="102dp"
+        android:contentDescription="@string/content_description"
+        android:scaleType="fitXY"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        tools:srcCompat="@android:color/darker_gray"
-        android:contentDescription="@string/content_description"/>
+        tools:srcCompat="@drawable/poster_hunterkiller" />
+
+    <FrameLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
+        android:layout_marginEnd="5dp"
+        app:layout_constraintBottom_toTopOf="@+id/tv_moviedetail_sinopsis"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toEndOf="@+id/img_moviedetail_poster"
+        app:layout_constraintTop_toBottomOf="@+id/tv_moviedetail_judul"
+        app:layout_constraintVertical_bias="0.0">
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/shape_circle_rating" />
+
+        <TextView
+            android:id="@+id/tv_moviedetail_rating"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:textColor="@color/colorPrimaryDark"
+            android:textSize="32sp"
+            android:textStyle="bold"
+            tools:text="7.7" />
+    </FrameLayout>
 
     <TextView
         android:id="@+id/tv_moviedetail_judul"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginEnd="30dp"
+        android:layout_marginStart="17dp"
+        android:layout_marginEnd="47dp"
+        android:layout_marginBottom="35dp"
         android:textColor="@color/colorPrimaryText"
         android:textSize="18sp"
         android:textStyle="bold"
-        app:layout_constraintBottom_toTopOf="@+id/tv_moviedetail_"
+        app:layout_constraintBottom_toBottomOf="@+id/img_moviedetail_poster"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toEndOf="@+id/img_moviedetail_poster"
-        app:layout_constraintTop_toTopOf="parent"
-        tools:text="How To Train Your Dragon"/>
+        tools:text="How To Train Your Dragon: Hidden World" />
+
 
     <TextView
         android:id="@+id/tv_moviedetail_"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="30dp"
-        android:layout_marginTop="20dp"
+        android:layout_marginStart="47dp"
+        android:layout_marginTop="22dp"
         android:text="@string/text_overview"
         android:textColor="@color/colorPrimaryText"
         android:textSize="16sp"
         android:textStyle="bold"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/img_moviedetail_poster" />
+        app:layout_constraintTop_toBottomOf="@+id/tv_moviedetail_status" />
 
     <TextView
         android:id="@+id/tv_moviedetail_sinopsis"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="30dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginEnd="30dp"
+        android:layout_marginStart="47dp"
+        android:layout_marginTop="22dp"
+        android:layout_marginEnd="47dp"
         android:alpha="0.8"
         android:lineSpacingMultiplier="1.2"
         android:textColor="@color/colorPrimaryText"
         android:textSize="12sp"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/tv_moviedetail_"
         tools:text="Many thousands of years in the future, Earth ’s cities roam the globe on huge wheels, devouring each other in a struggle for ever diminishing resources. On one of these massive traction cities, the old London, Tom Natsworthy has an unexpected encounter with a mysterious young woman from the wastelands who will change the course of his life forever." />
@@ -65,37 +129,32 @@
         android:id="@+id/tv_moviedetail_status"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="1dp"
+        android:layout_marginStart="47dp"
+        android:layout_marginTop="16dp"
         android:alpha="0.5"
         android:textColor="@color/colorPrimaryText"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toEndOf="@+id/img_moviedetail_poster"
-        app:layout_constraintTop_toBottomOf="@+id/textView7"
-        tools:text="Released"/>
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/img_moviedetail_poster"
+        tools:text="Released" />
 
     <TextView
         android:id="@+id/tv_moviedetail_releasedate"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginStart="5dp"
         android:alpha="0.5"
         android:textColor="@color/colorPrimaryText"
         app:layout_constraintBaseline_toBaselineOf="@+id/tv_moviedetail_status"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.446"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toEndOf="@+id/tv_moviedetail_status"
-        tools:text="5 October,2019"/>
+        tools:text="5 October,2019" />
 
-    <TextView
-        android:id="@+id/textView7"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="16dp"
-        android:text= "@string/text_status"
-        android:textColor="@color/colorPrimaryText"
-        app:layout_constraintStart_toEndOf="@+id/img_moviedetail_poster"
-        app:layout_constraintTop_toBottomOf="@+id/tv_moviedetail_judul" />
+
+
+
+
+
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>

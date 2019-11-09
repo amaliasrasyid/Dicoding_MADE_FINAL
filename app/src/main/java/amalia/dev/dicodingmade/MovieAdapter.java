@@ -43,22 +43,9 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.ViewHolder> 
         holder.judul.setText(movie.getJudul());
         holder.rilis.setText(movie.getTglRilis());
         holder.sinopsis.setText(movie.getSinopsis());
-        loadImageFromAssets(movie.getPoster(),holder.poster);
+        holder.poster.setImageResource(movie.getPoster());
     }
 
-    //method for loading image for assets folder
-    private void loadImageFromAssets(String namaFile, ImageView img){
-        try {
-            //get input stream
-            InputStream input = context.getAssets().open(namaFile);
-            //load image as drawable
-            Drawable drawable = Drawable.createFromStream(input,null);
-            //set image to ImageView
-            img.setImageDrawable(drawable);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
 
     @Override
     public int getItemCount() {

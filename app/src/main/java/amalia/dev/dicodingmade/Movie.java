@@ -3,26 +3,28 @@ package amalia.dev.dicodingmade;
 import android.os.Parcel;
 import android.os.Parcelable;
 
-public class Movie  implements  Parcelable{
+public class Movie implements Parcelable {
     private final String judul;
     private final String sinopsis;
-    private final String poster;
+    private final int poster;
     private final String tglRilis;
+    private final double rating;
     private String status = "Released";
 
-
-    Movie(String judul, String sinopsis, String poster, String tglRilis) {
+    public Movie(String judul, String sinopsis, int poster, String tglRilis, double rating) {
         this.judul = judul;
         this.sinopsis = sinopsis;
         this.poster = poster;
         this.tglRilis = tglRilis;
+        this.rating = rating;
     }
 
-    private Movie(Parcel in) {
+    protected Movie(Parcel in) {
         judul = in.readString();
         sinopsis = in.readString();
-        poster = in.readString();
+        poster = in.readInt();
         tglRilis = in.readString();
+        rating = in.readDouble();
         status = in.readString();
     }
 
@@ -30,8 +32,9 @@ public class Movie  implements  Parcelable{
     public void writeToParcel(Parcel dest, int flags) {
         dest.writeString(judul);
         dest.writeString(sinopsis);
-        dest.writeString(poster);
+        dest.writeInt(poster);
         dest.writeString(tglRilis);
+        dest.writeDouble(rating);
         dest.writeString(status);
     }
 
@@ -52,23 +55,27 @@ public class Movie  implements  Parcelable{
         }
     };
 
-    String getJudul() {
+    public String getJudul() {
         return judul;
     }
 
-    String getSinopsis() {
+    public String getSinopsis() {
         return sinopsis;
     }
 
-    String getPoster() {
+    public int getPoster() {
         return poster;
     }
 
-    String getTglRilis() {
+    public String getTglRilis() {
         return tglRilis;
     }
 
-    String getStatus() {
+    public double getRating() {
+        return rating;
+    }
+
+    public String getStatus() {
         return status;
     }
 }
