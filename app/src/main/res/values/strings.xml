@@ -18,19 +18,6 @@
         <item>The Mule</item>
     </string-array>
 
-    <string-array name="nama_poster">
-        <item>poster_mortalengine.jpg</item>
-        <item>poster_venom.jpg</item>
-        <item>poster_hunterkiller.jpg</item>
-        <item>poster_birdbox.jpg</item>
-        <item>poster_dragon.jpg</item>
-        <item>poster_dragonball.jpg</item>
-        <item>poster_robinhood.jpg</item>
-        <item>poster_spiderman.jpg</item>
-        <item>poster_thegirl.jpg</item>
-        <item>poster_themule.jpg</item>
-    </string-array>
-
 
     <string-array name="release_date">
         <item>December 14, 2018</item>
@@ -57,4 +44,7 @@
         <item>In Stockholm, Sweden, hacker Lisbeth Salander is hired by Frans Balder, a computer engineer, to retrieve a program that he believes it is too dangerous to exist.</item>
         <item>Earl Stone, a man in his eighties, is broke, alone, and facing foreclosure of his business when he is offered a job that simply requires him to drive. Easy enough, but, unbeknownst to Earl, he\'s just signed on as a drug courier for a Mexican cartel. He does so well that his cargo increases exponentially, and Earl hit the radar of hard-charging DEA agent Colin Bates.</item>
     </string-array>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>
