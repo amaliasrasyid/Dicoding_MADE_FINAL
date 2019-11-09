@@ -20,6 +20,18 @@
         <item>The Girl in the Spider\'s Web</item>
         <item>The Mule</item>
     </string-array>
+    <string-array name="judul_tv_show">
+        <item>Arrow</item>
+        <item>Doom Patrol</item>
+        <item>Gotham</item>
+        <item>Grey\'s Anatomy</item>
+        <item>Hanna</item>
+        <item>Iron Fist</item>
+        <item>Naruto Shipudden</item>
+        <item>NCIS</item>
+        <item>Supergirl</item>
+        <item>The Umbrella Academy</item>
+    </string-array>
 
 
     <string-array name="release_date">
@@ -33,6 +45,18 @@
         <item>December 14, 2018</item>
         <item>October 25, 2018</item>
         <item>December 14, 2018</item>
+    </string-array>
+    <string-array name="release_date_tv_show">
+        <item>October 10, 2012</item>
+        <item>February 15, 2019</item>
+        <item>September 22, 2014</item>
+        <item>March 27, 2005</item>
+        <item>March 28, 2019</item>
+        <item>March 17, 2017</item>
+        <item>February 15, 2007</item>
+        <item>September 23, 2003</item>
+        <item>October 26, 2015</item>
+        <item>February 15, 2019</item>
     </string-array>
 
     <string-array name="sinopsis_film">
@@ -48,6 +72,19 @@
         <item>Earl Stone, a man in his eighties, is broke, alone, and facing foreclosure of his business when he is offered a job that simply requires him to drive. Easy enough, but, unbeknownst to Earl, he\'s just signed on as a drug courier for a Mexican cartel. He does so well that his cargo increases exponentially, and Earl hit the radar of hard-charging DEA agent Colin Bates.</item>
     </string-array>
 
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string-array name="sinopsis_tv_show">
+        <item>Spoiled billionaire playboy Oliver Queen is missing and presumed dead when his yacht is lost at sea. He returns five years later a changed man, determined to clean up the city as a hooded vigilante armed with a bow.</item>
+        <item>The Doom Patrol\’s members each suffered horrible accidents that gave them superhuman abilities — but also left them scarred and disfigured. Traumatized and downtrodden, the team found purpose through The Chief, who brought them together to investigate the weirdest phenomena in existence — and to protect Earth from what they find.</item>
+        <item>Before there was Batman, there was GOTHAM.
+
+            Everyone knows the name Commissioner Gordon. He is one of the crime world\'s greatest foes, a man whose reputation is synonymous with law and order. But what is known of Gordon\'s story and his rise from rookie detective to Police Commissioner\? What did it take to navigate the multiple layers of corruption that secretly ruled Gotham City, the spawning ground of the world's most iconic villains\? And what circumstances created them – the larger-than-life personas who would become Catwoman, The Penguin, The Riddler, Two-Face and The Joker\?</item>
+        <item>Follows the personal and professional lives of a group of doctors at Seattle\’s Grey Sloan Memorial Hospital.</item>
+        <item>This thriller and coming-of-age drama follows the journey of an extraordinary young girl as she evades the relentless pursuit of an off-book CIA agent and tries to unearth the truth behind who she is. Based on the 2011 Joe Wright film.</item>
+        <item>Danny Rand resurfaces 15 years after being presumed dead. Now, with the power of the Iron Fist, he seeks to reclaim his past and fulfill his destiny.</item>
+        <item>Naruto Shippuuden is the continuation of the original animated TV series Naruto.The story revolves around an older and slightly more matured Uzumaki Naruto and his quest to save his friend Uchiha Sasuke from the grips of the snake-like Shinobi, Orochimaru. After 2 and a half years Naruto finally returns to his village of Konoha, and sets about putting his ambitions to work, though it will not be easy, as He has amassed a few (more dangerous) enemies, in the likes of the shinobi organization; Akatsuki.</item>
+        <item>From murder and espionage to terrorism and stolen submarines, a team of special agents investigates any crime that has a shred of evidence connected to Navy and Marine Corps personnel, regardless of rank or position.</item>
+        <item>Twenty-four-year-old Kara Zor-El, who was taken in by the Danvers family when she was 13 after being sent away from Krypton, must learn to embrace her powers after previously hiding them. The Danvers teach her to be careful with her powers, until she has to reveal them during an unexpected disaster, setting her on her journey of heroism.</item>
+        <item>A dysfunctional family of superheroes comes together to solve the mystery of their father\'s death, the threat of the apocalypse and more.</item>
+    </string-array>
+
 </resources>

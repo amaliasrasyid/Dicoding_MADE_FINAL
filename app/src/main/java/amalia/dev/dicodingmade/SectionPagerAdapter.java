@@ -27,12 +27,7 @@ public class SectionPagerAdapter extends FragmentPagerAdapter {
     @NonNull
     @Override
     public Fragment getItem(int position) {
-        Fragment fragment = null;
-        switch (position){
-            case 0:
-                fragment = new MovieFragment();
-                break;
-        }
+        Fragment fragment = MovieFragment.newInstance(position);
         return fragment;
     }
 
@@ -44,6 +39,6 @@ public class SectionPagerAdapter extends FragmentPagerAdapter {
 
     @Override
     public int getCount() {
-        return 1;
+        return 2;
     }
 }
