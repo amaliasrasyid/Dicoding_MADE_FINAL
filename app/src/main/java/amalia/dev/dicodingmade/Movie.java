@@ -11,7 +11,7 @@ public class Movie implements Parcelable {
     private final double rating;
     private String status = "Released";
 
-    public Movie(String judul, String sinopsis, int poster, String tglRilis, double rating) {
+    Movie(String judul, String sinopsis, int poster, String tglRilis, double rating) {
         this.judul = judul;
         this.sinopsis = sinopsis;
         this.poster = poster;
@@ -19,7 +19,7 @@ public class Movie implements Parcelable {
         this.rating = rating;
     }
 
-    protected Movie(Parcel in) {
+    private Movie(Parcel in) {
         judul = in.readString();
         sinopsis = in.readString();
         poster = in.readInt();
@@ -55,27 +55,27 @@ public class Movie implements Parcelable {
         }
     };
 
-    public String getJudul() {
+    String getJudul() {
         return judul;
     }
 
-    public String getSinopsis() {
+    String getSinopsis() {
         return sinopsis;
     }
 
-    public int getPoster() {
+    int getPoster() {
         return poster;
     }
 
-    public String getTglRilis() {
+    String getTglRilis() {
         return tglRilis;
     }
 
-    public double getRating() {
+    double getRating() {
         return rating;
     }
 
-    public String getStatus() {
+    String getStatus() {
         return status;
     }
 }

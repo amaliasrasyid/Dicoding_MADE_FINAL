@@ -12,7 +12,6 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
 
 import java.util.ArrayList;
 
@@ -20,10 +19,9 @@ import java.util.ArrayList;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class MovieFragment extends Fragment {
+class MovieFragment extends Fragment {
     private static final String ARG_SECTION_NUMBER ="section number";
-    public ArrayList<Movie> mdata = new ArrayList<>();
-    public ArrayList<Movie> tdata = new ArrayList<>();
+    private final ArrayList<Movie> mdata = new ArrayList<>();
     private RecyclerView rvListMovies;
 
 
@@ -31,7 +29,7 @@ public class MovieFragment extends Fragment {
         // Required empty public constructor
     }
 
-    public static MovieFragment newInstance(int index){
+    static MovieFragment newInstance(int index){
         MovieFragment fragment = new MovieFragment();
         Bundle bundle = new Bundle();
         bundle.putInt(ARG_SECTION_NUMBER,index);
@@ -70,7 +68,7 @@ public class MovieFragment extends Fragment {
         }
     }
 
-    public ArrayList<Movie> getListMovies(){
+    private ArrayList<Movie> getListMovies(){
         ArrayList<Movie> data = new ArrayList<>();
         String[] judulMovie = getResources().getStringArray(R.array.judul_film);
         String[] sinopsisMovie = getResources().getStringArray(R.array.sinopsis_film);
@@ -94,7 +92,7 @@ public class MovieFragment extends Fragment {
         return data;
     }
 
-    public ArrayList<Movie> getListTvShows(){
+    private ArrayList<Movie> getListTvShows(){
         ArrayList<Movie> data = new ArrayList<>();
         String[] judulTvshow = getResources().getStringArray(R.array.judul_tv_show);
         String[] sinopsisMovie = getResources().getStringArray(R.array.sinopsis_film);

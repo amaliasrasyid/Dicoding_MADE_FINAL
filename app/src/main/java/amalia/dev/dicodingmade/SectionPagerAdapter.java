@@ -9,7 +9,7 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentPagerAdapter;
 
-public class SectionPagerAdapter extends FragmentPagerAdapter {
+class SectionPagerAdapter extends FragmentPagerAdapter {
 
     private final Context mContext;
     @StringRes
@@ -18,7 +18,7 @@ public class SectionPagerAdapter extends FragmentPagerAdapter {
             R.string.tab_text2
     };
 
-    public SectionPagerAdapter(Context context, FragmentManager fm) {
+    SectionPagerAdapter(Context context, FragmentManager fm) {
         super(fm, BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT);
         mContext = context;
     }
@@ -27,8 +27,7 @@ public class SectionPagerAdapter extends FragmentPagerAdapter {
     @NonNull
     @Override
     public Fragment getItem(int position) {
-        Fragment fragment = MovieFragment.newInstance(position);
-        return fragment;
+        return MovieFragment.newInstance(position);
     }
 
     @Nullable

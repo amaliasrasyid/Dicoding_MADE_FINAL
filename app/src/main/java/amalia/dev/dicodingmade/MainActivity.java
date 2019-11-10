@@ -1,9 +1,6 @@
 package amalia.dev.dicodingmade;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.fragment.app.FragmentTransaction;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 import androidx.viewpager.widget.ViewPager;
 
 import android.content.Intent;
@@ -27,7 +24,9 @@ public class MainActivity extends AppCompatActivity {
 
         TabLayout tabLayout = findViewById(R.id.tablayout_main);
         tabLayout.setupWithViewPager(viewPager);
-        getSupportActionBar().setElevation(0);
+        if(getSupportActionBar() != null) {
+            getSupportActionBar().setElevation(0);
+        }
     }
 
     @Override
