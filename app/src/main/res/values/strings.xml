@@ -1,12 +1,12 @@
 <resources>
     <string name="app_name">Dicoding MADE</string>
-    <string name="lorep_ipsum">Lorep Ipsum</string>
     <string name="content_description">Poster Movie</string>
     <string name="text_status">Status</string>
     <string name="text_overview">Overview</string>
 
     <string name="tab_text1">Movies</string>
     <string name="tab_text2">Tv Shows</string>
+    <string name="change_language_settings">Change Language Settings</string>
 
     <string-array name="judul_film">
         <item>Mortal Engine</item>
