@@ -6,7 +6,44 @@
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
-<!--        <item name="android:background">@color/colorPrimary</item>-->
+    </style>
+    <style name="LayoutBackground">
+        <item name="android:background">@color/colorPrimary</item>
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">match_parent</item>
+    </style>
+
+    
+    <style name="TextContent" parent="TextAppearance.AppCompat">
+        <item name="android:textColor">#FFFFFF</item>
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+    </style>
+
+    <style name="TextContent.Sinopsis">
+        <item name="android:textSize">14sp</item>
+        <item name="android:alpha">0.65</item>
+    </style>
+
+    <style name="TextContent.Judul">
+        <item name="android:textSize">18sp</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+
+    <style name="TextContent.SubJudul">
+        <item name="android:textSize">16sp</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+
+    <style name="TextContent.SmallText">
+        <item name="android:textSize">12sp</item>
+        <item name="android:alpha">0.5</item>
+    </style>
+
+    <style name="ImagePosterStyle">
+        <item name="android:layout_width">91dp</item>
+        <item name="android:layout_height">161dp</item>
+        <item name="android:scaleType">fitXY</item>
     </style>
 
 </resources>

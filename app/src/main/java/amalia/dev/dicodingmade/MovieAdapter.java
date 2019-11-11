@@ -27,7 +27,7 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.ViewHolder> 
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         //di sini custom layout rv dipanggil
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.rv_main,parent,false);
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.rv_item,parent,false);
         return new ViewHolder(view);
     }
 

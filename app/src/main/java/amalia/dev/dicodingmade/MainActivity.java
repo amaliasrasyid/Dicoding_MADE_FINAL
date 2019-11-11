@@ -24,6 +24,7 @@ public class MainActivity extends AppCompatActivity {
 
         TabLayout tabLayout = findViewById(R.id.tablayout_main);
         tabLayout.setupWithViewPager(viewPager);
+//        tabLayout.setTabTextColors(R.color.colorPrimary,R.color.colorPrimaryText);
         if(getSupportActionBar() != null) {
             getSupportActionBar().setElevation(0);
         }

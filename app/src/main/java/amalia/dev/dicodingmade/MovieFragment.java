@@ -19,7 +19,7 @@ import java.util.ArrayList;
 /**
  * A simple {@link Fragment} subclass.
  */
-class MovieFragment extends Fragment {
+public class MovieFragment extends Fragment {
     private static final String ARG_SECTION_NUMBER ="section number";
     private final ArrayList<Movie> mdata = new ArrayList<>();
     private RecyclerView rvListMovies;
