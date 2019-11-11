@@ -9,6 +9,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.ArrayList;
@@ -54,6 +55,7 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.ViewHolder> 
         final TextView judul;
         final TextView sinopsis;
         final TextView rilis;
+        final ConstraintLayout containerItem;
         ViewHolder(@NonNull View itemView) {
             super(itemView);
 
@@ -62,9 +64,10 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.ViewHolder> 
             judul = itemView.findViewById(R.id.tv_movieitem_judul);
             sinopsis = itemView.findViewById(R.id.tv_movieitem_sinopsis);
             rilis = itemView.findViewById(R.id.tv_movieitem_rilis);
+            containerItem = itemView.findViewById(R.id.constraintlayout_rvitem_container_item);
 
             //set listener
-            itemView.setOnClickListener(this);
+            containerItem.setOnClickListener(this);
         }
 
         @Override
