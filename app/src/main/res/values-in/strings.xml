@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Dicoding MADE</string>
+    <string name="msg_poster_film">Poster Film</string>
+    <string name="text_status">Status</string>
+    <string name="text_overview">Kilasan Singkat</string>
+    <string name="text_change_language_settings">Ubah Pengaturan Bahasa</string>
+    <string name="msg_detail_information_of_film">informasi detail film</string>
+
+    <string name="tab_text1">Film</string>
+    <string name="tab_text2">Acara Tv</string>
+</resources>

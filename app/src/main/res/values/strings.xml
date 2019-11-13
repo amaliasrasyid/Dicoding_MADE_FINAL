@@ -1,9 +1,14 @@
 <resources>
     <string name="app_name">Dicoding MADE</string>
-    <string name="lorep_ipsum">Lorep Ipsum</string>
-    <string name="content_description">Poster Movie</string>
     <string name="text_status">Status</string>
     <string name="text_overview">Overview</string>
+
+    <string name="tab_text1">Movies</string>
+    <string name="tab_text2">Tv Shows</string>
+    <string name="text_change_language_settings">Change Language Settings</string>
+    <string name="msg_detail_information_of_film">detail information of film</string>
+    <string name="msg_poster_film">Poster Movie</string>
+
 
     <string-array name="judul_film">
         <item>Mortal Engine</item>
@@ -17,18 +22,17 @@
         <item>The Girl in the Spider\'s Web</item>
         <item>The Mule</item>
     </string-array>
-
-    <string-array name="nama_poster">
-        <item>poster_mortalengine.jpg</item>
-        <item>poster_venom.jpg</item>
-        <item>poster_hunterkiller.jpg</item>
-        <item>poster_birdbox.jpg</item>
-        <item>poster_dragon.jpg</item>
-        <item>poster_dragonball.jpg</item>
-        <item>poster_robinhood.jpg</item>
-        <item>poster_spiderman.jpg</item>
-        <item>poster_thegirl.jpg</item>
-        <item>poster_themule.jpg</item>
+    <string-array name="judul_tv_show">
+        <item>Arrow</item>
+        <item>Doom Patrol</item>
+        <item>Gotham</item>
+        <item>Grey\'s Anatomy</item>
+        <item>Hanna</item>
+        <item>Iron Fist</item>
+        <item>Naruto Shipudden</item>
+        <item>NCIS</item>
+        <item>Supergirl</item>
+        <item>The Umbrella Academy</item>
     </string-array>
 
 
@@ -57,4 +61,5 @@
         <item>In Stockholm, Sweden, hacker Lisbeth Salander is hired by Frans Balder, a computer engineer, to retrieve a program that he believes it is too dangerous to exist.</item>
         <item>Earl Stone, a man in his eighties, is broke, alone, and facing foreclosure of his business when he is offered a job that simply requires him to drive. Easy enough, but, unbeknownst to Earl, he\'s just signed on as a drug courier for a Mexican cartel. He does so well that his cargo increases exponentially, and Earl hit the radar of hard-charging DEA agent Colin Bates.</item>
     </string-array>
+
 </resources>

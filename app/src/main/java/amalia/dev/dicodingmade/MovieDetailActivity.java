@@ -3,13 +3,10 @@ package amalia.dev.dicodingmade;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 
-import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import java.io.IOException;
-import java.io.InputStream;
 
 public class MovieDetailActivity extends AppCompatActivity {
     public static final String EXTRA_MOVIE ="extra movie";

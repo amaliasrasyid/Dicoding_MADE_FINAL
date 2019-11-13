@@ -2,7 +2,6 @@ package amalia.dev.dicodingmade;
 
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.drawable.Drawable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,10 +9,9 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.recyclerview.widget.RecyclerView;
 
-import java.io.IOException;
-import java.io.InputStream;
 import java.util.ArrayList;
 
 public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.ViewHolder> {
@@ -21,16 +19,16 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.ViewHolder> 
     private final ArrayList<Movie> data;
     private final Context context; //ini diperlukan untuk mengetahui posisi awal saat Intent dilakukan dan mendapatkan getAssets()
 
-    MovieAdapter(Context context){
+    MovieAdapter(Context context,ArrayList<Movie> data){
         this.context = context;
-        data = MovieData.getListData(context);
+        this.data = data;
     }
 
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         //di sini custom layout rv dipanggil
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.rv_main,parent,false);
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.rv_item,parent,false);
         return new ViewHolder(view);
     }
 
@@ -57,6 +55,7 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.ViewHolder> 
         final TextView judul;
         final TextView sinopsis;
         final TextView rilis;
+        final ConstraintLayout containerItem;
         ViewHolder(@NonNull View itemView) {
             super(itemView);
 
@@ -65,9 +64,10 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.ViewHolder> 
             judul = itemView.findViewById(R.id.tv_movieitem_judul);
             sinopsis = itemView.findViewById(R.id.tv_movieitem_sinopsis);
             rilis = itemView.findViewById(R.id.tv_movieitem_rilis);
+            containerItem = itemView.findViewById(R.id.constraintlayout_rvitem_container_item);
 
             //set listener
-            itemView.setOnClickListener(this);
+            containerItem.setOnClickListener(this);
         }
 
         @Override

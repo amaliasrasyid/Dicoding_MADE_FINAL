@@ -2,11 +2,11 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/constraintLayout"
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
 
     <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/constraintlayout_rvitem_container_item"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="21dp"
@@ -18,18 +18,16 @@
         app:layout_constraintTop_toTopOf="parent">
 
         <ImageView
+            style="@style/ImagePosterStyle"
             android:id="@+id/img_movieitem_poster"
-            android:layout_width="91dp"
-            android:layout_height="161dp"
             android:layout_marginStart="9dp"
             android:layout_marginTop="9dp"
             android:layout_marginBottom="9dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            android:scaleType="fitXY"
-            android:contentDescription="@string/content_description"
-            tools:src="@android:color/darker_gray"/>
+            tools:src="@android:color/darker_gray"
+            android:contentDescription="@string/msg_poster_film"/>
 
         <LinearLayout
             android:layout_width="0dp"
@@ -44,44 +42,29 @@
             app:layout_constraintTop_toTopOf="parent">
 
             <TextView
+                style="@style/TextContent.Judul"
                 android:id="@+id/tv_movieitem_judul"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textColor="@color/colorPrimaryText"
-                android:textSize="16sp"
-                android:textStyle="bold"
-                android:background="@android:color/transparent"
                 tools:layout_editor_absoluteX="126dp"
                 tools:layout_editor_absoluteY="33dp"
-                tools:text="How To Train Your Dragon"
-                />
+                tools:text="How To Train Your Dragon" />
 
             <TextView
+                style="@style/TextContent.SmallText"
                 android:id="@+id/tv_movieitem_rilis"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
                 android:layout_marginTop="2dp"
                 android:alpha="0.5"
                 android:background="@android:color/transparent"
-                android:textColor="@color/colorPrimaryText"
-                android:textSize="12sp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
                 tools:layout_editor_absoluteX="131dp"
                 tools:text="5 October,2019"/>
 
             <TextView
+                style="@style/TextContent.Sinopsis"
                 android:id="@+id/tv_movieitem_sinopsis"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
                 android:layout_marginTop="11dp"
-                android:alpha="0.65"
-                android:background="@android:color/transparent"
                 android:ellipsize="end"
                 android:maxLines="3"
-
-                android:textColor="@color/colorPrimaryText"
-                android:textSize="14sp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
                 tools:layout_editor_absoluteX="215dp"
