@@ -1,4 +1,4 @@
-package amalia.dev.dicodingmade;
+package amalia.dev.dicodingmade.view;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.viewpager.widget.ViewPager;
@@ -10,6 +10,9 @@ import android.view.Menu;
 import android.view.MenuItem;
 
 import com.google.android.material.tabs.TabLayout;
+
+import amalia.dev.dicodingmade.R;
+import amalia.dev.dicodingmade.adapter.SectionPagerAdapter;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -24,10 +27,10 @@ public class MainActivity extends AppCompatActivity {
 
         TabLayout tabLayout = findViewById(R.id.tablayout_main);
         tabLayout.setupWithViewPager(viewPager);
-//        tabLayout.setTabTextColors(R.color.colorPrimary,R.color.colorPrimaryText);
         if(getSupportActionBar() != null) {
             getSupportActionBar().setElevation(0);
         }
+
     }
 
     @Override

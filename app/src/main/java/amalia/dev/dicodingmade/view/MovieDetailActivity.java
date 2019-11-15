@@ -1,4 +1,4 @@
-package amalia.dev.dicodingmade;
+package amalia.dev.dicodingmade.view;
 
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
@@ -6,6 +6,9 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
 import android.widget.ImageView;
 import android.widget.TextView;
+
+import amalia.dev.dicodingmade.R;
+import amalia.dev.dicodingmade.model.Movie;
 
 
 public class MovieDetailActivity extends AppCompatActivity {
@@ -28,13 +31,13 @@ public class MovieDetailActivity extends AppCompatActivity {
         //getting data that sended
         Movie movie = getIntent().getParcelableExtra(EXTRA_MOVIE);
 
-        //binding data dan view
-        sinopsis.setText(movie.getSinopsis());
-        judul.setText(movie.getJudul());
-        status.setText(movie.getStatus());
-        releaseDate.setText(movie.getTglRilis());
-        poster.setImageResource(movie.getPoster());
-        rating.setText(String.valueOf(movie.getRating()));
+//        //binding data dan view
+//        sinopsis.setText(movie.getSinopsis());
+//        judul.setText(movie.getJudul());
+//        status.setText(movie.getStatus());
+//        releaseDate.setText(movie.getTglRilis());
+//        poster.setImageResource(movie.getPoster());
+//        rating.setText(String.valueOf(movie.getRating()));
 
         //setting for navigation back
         ActionBar myActionBar = getSupportActionBar();

@@ -1,4 +1,4 @@
-package amalia.dev.dicodingmade;
+package amalia.dev.dicodingmade.adapter;
 
 import android.content.Context;
 
@@ -9,7 +9,10 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentPagerAdapter;
 
-class SectionPagerAdapter extends FragmentPagerAdapter {
+import amalia.dev.dicodingmade.R;
+import amalia.dev.dicodingmade.view.MovieFragment;
+
+public class SectionPagerAdapter extends FragmentPagerAdapter {
 
     private final Context mContext;
     @StringRes
@@ -18,7 +21,7 @@ class SectionPagerAdapter extends FragmentPagerAdapter {
             R.string.tab_text2
     };
 
-    SectionPagerAdapter(Context context, FragmentManager fm) {
+    public SectionPagerAdapter(Context context, FragmentManager fm) {
         super(fm, BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT);
         mContext = context;
     }
