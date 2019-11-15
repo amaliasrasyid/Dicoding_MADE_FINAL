@@ -8,7 +8,9 @@ import androidx.lifecycle.ViewModel;
 
 import java.util.ArrayList;
 
-import amalia.dev.dicodingmade.ApiInterface;
+import amalia.dev.dicodingmade.model.TvShow;
+import amalia.dev.dicodingmade.model.TvShowResult;
+import amalia.dev.dicodingmade.repository.ApiInterface;
 import amalia.dev.dicodingmade.model.Movie;
 import amalia.dev.dicodingmade.model.MovieResult;
 import retrofit2.Call;
@@ -19,10 +21,10 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 public class MovieViewModel extends ViewModel {
     private MutableLiveData<ArrayList<Movie>> listMovies;
-    private ArrayList<Movie> listmovie = new ArrayList<>();
+    private MutableLiveData<ArrayList<TvShow>> listTvShows;
     private static final String BASE_URL = "http://api.themoviedb.org/3/";
     private static final String API_KEY = "6aaf0b4b68f88ddc23dbe4cf46fb2ddd";
-    private static final String LANGUAGE = "en-US";
+    private Retrofit retrofit;
 
 
     public LiveData<ArrayList<Movie>> getMovies(){
@@ -33,30 +35,71 @@ public class MovieViewModel extends ViewModel {
       return listMovies;
     }
 
-    private void loadMovies() {
+    public LiveData<ArrayList<TvShow>> getTvShows(){
+        if(listTvShows == null){
+            listTvShows = new MutableLiveData<>();
+            loadTvShows();
+        }
+        return listTvShows;
+    }
+
+    private void loadTvShows() {
         // Melakukan proses asynchronous untuk mendapatkan data pengguna.
-        //connect & get data
-        Retrofit retrofit = new Retrofit.Builder()
+        retrofit = new Retrofit.Builder()
                 .baseUrl(BASE_URL)
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
 
         ApiInterface apiInterface = retrofit.create(ApiInterface.class);
-        Call<MovieResult> call = apiInterface.getListMovies(API_KEY,LANGUAGE);
+        Call<TvShowResult> call = apiInterface.getListTvShow(API_KEY);
+        call.enqueue(new Callback<TvShowResult>() {
+            @Override
+            public void onResponse(Call<TvShowResult> call, Response<TvShowResult> response) {
+                if(response.isSuccessful()){
+                    //saving response into an object
+                    TvShowResult result = response.body();
+
+                    //moving list into arraylist before inserting into MutableLiveData<ArrayList<TvShow>>
+                    ArrayList <TvShow> listDataDb = new ArrayList<>();
+                    for(int i=0; i<result.getTvShowsResults().size();i++){
+                        listDataDb.add(result.getTvShowsResults().get(i));
+                    }
+                    //inserting to MutableLiveData
+                    listTvShows.postValue(listDataDb);
+                }
+            }
+
+            @Override
+            public void onFailure(Call<TvShowResult> call, Throwable t) {
+                Log.e("FAILED connection tv",t.toString());
+            }
+        });
+    }
+
+    private void loadMovies() {
+        // Melakukan proses asynchronous untuk mendapatkan data pengguna.
+        //create instance retrofit
+        retrofit = new Retrofit.Builder()
+                .baseUrl(BASE_URL)
+                .addConverterFactory(GsonConverterFactory.create())
+                .build();
+
+        ApiInterface apiInterface = retrofit.create(ApiInterface.class);
+        Call<MovieResult> call = apiInterface.getListMovies(API_KEY);
         call.enqueue(new Callback<MovieResult>() {
             @Override
             public void onResponse(Call<MovieResult> call, Response<MovieResult> response) {
                 if(response.isSuccessful()){
                     //save response into objek MovieResult
-                    MovieResult movieResult = response.body();
+                    MovieResult result = response.body();
 
                     // moving List data(data dr server berupa list) into Arraylist, before saving in MutableLiveData
-                    listmovie = new ArrayList<>();
-                    for (int i=0;i<movieResult.getMoviesResults().size();i++){
-                        listmovie.add(movieResult.getMoviesResults().get(i));
+                    ArrayList <Movie> listDataDb = new ArrayList<Movie>();
+                    for (int i = 0; i< result.getMoviesResults().size(); i++){
+                        listDataDb.add(result.getMoviesResults().get(i));
                     }
                     //inserting to MutableLiveData
-                    listMovies.postValue(listmovie);
+                    listMovies.postValue(listDataDb);
                 }else{
                     Log.e("FAILURE","Response is NULL");
                 }
@@ -65,7 +108,7 @@ public class MovieViewModel extends ViewModel {
 
             @Override
             public void onFailure(Call<MovieResult> call, Throwable t) {
-                Log.e("FAILED connection ",t.toString());
+                Log.e("FAILED connection movie",t.toString());
             }
         });
     }

@@ -5,9 +5,7 @@ import com.google.gson.annotations.SerializedName;
 
 import java.util.List;
 
-import amalia.dev.dicodingmade.model.Movie;
-
-public class MovieResult {
+public class TvShowResult {
     @SerializedName("page")
     @Expose
     private Integer page;
@@ -19,7 +17,7 @@ public class MovieResult {
     private Integer totalPages;
     @SerializedName("results")
     @Expose
-    private List<Movie> movies;
+    private List<TvShow> tvShowsResult;
 
     public Integer getPage() {
         return page;
@@ -45,11 +43,13 @@ public class MovieResult {
         this.totalPages = totalPages;
     }
 
-    public List<Movie> getMoviesResults() {
-        return movies;
+    public List<TvShow> getTvShowsResults() {
+        return tvShowsResult;
     }
 
-    public void setResults(List<Movie> movies) {
-        this.movies = movies;
+    public void setTvShowsResult(List<TvShow> tvShowsResult) {
+        this.tvShowsResult = tvShowsResult;
     }
+
 }
+
