@@ -8,49 +8,46 @@ import java.util.List;
 public class MovieResult {
     @SerializedName("page")
     @Expose
-    private int page;
-
+    private Integer page;
     @SerializedName("total_results")
     @Expose
-    private int totalResults;
-
+    private Integer totalResults;
+    @SerializedName("total_pages")
+    @Expose
+    private Integer totalPages;
     @SerializedName("results")
     @Expose
     private List<Movie> movies;
 
-    @SerializedName("total_pages")
-    @Expose
-    private int totalPages;
-
-    public int getPage() {
+    public Integer getPage() {
         return page;
     }
 
-    public void setPage(int page) {
+    public void setPage(Integer page) {
         this.page = page;
     }
 
-    public int getTotalResults() {
+    public Integer getTotalResults() {
         return totalResults;
     }
 
-    public void setTotalResults(int totalResults) {
+    public void setTotalResults(Integer totalResults) {
         this.totalResults = totalResults;
     }
 
-    public List<Movie> getMovies() {
-        return movies;
-    }
-
-    public void setMovies(List<Movie> movies) {
-        this.movies = movies;
-    }
-
-    public int getTotalPages() {
+    public Integer getTotalPages() {
         return totalPages;
     }
 
-    public void setTotalPages(int totalPages) {
+    public void setTotalPages(Integer totalPages) {
         this.totalPages = totalPages;
+    }
+
+    public List<Movie> getMoviesResults() {
+        return movies;
+    }
+
+    public void setResults(List<Movie> movies) {
+        this.movies = movies;
     }
 }

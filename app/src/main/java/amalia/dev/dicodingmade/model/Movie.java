@@ -10,45 +10,79 @@ import java.util.List;
 
 public class Movie{
 
-        @SerializedName("description")
+        @SerializedName("popularity")
         @Expose
-        private String description;
-        @SerializedName("favorite_count")
+        private Double popularity;
+        @SerializedName("vote_count")
         @Expose
-        private Integer favoriteCount;
+        private Integer voteCount;
+        @SerializedName("video")
+        @Expose
+        private Boolean video;
+        @SerializedName("poster_path")
+        @Expose
+        private String posterPath;
         @SerializedName("id")
         @Expose
         private Integer id;
-        @SerializedName("item_count")
+        @SerializedName("adult")
         @Expose
-        private Integer itemCount;
-        @SerializedName("iso_639_1")
+        private Boolean adult;
+        @SerializedName("backdrop_path")
         @Expose
-        private String iso6391;
-        @SerializedName("list_type")
+        private String backdropPath;
+        @SerializedName("original_language")
         @Expose
-        private String listType;
-        @SerializedName("name")
+        private String originalLanguage;
+        @SerializedName("original_title")
         @Expose
-        private String name;
-        @SerializedName("poster_path")
+        private String originalTitle;
+        @SerializedName("genre_ids")
         @Expose
-        private Object posterPath;
+        private List<Integer> genreIds = null;
+        @SerializedName("title")
+        @Expose
+        private String title;
+        @SerializedName("vote_average")
+        @Expose
+        private Double voteAverage;
+        @SerializedName("overview")
+        @Expose
+        private String overview;
+        @SerializedName("release_date")
+        @Expose
+        private String releaseDate;
 
-        public String getDescription() {
-            return description;
+        public Double getPopularity() {
+            return popularity;
         }
 
-        public void setDescription(String description) {
-            this.description = description;
+        public void setPopularity(Double popularity) {
+            this.popularity = popularity;
         }
 
-        public Integer getFavoriteCount() {
-            return favoriteCount;
+        public Integer getVoteCount() {
+            return voteCount;
         }
 
-        public void setFavoriteCount(Integer favoriteCount) {
-            this.favoriteCount = favoriteCount;
+        public void setVoteCount(Integer voteCount) {
+            this.voteCount = voteCount;
+        }
+
+        public Boolean getVideo() {
+            return video;
+        }
+
+        public void setVideo(Boolean video) {
+            this.video = video;
+        }
+
+        public String getPosterPath() {
+            return posterPath;
+        }
+
+        public void setPosterPath(String posterPath) {
+            this.posterPath = posterPath;
         }
 
         public Integer getId() {
@@ -59,43 +93,75 @@ public class Movie{
             this.id = id;
         }
 
-        public Integer getItemCount() {
-            return itemCount;
+        public Boolean getAdult() {
+            return adult;
         }
 
-        public void setItemCount(Integer itemCount) {
-            this.itemCount = itemCount;
+        public void setAdult(Boolean adult) {
+            this.adult = adult;
         }
 
-        public String getIso6391() {
-            return iso6391;
+        public String getBackdropPath() {
+            return backdropPath;
         }
 
-        public void setIso6391(String iso6391) {
-            this.iso6391 = iso6391;
+        public void setBackdropPath(String backdropPath) {
+            this.backdropPath = backdropPath;
         }
 
-        public String getListType() {
-            return listType;
+        public String getOriginalLanguage() {
+            return originalLanguage;
         }
 
-        public void setListType(String listType) {
-            this.listType = listType;
+        public void setOriginalLanguage(String originalLanguage) {
+            this.originalLanguage = originalLanguage;
         }
 
-        public String getName() {
-            return name;
+        public String getOriginalTitle() {
+            return originalTitle;
         }
 
-        public void setName(String name) {
-            this.name = name;
+        public void setOriginalTitle(String originalTitle) {
+            this.originalTitle = originalTitle;
         }
 
-        public Object getPosterPath() {
-            return posterPath;
+        public List<Integer> getGenreIds() {
+            return genreIds;
         }
 
-        public void setPosterPath(Object posterPath) {
-            this.posterPath = posterPath;
+        public void setGenreIds(List<Integer> genreIds) {
+            this.genreIds = genreIds;
+        }
+
+        public String getTitle() {
+            return title;
+        }
+
+        public void setTitle(String title) {
+            this.title = title;
+        }
+
+        public Double getVoteAverage() {
+            return voteAverage;
+        }
+
+        public void setVoteAverage(Double voteAverage) {
+            this.voteAverage = voteAverage;
+        }
+
+        public String getOverview() {
+            return overview;
+        }
+
+        public void setOverview(String overview) {
+            this.overview = overview;
+        }
+
+        public String getReleaseDate() {
+            return releaseDate;
+        }
+
+        public void setReleaseDate(String releaseDate) {
+            this.releaseDate = releaseDate;
         }
 }

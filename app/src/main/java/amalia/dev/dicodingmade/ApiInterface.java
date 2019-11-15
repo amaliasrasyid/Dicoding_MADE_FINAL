@@ -16,12 +16,10 @@ public interface  ApiInterface {
 //            @Path(("tv_id")) int tv_id
 //    );
 
-    @GET("movie/{movie_id}/lists")
+    @GET("discover/movie/")
     Call<MovieResult> getListMovies(
-            @Path("movie_id") int movie_id,
             @Query("api_key") String apiKey,
-            @Query("language") String language,
-            @Query("page") int page
+            @Query("language") String language
 
     );
 }

@@ -42,7 +42,7 @@ public class MovieViewModel extends ViewModel {
                 .build();
 
         ApiInterface apiInterface = retrofit.create(ApiInterface.class);
-        Call<MovieResult> call = apiInterface.getListMovies(5,API_KEY,LANGUAGE,1);
+        Call<MovieResult> call = apiInterface.getListMovies(API_KEY,LANGUAGE);
         call.enqueue(new Callback<MovieResult>() {
             @Override
             public void onResponse(Call<MovieResult> call, Response<MovieResult> response) {
@@ -52,20 +52,20 @@ public class MovieViewModel extends ViewModel {
 
                     // moving List data(data dr server berupa list) into Arraylist, before saving in MutableLiveData
                     listmovie = new ArrayList<>();
-                    for (int i=0;i<movieResult.getMovies().size();i++){
-                        listmovie.add(movieResult.getMovies().get(i));
+                    for (int i=0;i<movieResult.getMoviesResults().size();i++){
+                        listmovie.add(movieResult.getMoviesResults().get(i));
                     }
                     //inserting to MutableLiveData
                     listMovies.postValue(listmovie);
                 }else{
-                    Log.e("FAILED getting response","NULL");
+                    Log.e("FAILURE","Response is NULL");
                 }
 
             }
 
             @Override
             public void onFailure(Call<MovieResult> call, Throwable t) {
-                Log.e("FAILED GET DATA API ",t.toString());
+                Log.e("FAILED connection ",t.toString());
             }
         });
     }

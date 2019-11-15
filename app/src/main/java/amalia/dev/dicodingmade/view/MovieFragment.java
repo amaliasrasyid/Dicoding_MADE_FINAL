@@ -68,6 +68,7 @@ public class MovieFragment extends Fragment {
         movieViewModel.getMovies().observe(this, new Observer<ArrayList<Movie>>() {
             @Override
             public void onChanged(ArrayList<Movie> movies) {
+                //Updating UI
                 if(movies != null){
                     adapter.setData(movies);
                     rvListMovies.setLayoutManager(new LinearLayoutManager(getActivity()));
@@ -93,53 +94,6 @@ public class MovieFragment extends Fragment {
 //        }
 //    }
 
-//    private ArrayList<Movie> getListMovies(){
-//        ArrayList<Movie> data = new ArrayList<>();
-//        String[] judulMovie = getResources().getStringArray(R.array.judul_film);
-//        String[] sinopsisMovie = getResources().getStringArray(R.array.sinopsis_film);
-//        String[] releaseDate = getResources().getStringArray(R.array.release_date);
-//        int[] posterName = {R.drawable.poster_mortalengine,R.drawable.poster_venom,R.drawable.poster_hunterkiller
-//                ,R.drawable.poster_birdbox,R.drawable.poster_dragon,R.drawable.poster_dragonball
-//                ,R.drawable.poster_robinhood,R.drawable.poster_spiderman,R.drawable.poster_thegirl,R.drawable.poster_themule};
-//        double[] rating = {7.7,7.7,6.8,6.5,8.1,7.7,7.7,6.8,6.5,8.1};
-//
-//        //add data in form Movie object
-//        for(int i =0; i<=judulMovie.length-1;i++){
-//            data.add(new Movie(
-//                    judulMovie[i]
-//                    ,sinopsisMovie[i]
-//                    ,posterName[i]
-//                    ,releaseDate[i]
-//                    ,rating[i]
-//            ));
-//        }
-//
-//        return data;
-//    }
-
-//    private ArrayList<Movie> getListTvShows(){
-//        ArrayList<Movie> data = new ArrayList<>();
-//        String[] judulTvshow = getResources().getStringArray(R.array.judul_tv_show);
-//        String[] sinopsisMovie = getResources().getStringArray(R.array.sinopsis_film);
-//        String[] releaseDate = getResources().getStringArray(R.array.release_date);
-//        int[] posterName = {R.drawable.poster_arrow,R.drawable.poster_doom_patrol,R.drawable.poster_gotham,R.drawable.poster_grey_anatomy
-//                            ,R.drawable.poster_hanna,R.drawable.poster_iron_fist,R.drawable.poster_naruto_shipudden,R.drawable.poster_ncis
-//                            ,R.drawable.poster_shameless,R.drawable.poster_the_umbrella};
-//        double[] rating = {5.8,6.5,6.9,6.4,6.7,6.1,7.6,6.3,5.9,7.7};
-//
-//        //add data in form Movie object
-//        for(int i =0; i<=judulTvshow.length-1;i++){
-//            data.add(new Movie(
-//                    judulTvshow[i]
-//                    ,sinopsisMovie[i]
-//                    ,posterName[i]
-//                    ,releaseDate[i]
-//                    ,rating[i]
-//            ));
-//        }
-//
-//        return data;
-//    }
 
 //    private void showRecylerList(){
 //        MovieAdapter adapter = new MovieAdapter(getActivity(),mdata);

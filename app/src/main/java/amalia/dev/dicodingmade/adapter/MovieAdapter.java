@@ -22,7 +22,7 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.ViewHolder> 
     //load data from MovieData
     private final ArrayList<Movie> data = new ArrayList<>();
     private final Context context; //ini diperlukan untuk mengetahui posisi awal saat Intent dilakukan dan mendapatkan getAssets()
-
+    private static final String BASE_URL_IMG = "https://image.tmdb.org/t/p/w154";
     public MovieAdapter(Context context){
         this.context = context;
     }
@@ -56,7 +56,7 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.ViewHolder> 
         final ImageView poster;
         final TextView judul;
         final TextView sinopsis;
-//        final TextView rilis;
+        final TextView rilis;
         final ConstraintLayout containerItem;
         ViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -65,16 +65,16 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.ViewHolder> 
             poster = itemView.findViewById(R.id.img_movieitem_poster);
             judul = itemView.findViewById(R.id.tv_movieitem_judul);
             sinopsis = itemView.findViewById(R.id.tv_movieitem_sinopsis);
-//            rilis = itemView.findViewById(R.id.tv_movieitem_rilis);
+            rilis = itemView.findViewById(R.id.tv_movieitem_rilis);
             containerItem = itemView.findViewById(R.id.constraintlayout_rvitem_container_item);
         }
 
         void bind(Movie movie){
-            judul.setText(movie.getName());
-            sinopsis.setText(movie.getDescription());
-//            rilis.setText(movie.);
+            judul.setText(movie.getTitle());
+            sinopsis.setText(movie.getOverview());
+            rilis.setText(movie.getReleaseDate());
             Glide.with(context)
-                    .load(movie.getPosterPath())
+                    .load(BASE_URL_IMG+movie.getPosterPath())
                     .into(poster);
         }
 
