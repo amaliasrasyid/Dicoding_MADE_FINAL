@@ -1,6 +1,7 @@
 package amalia.dev.dicodingmade.adapter;
 
 import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,10 +18,11 @@ import java.util.ArrayList;
 
 import amalia.dev.dicodingmade.R;
 import amalia.dev.dicodingmade.model.Movie;
+import amalia.dev.dicodingmade.view.MovieDetailActivity;
 
 public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.ViewHolder> {
     private final ArrayList<Movie> data = new ArrayList<>();
-    private final Context context; //ini diperlukan untuk mengetahui posisi awal saat Intent dilakukan dan mendapatkan getAssets()
+    private final Context context; //ini diperlukan untuk mengetahui posisi awal saat Intent dilakukan
     private static final String BASE_URL_IMG = "https://image.tmdb.org/t/p/w154";
     public MovieAdapter(Context context){
         this.context = context;
@@ -35,13 +37,14 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.ViewHolder> 
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        //di sini custom layout rv dipanggil
+        //inflate layout for item recylerview
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.rv_item,parent,false);
         return new ViewHolder(view);
     }
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
+        //binding antara view & data
         holder.bind(data.get(position));
     }
 
@@ -51,7 +54,7 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.ViewHolder> 
         return data.size();
     }
 
-    public class ViewHolder extends RecyclerView.ViewHolder {
+    public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         final ImageView poster;
         final TextView judul;
         final TextView sinopsis;
@@ -66,6 +69,9 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.ViewHolder> 
             sinopsis = itemView.findViewById(R.id.tv_movieitem_sinopsis);
             popularity = itemView.findViewById(R.id.tv_movieitem_rilis);
             containerItem = itemView.findViewById(R.id.constraintlayout_rvitem_container_item);
+
+            //set listener
+            containerItem.setOnClickListener(this);
         }
 
         void bind(Movie movie){
@@ -78,5 +84,13 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.ViewHolder> 
         }
 
 
+        @Override
+        public void onClick(View v) {
+            if(v.getId() == R.id.constraintlayout_rvitem_container_item){
+                Intent intent = new Intent(context, MovieDetailActivity.class);
+                intent.putExtra(MovieDetailActivity.EXTRA_MOVIE,data.get(getAdapterPosition()));
+                v.getContext().startActivity(intent);
+            }
+        }
     }
 }

@@ -1,11 +1,14 @@
 package amalia.dev.dicodingmade.model;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
 import java.util.List;
 
-public class TvShow {
+public class TvShow implements Parcelable {
 
     @SerializedName("original_name")
     @Expose
@@ -46,6 +49,90 @@ public class TvShow {
     @SerializedName("poster_path")
     @Expose
     private String posterPath;
+
+    protected TvShow(Parcel in) {
+        originalName = in.readString();
+        name = in.readString();
+        if (in.readByte() == 0) {
+            popularity = null;
+        } else {
+            popularity = in.readDouble();
+        }
+        originCountry = in.createStringArrayList();
+        if (in.readByte() == 0) {
+            voteCount = null;
+        } else {
+            voteCount = in.readInt();
+        }
+        firstAirDate = in.readString();
+        backdropPath = in.readString();
+        originalLanguage = in.readString();
+        if (in.readByte() == 0) {
+            id = null;
+        } else {
+            id = in.readInt();
+        }
+        if (in.readByte() == 0) {
+            voteAverage = null;
+        } else {
+            voteAverage = in.readDouble();
+        }
+        overview = in.readString();
+        posterPath = in.readString();
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(originalName);
+        dest.writeString(name);
+        if (popularity == null) {
+            dest.writeByte((byte) 0);
+        } else {
+            dest.writeByte((byte) 1);
+            dest.writeDouble(popularity);
+        }
+        dest.writeStringList(originCountry);
+        if (voteCount == null) {
+            dest.writeByte((byte) 0);
+        } else {
+            dest.writeByte((byte) 1);
+            dest.writeInt(voteCount);
+        }
+        dest.writeString(firstAirDate);
+        dest.writeString(backdropPath);
+        dest.writeString(originalLanguage);
+        if (id == null) {
+            dest.writeByte((byte) 0);
+        } else {
+            dest.writeByte((byte) 1);
+            dest.writeInt(id);
+        }
+        if (voteAverage == null) {
+            dest.writeByte((byte) 0);
+        } else {
+            dest.writeByte((byte) 1);
+            dest.writeDouble(voteAverage);
+        }
+        dest.writeString(overview);
+        dest.writeString(posterPath);
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    public static final Creator<TvShow> CREATOR = new Creator<TvShow>() {
+        @Override
+        public TvShow createFromParcel(Parcel in) {
+            return new TvShow(in);
+        }
+
+        @Override
+        public TvShow[] newArray(int size) {
+            return new TvShow[size];
+        }
+    };
 
     public String getOriginalName() {
         return originalName;

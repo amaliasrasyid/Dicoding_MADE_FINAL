@@ -1,6 +1,7 @@
 package amalia.dev.dicodingmade.adapter;
 
 import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,6 +18,7 @@ import java.util.ArrayList;
 
 import amalia.dev.dicodingmade.R;
 import amalia.dev.dicodingmade.model.TvShow;
+import amalia.dev.dicodingmade.view.TvShowDetailActivity;
 
 public class TvShowAdapter extends RecyclerView.Adapter<TvShowAdapter.ViewHolder> {
     private ArrayList<TvShow> data = new ArrayList<>();
@@ -52,7 +54,7 @@ public class TvShowAdapter extends RecyclerView.Adapter<TvShowAdapter.ViewHolder
         return data.size();
     }
 
-    public class ViewHolder extends RecyclerView.ViewHolder {
+    public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         final ImageView poster;
         final TextView judul;
         final TextView sinopsis;
@@ -76,6 +78,15 @@ public class TvShowAdapter extends RecyclerView.Adapter<TvShowAdapter.ViewHolder
             Glide.with(context)
                     .load(BASE_URL_IMG+tvShow.getPosterPath())
                     .into(poster);
+        }
+
+        @Override
+        public void onClick(View v) {
+            if(v.getId() == R.id.constraintlayout_rvitem_container_item){
+                Intent intent = new Intent(context, TvShowDetailActivity.class);
+                intent.putExtra(TvShowDetailActivity.EXTRA_TV_SHOW,data.get(getAdapterPosition()));
+                v.getContext().startActivity(intent);
+            }
         }
     }
 }
