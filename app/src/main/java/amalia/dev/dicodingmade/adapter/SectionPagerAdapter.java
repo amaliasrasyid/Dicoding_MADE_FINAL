@@ -11,6 +11,7 @@ import androidx.fragment.app.FragmentPagerAdapter;
 
 import amalia.dev.dicodingmade.R;
 import amalia.dev.dicodingmade.view.MovieFragment;
+import amalia.dev.dicodingmade.view.TvShowFragment;
 
 public class SectionPagerAdapter extends FragmentPagerAdapter {
 
@@ -30,7 +31,16 @@ public class SectionPagerAdapter extends FragmentPagerAdapter {
     @NonNull
     @Override
     public Fragment getItem(int position) {
-        return MovieFragment.newInstance(position);
+        Fragment fragment = null;
+        switch (position){
+            case 0:
+                fragment = new MovieFragment();
+                break;
+            case 1:
+                fragment = new TvShowFragment();
+                break;
+        }
+        return fragment;
     }
 
     @Nullable

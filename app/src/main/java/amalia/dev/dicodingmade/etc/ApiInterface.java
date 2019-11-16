@@ -1,7 +1,6 @@
-package amalia.dev.dicodingmade.repository;
+package amalia.dev.dicodingmade.etc;
 
 import amalia.dev.dicodingmade.model.MovieResult;
-import amalia.dev.dicodingmade.model.TvShow;
 import amalia.dev.dicodingmade.model.TvShowResult;
 import retrofit2.Call;
 import retrofit2.http.GET;

@@ -39,7 +39,7 @@ public class Movie{
         private String originalTitle;
         @SerializedName("genre_ids")
         @Expose
-        private List<Integer> genreIds = null;
+        private List<Integer> genreIds ;
         @SerializedName("title")
         @Expose
         private String title;

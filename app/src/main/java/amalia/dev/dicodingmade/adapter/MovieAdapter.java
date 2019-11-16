@@ -19,7 +19,6 @@ import amalia.dev.dicodingmade.R;
 import amalia.dev.dicodingmade.model.Movie;
 
 public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.ViewHolder> {
-    //load data from MovieData
     private final ArrayList<Movie> data = new ArrayList<>();
     private final Context context; //ini diperlukan untuk mengetahui posisi awal saat Intent dilakukan dan mendapatkan getAssets()
     private static final String BASE_URL_IMG = "https://image.tmdb.org/t/p/w154";
@@ -37,7 +36,7 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.ViewHolder> 
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         //di sini custom layout rv dipanggil
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.rv_movie,parent,false);
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.rv_item,parent,false);
         return new ViewHolder(view);
     }
 
@@ -56,7 +55,7 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.ViewHolder> 
         final ImageView poster;
         final TextView judul;
         final TextView sinopsis;
-        final TextView rilis;
+        final TextView popularity;
         final ConstraintLayout containerItem;
         ViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -65,14 +64,14 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.ViewHolder> 
             poster = itemView.findViewById(R.id.img_movieitem_poster);
             judul = itemView.findViewById(R.id.tv_movieitem_judul);
             sinopsis = itemView.findViewById(R.id.tv_movieitem_sinopsis);
-            rilis = itemView.findViewById(R.id.tv_movieitem_rilis);
+            popularity = itemView.findViewById(R.id.tv_movieitem_rilis);
             containerItem = itemView.findViewById(R.id.constraintlayout_rvitem_container_item);
         }
 
         void bind(Movie movie){
             judul.setText(movie.getTitle());
             sinopsis.setText(movie.getOverview());
-            rilis.setText(movie.getReleaseDate());
+            popularity.setText(String.valueOf(movie.getPopularity()));
             Glide.with(context)
                     .load(BASE_URL_IMG+movie.getPosterPath())
                     .into(poster);
