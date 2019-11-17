@@ -19,7 +19,7 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <ImageView
-        style="@style/ImagePosterStyle"
+        style="@style/ImagePosterStyle.Small"
         android:id="@+id/img_moviedetail_poster"
         android:layout_marginStart="47dp"
         android:layout_marginTop="102dp"

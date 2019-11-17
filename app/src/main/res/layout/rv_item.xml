@@ -18,8 +18,8 @@
         app:layout_constraintTop_toTopOf="parent">
 
         <ImageView
-            style="@style/ImagePosterStyle"
-            android:id="@+id/img_movieitem_poster"
+            style="@style/ImagePosterStyle.Small"
+            android:id="@+id/img_item_poster"
             android:layout_marginStart="9dp"
             android:layout_marginTop="9dp"
             android:layout_marginBottom="9dp"
@@ -30,16 +30,16 @@
             android:contentDescription="@string/msg_poster_film"/>
 
         <TextView
-            android:id="@+id/tv_movieitem_judul"
+            android:id="@+id/tv_item_judul"
             style="@style/TextContent.Judul"
             android:layout_width="0dp"
             android:layout_marginStart="@dimen/margin_left_content_list"
             android:layout_marginEnd="12dp"
             android:layout_marginBottom="3dp"
             android:textAlignment="viewStart"
-            app:layout_constraintBottom_toTopOf="@+id/tv_movieitem_popularity"
+            app:layout_constraintBottom_toTopOf="@+id/tv_item_popularity"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@+id/img_movieitem_poster"
+            app:layout_constraintStart_toEndOf="@+id/img_item_poster"
             tools:text="How To Train Your Dragon" />
 
         <ImageView
@@ -50,22 +50,22 @@
             android:layout_marginBottom="15dp"
             android:contentDescription="@string/msg_icon_popularity"
             android:src="@drawable/ic_popularity"
-            app:layout_constraintBottom_toTopOf="@+id/tv_movieitem_sinopsis"
-            app:layout_constraintStart_toEndOf="@+id/img_movieitem_poster" />
+            app:layout_constraintBottom_toTopOf="@+id/tv_item_sinopsis"
+            app:layout_constraintStart_toEndOf="@+id/img_item_poster" />
 
         <TextView
-            android:id="@+id/tv_movieitem_popularity"
+            android:id="@+id/tv_item_popularity"
             style="@style/TextContent.SmallText"
             android:layout_marginStart="8dp"
             android:layout_marginBottom="15dp"
             android:alpha="0.5"
             android:background="@android:color/transparent"
-            app:layout_constraintBottom_toTopOf="@+id/tv_movieitem_sinopsis"
+            app:layout_constraintBottom_toTopOf="@+id/tv_item_sinopsis"
             app:layout_constraintStart_toEndOf="@+id/imageView"
             tools:text="204.321" />
 
         <TextView
-            android:id="@+id/tv_movieitem_sinopsis"
+            android:id="@+id/tv_item_sinopsis"
             style="@style/TextContent.Sinopsis"
             android:layout_width="0dp"
             android:layout_marginStart="@dimen/margin_left_content_list"
@@ -76,18 +76,12 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.0"
-            app:layout_constraintStart_toEndOf="@+id/img_movieitem_poster"
+            app:layout_constraintStart_toEndOf="@+id/img_item_poster"
             tools:text="Many thousands of years in the future, Earth ’s cities roam the globe on huge wheels, devouring each other in a struggle for ever diminishing resources. On one of these massive traction cities, the old London, Tom Natsworthy has an unexpected encounter with a mysterious young woman from the wastelands who will change the course of his life forever." />
 
         <TextView
+            style="@style/TextContent.RatingSmall"
             android:id="@+id/tv_item_rating"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:background="@drawable/bg_rounded_shape_rating"
-            android:padding="5dp"
-            android:textColor="@android:color/white"
-            android:textSize="18sp"
-            android:textStyle="bold"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             tools:text="8.4" />

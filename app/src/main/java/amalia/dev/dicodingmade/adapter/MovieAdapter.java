@@ -2,7 +2,6 @@ package amalia.dev.dicodingmade.adapter;
 
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.drawable.Drawable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,17 +10,12 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
-import com.bumptech.glide.load.DataSource;
-import com.bumptech.glide.load.engine.GlideException;
 import com.bumptech.glide.load.resource.bitmap.CenterCrop;
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners;
-import com.bumptech.glide.request.RequestListener;
-import com.bumptech.glide.request.target.Target;
 
 import java.util.ArrayList;
 
@@ -74,10 +68,10 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.ViewHolder> 
             super(itemView);
 
             //proses binding komponen view yang ada pada custom layout untuk recyclerview item
-            poster = itemView.findViewById(R.id.img_movieitem_poster);
-            judul = itemView.findViewById(R.id.tv_movieitem_judul);
-            sinopsis = itemView.findViewById(R.id.tv_movieitem_sinopsis);
-            popularity = itemView.findViewById(R.id.tv_movieitem_popularity);
+            poster = itemView.findViewById(R.id.img_item_poster);
+            judul = itemView.findViewById(R.id.tv_item_judul);
+            sinopsis = itemView.findViewById(R.id.tv_item_sinopsis);
+            popularity = itemView.findViewById(R.id.tv_item_popularity);
             rating = itemView.findViewById(R.id.tv_item_rating);
             containerItem = itemView.findViewById(R.id.constraintlayout_rvitem_container_item);
 

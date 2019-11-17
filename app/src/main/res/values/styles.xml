@@ -26,6 +26,8 @@
     </style>
 
     <style name="TextContent.Judul">
+        <item name="android:maxLines">1</item>
+        <item name="android:ellipsize">end</item>
         <item name="android:textSize">20sp</item>
         <item name="android:textStyle">bold</item>
     </style>
@@ -34,18 +36,31 @@
         <item name="android:textSize">16sp</item>
         <item name="android:textStyle">bold</item>
     </style>
+    <style name="TextContent.RatingSmall">
+        <item name="android:background">@drawable/bg_rounded_shape_rating</item>
+        <item name="android:padding">5dp</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:textSize">18sp</item>
+    </style>
+    <style name="TextContent.RatingBig">
+        <item name="android:background">@drawable/bg_rounded_shape_rating</item>
+        <item name="android:padding">10dp</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:textSize">20sp</item>
+    </style>
 
     <style name="TextContent.SmallText">
         <item name="android:textSize">12sp</item>
-        <item name="android:alpha">0.5</item>
+        <item name="android:alpha">0.2</item>
     </style>
 
     <style name="ImagePosterStyle">
+        <item name="android:scaleType">fitXY</item>
+    </style>
+
+    <style name="ImagePosterStyle.Small">
         <item name="android:layout_width">91dp</item>
         <item name="android:layout_height">161dp</item>
-        <item name="android:scaleType">fitXY</item>
-        <item name="android:maxLines">1</item>
-        <item name="android:ellipsize">end</item>
     </style>
 
 </resources>
