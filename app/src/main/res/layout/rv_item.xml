@@ -26,53 +26,73 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            tools:src="@android:color/darker_gray"
+            tools:src="@drawable/example_poster"
             android:contentDescription="@string/msg_poster_film"/>
 
-        <LinearLayout
+        <TextView
+            android:id="@+id/tv_movieitem_judul"
+            style="@style/TextContent.Judul"
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="18dp"
-            android:layout_marginEnd="15dp"
-            android:orientation="vertical"
-            android:background="@android:color/transparent"
-            app:layout_constraintBottom_toBottomOf="parent"
+            android:layout_marginStart="@dimen/margin_left_content_list"
+            android:layout_marginEnd="12dp"
+            android:layout_marginBottom="3dp"
+            android:textAlignment="viewStart"
+            app:layout_constraintBottom_toTopOf="@+id/tv_movieitem_popularity"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@+id/img_movieitem_poster"
-            app:layout_constraintTop_toTopOf="parent">
+            tools:text="How To Train Your Dragon" />
 
-            <TextView
-                style="@style/TextContent.Judul"
-                android:id="@+id/tv_movieitem_judul"
-                tools:layout_editor_absoluteX="126dp"
-                tools:layout_editor_absoluteY="33dp"
-                tools:text="How To Train Your Dragon" />
+        <ImageView
+            android:id="@+id/imageView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/margin_left_content_list"
+            android:layout_marginBottom="15dp"
+            android:contentDescription="@string/msg_icon_popularity"
+            android:src="@drawable/ic_popularity"
+            app:layout_constraintBottom_toTopOf="@+id/tv_movieitem_sinopsis"
+            app:layout_constraintStart_toEndOf="@+id/img_movieitem_poster" />
 
-            <TextView
-                style="@style/TextContent.SmallText"
-                android:id="@+id/tv_movieitem_rilis"
-                android:layout_marginTop="2dp"
-                android:alpha="0.5"
-                android:background="@android:color/transparent"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                tools:layout_editor_absoluteX="131dp"
-                tools:text="5 October,2019"/>
+        <TextView
+            android:id="@+id/tv_movieitem_popularity"
+            style="@style/TextContent.SmallText"
+            android:layout_marginStart="8dp"
+            android:layout_marginBottom="15dp"
+            android:alpha="0.5"
+            android:background="@android:color/transparent"
+            app:layout_constraintBottom_toTopOf="@+id/tv_movieitem_sinopsis"
+            app:layout_constraintStart_toEndOf="@+id/imageView"
+            tools:text="204.321" />
 
-            <TextView
-                style="@style/TextContent.Sinopsis"
-                android:id="@+id/tv_movieitem_sinopsis"
-                android:layout_marginTop="11dp"
-                android:ellipsize="end"
-                android:maxLines="3"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                tools:layout_editor_absoluteX="215dp"
-                tools:text="Many thousands of years in the future, Earth ’s cities roam the globe on huge wheels, devouring each other in a struggle for ever diminishing resources. On one of these massive traction cities, the old London, Tom Natsworthy has an unexpected encounter with a mysterious young woman from the wastelands who will change the course of his life forever."/>
-        </LinearLayout>
+        <TextView
+            android:id="@+id/tv_movieitem_sinopsis"
+            style="@style/TextContent.Sinopsis"
+            android:layout_width="0dp"
+            android:layout_marginStart="@dimen/margin_left_content_list"
+            android:layout_marginEnd="12dp"
+            android:layout_marginBottom="24dp"
+            android:ellipsize="end"
+            android:maxLines="3"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toEndOf="@+id/img_movieitem_poster"
+            tools:text="Many thousands of years in the future, Earth ’s cities roam the globe on huge wheels, devouring each other in a struggle for ever diminishing resources. On one of these massive traction cities, the old London, Tom Natsworthy has an unexpected encounter with a mysterious young woman from the wastelands who will change the course of his life forever." />
+
+        <TextView
+            android:id="@+id/tv_item_rating"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/bg_rounded_shape_rating"
+            android:padding="5dp"
+            android:textColor="@android:color/white"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:text="8.4" />
+
     </androidx.constraintlayout.widget.ConstraintLayout>
-
-
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

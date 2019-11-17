@@ -2,17 +2,26 @@ package amalia.dev.dicodingmade.adapter;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.drawable.Drawable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.DataSource;
+import com.bumptech.glide.load.engine.GlideException;
+import com.bumptech.glide.load.resource.bitmap.CenterCrop;
+import com.bumptech.glide.load.resource.bitmap.RoundedCorners;
+import com.bumptech.glide.request.RequestListener;
+import com.bumptech.glide.request.target.Target;
 
 import java.util.ArrayList;
 
@@ -58,6 +67,7 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.ViewHolder> 
         final ImageView poster;
         final TextView judul;
         final TextView sinopsis;
+        final TextView rating;
         final TextView popularity;
         final ConstraintLayout containerItem;
         ViewHolder(@NonNull View itemView) {
@@ -67,7 +77,8 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.ViewHolder> 
             poster = itemView.findViewById(R.id.img_movieitem_poster);
             judul = itemView.findViewById(R.id.tv_movieitem_judul);
             sinopsis = itemView.findViewById(R.id.tv_movieitem_sinopsis);
-            popularity = itemView.findViewById(R.id.tv_movieitem_rilis);
+            popularity = itemView.findViewById(R.id.tv_movieitem_popularity);
+            rating = itemView.findViewById(R.id.tv_item_rating);
             containerItem = itemView.findViewById(R.id.constraintlayout_rvitem_container_item);
 
             //set listener
@@ -78,8 +89,10 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.ViewHolder> 
             judul.setText(movie.getTitle());
             sinopsis.setText(movie.getOverview());
             popularity.setText(String.valueOf(movie.getPopularity()));
+            rating.setText(String.valueOf(movie.getVoteAverage()));
             Glide.with(context)
                     .load(BASE_URL_IMG+movie.getPosterPath())
+                    .transform(new CenterCrop(),new RoundedCorners(35))
                     .into(poster);
         }
 
@@ -91,6 +104,10 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.ViewHolder> 
                 intent.putExtra(MovieDetailActivity.EXTRA_MOVIE,data.get(getAdapterPosition()));
                 v.getContext().startActivity(intent);
             }
+        }
+
+        public void notifyMessage(String msg){
+            Toast.makeText(context,msg,Toast.LENGTH_SHORT).show();
         }
     }
 }

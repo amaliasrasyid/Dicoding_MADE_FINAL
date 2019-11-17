@@ -7,12 +7,15 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.resource.bitmap.CenterCrop;
+import com.bumptech.glide.load.resource.bitmap.RoundedCorners;
 
 import java.util.ArrayList;
 
@@ -22,8 +25,8 @@ import amalia.dev.dicodingmade.view.TvShowDetailActivity;
 
 public class TvShowAdapter extends RecyclerView.Adapter<TvShowAdapter.ViewHolder> {
     private ArrayList<TvShow> data = new ArrayList<>();
-    Context context;
-    private static final String BASE_URL_IMG = "https://image.tmdb.org/t/p/w154";
+    private Context context;
+    private static final String BASE_URL_IMG = "https://image.tmdb.org/t/p/w92";
 
     public TvShowAdapter(Context context) {
         this.context = context;
@@ -57,26 +60,31 @@ public class TvShowAdapter extends RecyclerView.Adapter<TvShowAdapter.ViewHolder
     public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         final ImageView poster;
         final TextView judul;
+        final TextView rating;
         final TextView sinopsis;
         final TextView popularity;
         final ConstraintLayout containerItem;
-        public ViewHolder(@NonNull View itemView) {
+
+        ViewHolder(@NonNull View itemView) {
             super(itemView);
 
             //proses binding komponen view yang ada pada custom layout untuk recyclerview item
             poster = itemView.findViewById(R.id.img_movieitem_poster);
             judul = itemView.findViewById(R.id.tv_movieitem_judul);
             sinopsis = itemView.findViewById(R.id.tv_movieitem_sinopsis);
-            popularity = itemView.findViewById(R.id.tv_movieitem_rilis);
+            popularity = itemView.findViewById(R.id.tv_movieitem_popularity);
+            rating = itemView.findViewById(R.id.tv_item_rating);
             containerItem = itemView.findViewById(R.id.constraintlayout_rvitem_container_item);
         }
 
-        public void bind(TvShow tvShow) {
+        void bind(TvShow tvShow) {
             judul.setText(tvShow.getOriginalName());
             sinopsis.setText(tvShow.getOverview());
             popularity.setText(String.valueOf(tvShow.getPopularity()));
+            rating.setText(String.valueOf(tvShow.getVoteAverage()));
             Glide.with(context)
                     .load(BASE_URL_IMG+tvShow.getPosterPath())
+                    .transform(new CenterCrop(),new RoundedCorners(35))
                     .into(poster);
         }
 
@@ -87,6 +95,10 @@ public class TvShowAdapter extends RecyclerView.Adapter<TvShowAdapter.ViewHolder
                 intent.putExtra(TvShowDetailActivity.EXTRA_TV_SHOW,data.get(getAdapterPosition()));
                 v.getContext().startActivity(intent);
             }
+        }
+
+        public void notifyMessage(String msg){
+            Toast.makeText(context,msg,Toast.LENGTH_SHORT).show();
         }
     }
 }
