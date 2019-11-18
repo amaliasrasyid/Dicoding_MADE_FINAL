@@ -86,7 +86,7 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.ViewHolder> 
             rating.setText(String.valueOf(movie.getVoteAverage()));
             Glide.with(context)
                     .load(BASE_URL_IMG+movie.getPosterPath())
-                    .transform(new CenterCrop(),new RoundedCorners(35))
+                    .transform(new CenterCrop(),new RoundedCorners(15))
                     .into(poster);
         }
 

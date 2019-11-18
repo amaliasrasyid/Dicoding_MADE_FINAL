@@ -24,8 +24,8 @@ import amalia.dev.dicodingmade.model.TvShow;
 import amalia.dev.dicodingmade.view.TvShowDetailActivity;
 
 public class TvShowAdapter extends RecyclerView.Adapter<TvShowAdapter.ViewHolder> {
-    private ArrayList<TvShow> data = new ArrayList<>();
-    private Context context;
+    private final ArrayList<TvShow> data = new ArrayList<>();
+    private final Context context;
     private static final String BASE_URL_POSTER = "https://image.tmdb.org/t/p/w154";
 
     public TvShowAdapter(Context context) {
@@ -87,14 +87,13 @@ public class TvShowAdapter extends RecyclerView.Adapter<TvShowAdapter.ViewHolder
             rating.setText(String.valueOf(tvShow.getVoteAverage()));
             Glide.with(context)
                     .load(BASE_URL_POSTER +tvShow.getPosterPath())
-                    .transform(new CenterCrop(),new RoundedCorners(35))
+                    .transform(new CenterCrop(),new RoundedCorners(15))
                     .into(poster);
         }
 
         @Override
         public void onClick(View v) {
             if(v.getId() == R.id.constraintlayout_rvitem_container_item){
-                notifyMessage("clicked");
                 Intent intent = new Intent(context, TvShowDetailActivity.class);
                 intent.putExtra(TvShowDetailActivity.EXTRA_TV_SHOW,data.get(getAdapterPosition()));
                 v.getContext().startActivity(intent);

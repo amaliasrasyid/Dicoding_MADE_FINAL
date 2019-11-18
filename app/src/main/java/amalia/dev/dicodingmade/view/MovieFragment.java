@@ -30,7 +30,7 @@ import amalia.dev.dicodingmade.viewmodel.MovieViewModel;
 public class MovieFragment extends Fragment {
     private final ArrayList<Movie> mdata = new ArrayList<>();
     private RecyclerView rvListMovies;
-    ProgressBar progressBar;
+    private ProgressBar progressBar;
 
 
     public MovieFragment() {

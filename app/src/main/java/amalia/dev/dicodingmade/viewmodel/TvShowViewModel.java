@@ -1,13 +1,11 @@
 package amalia.dev.dicodingmade.viewmodel;
 
 import android.util.Log;
-
+import androidx.annotation.Nullable;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
-
 import java.util.ArrayList;
-
 import amalia.dev.dicodingmade.etc.ApiInterface;
 import amalia.dev.dicodingmade.model.TvShow;
 import amalia.dev.dicodingmade.model.TvShowResult;
@@ -41,25 +39,25 @@ public class TvShowViewModel extends ViewModel {
         Call<TvShowResult> call = apiInterface.getListTvShow(API_KEY);
         call.enqueue(new Callback<TvShowResult>() {
             @Override
-            public void onResponse(Call<TvShowResult> call, Response<TvShowResult> response) {
+            public void onResponse(@Nullable Call<TvShowResult> call, @Nullable Response<TvShowResult> response) {
                 if(response.isSuccessful()){
                     //saving response into an object
                     TvShowResult result = response.body();
 
                     //moving list into arraylist before inserting into MutableLiveData<ArrayList<TvShow>>
-                    ArrayList<TvShow> listDataDb = new ArrayList<>();
-                    for(int i=0; i<result.getTvShowsResults().size();i++){
-                        listDataDb.add(result.getTvShowsResults().get(i));
-                    }
+                    ArrayList<TvShow> listDataDb = new ArrayList<>(result.getTvShowsResults());
                     //inserting to MutableLiveData
                     listTvShows.postValue(listDataDb);
+                }else{
+                    Log.e("Load Tvshow","Response is NULL");
                 }
             }
 
             @Override
-            public void onFailure(Call<TvShowResult> call, Throwable t) {
-                Log.e("FAILED connection tv",t.toString());
+            public void onFailure(@Nullable Call<TvShowResult> call, @Nullable Throwable t) {
+                Log.e("Load Tvshow",t.toString());
             }
         });
     }
+
 }

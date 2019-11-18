@@ -14,7 +14,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ProgressBar;
-import android.widget.Toast;
 
 import java.util.ArrayList;
 
@@ -27,9 +26,8 @@ import amalia.dev.dicodingmade.viewmodel.TvShowViewModel;
  * A simple {@link Fragment} subclass.
  */
 public class TvShowFragment extends Fragment {
-    ArrayList<TvShow> mdata = new ArrayList<>();
-    RecyclerView rvListTv;
-    ProgressBar progressBar;
+    private RecyclerView rvListTv;
+    private ProgressBar progressBar;
 
 
     public TvShowFragment() {
@@ -74,9 +72,6 @@ public class TvShowFragment extends Fragment {
         });
     }
 
-    public void notifyMessage(String msg){
-        Toast.makeText(getActivity(),msg,Toast.LENGTH_SHORT).show();
-    }
     private void showLoading(Boolean state) {
         if (state) {
             progressBar.setVisibility(View.VISIBLE);

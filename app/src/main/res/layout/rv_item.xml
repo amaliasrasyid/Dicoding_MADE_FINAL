@@ -18,7 +18,7 @@
         app:layout_constraintTop_toTopOf="parent">
 
         <ImageView
-            style="@style/ImagePosterStyle.Small"
+            style="@style/ImagePosterStyle"
             android:id="@+id/img_item_poster"
             android:layout_marginStart="9dp"
             android:layout_marginTop="9dp"
@@ -33,6 +33,7 @@
             android:id="@+id/tv_item_judul"
             style="@style/TextContent.Judul"
             android:layout_width="0dp"
+            android:maxLines="1"
             android:layout_marginStart="@dimen/margin_left_content_list"
             android:layout_marginEnd="12dp"
             android:layout_marginBottom="3dp"

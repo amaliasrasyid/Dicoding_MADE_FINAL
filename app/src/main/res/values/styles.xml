@@ -26,7 +26,6 @@
     </style>
 
     <style name="TextContent.Judul">
-        <item name="android:maxLines">1</item>
         <item name="android:ellipsize">end</item>
         <item name="android:textSize">20sp</item>
         <item name="android:textStyle">bold</item>
@@ -55,10 +54,6 @@
     </style>
 
     <style name="ImagePosterStyle">
-        <item name="android:scaleType">fitXY</item>
-    </style>
-
-    <style name="ImagePosterStyle.Small">
         <item name="android:layout_width">91dp</item>
         <item name="android:layout_height">161dp</item>
     </style>

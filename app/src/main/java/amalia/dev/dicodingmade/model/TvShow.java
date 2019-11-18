@@ -24,7 +24,7 @@ public class TvShow implements Parcelable {
     private Double popularity;
     @SerializedName("origin_country")
     @Expose
-    private List<String> originCountry = null;
+    private List<String> originCountry;
     @SerializedName("vote_count")
     @Expose
     private Integer voteCount;
@@ -50,7 +50,7 @@ public class TvShow implements Parcelable {
     @Expose
     private String posterPath;
 
-    protected TvShow(Parcel in) {
+    private TvShow(Parcel in) {
         originalName = in.readString();
         name = in.readString();
         if (in.readByte() == 0) {
