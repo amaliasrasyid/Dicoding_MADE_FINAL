@@ -8,181 +8,179 @@
     tools:context=".view.TvShowDetailActivity"
     android:background="@color/colorPrimary">
 
-    <FrameLayout
-        android:id="@+id/frameLayout"
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
-        <ImageView
-            android:id="@+id/img_tvdetail_backposter"
+        <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="250dp"
-            android:scaleType="fitXY"
-            tools:src="@drawable/example_back_poster" />
+            android:layout_height="wrap_content">
 
-        <ImageView
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:alpha="0.52"
-            android:src="@drawable/overylay_bg_grey" />
+            <FrameLayout
+                android:id="@+id/frameLayout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
 
-    </FrameLayout>
+                <ImageView
+                    android:id="@+id/img_tvdetail_backposter"
+                    style="@style/ImageBackPosterStyle"
+                    tools:src="@drawable/example_back_poster"
+                    android:contentDescription="@string/image_back_poster"/>
 
-    <ProgressBar
-        android:id="@+id/progressBar_tvdetail_backposter"
-        style="?android:attr/progressBarStyle"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        app:layout_constraintBottom_toTopOf="@+id/constraintLayout"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/frameLayout" />
+                <ImageView
+                    style="@style/OverlayGrey"
+                    android:contentDescription="@string/overlay_grey_image" />
 
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/constraintLayout"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="17dp"
-        android:layout_marginEnd="17dp"
-        android:background="@drawable/bg_rounded_shape"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/frameLayout"
-        app:layout_constraintVertical_bias="0.297">
+            </FrameLayout>
 
-        <ImageView
-            android:id="@+id/img_tvdetail_poster"
-            style="@style/ImagePosterStyle"
-            android:layout_marginStart="15dp"
-            android:layout_marginTop="9dp"
-            android:layout_marginBottom="15dp"
-            android:scaleType="fitXY"
-            android:contentDescription="@string/msg_poster_tv_show"
-            app:layout_constraintBottom_toTopOf="@+id/textView2"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="1.0"
-            tools:src="@drawable/example_poster" />
+            <ProgressBar
+                android:id="@+id/progressBar_tvdetail_backposter"
+                style="@style/ProgressBar"
+                app:layout_constraintBottom_toTopOf="@+id/constraintLayout"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="@+id/frameLayout" />
 
-        <TextView
-            style="@style/TextContent.RatingBig"
-            android:id="@+id/tv_tvdetail_rating"
-            android:layout_width="0dp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            tools:text="8.4" />
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/constraintLayout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="17dp"
+                android:layout_marginEnd="17dp"
+                android:background="@drawable/bg_rounded_shape"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="@+id/frameLayout"
+                app:layout_constraintVertical_bias="0.297">
 
-        <TextView
-            android:id="@+id/tv_tvdetail_judul"
-            style="@style/TextContent.Judul"
-            android:layout_width="0dp"
-            android:layout_marginStart="15dp"
-            android:layout_marginEnd="10dp"
-            android:layout_marginBottom="5dp"
-            android:maxLines="3"
-            app:layout_constraintBottom_toTopOf="@+id/tv_tvdetail_popularity"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.0"
-            app:layout_constraintStart_toEndOf="@+id/img_tvdetail_poster"
-            tools:text="How To Train Your Dragon: Hidden World" />
+                <ImageView
+                    android:id="@+id/img_tvdetail_poster"
+                    style="@style/ImagePosterStyle"
+                    android:layout_marginStart="15dp"
+                    android:layout_marginTop="15dp"
+                    android:layout_marginBottom="15dp"
+                    android:contentDescription="@string/msg_poster_tv_show"
+                    android:scaleType="fitXY"
+                    app:layout_constraintBottom_toTopOf="@+id/textView2"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintVertical_bias="1.0"
+                    tools:src="@drawable/example_poster" />
 
-        <ImageView
-            android:id="@+id/imageView"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="16dp"
-            android:layout_marginBottom="3dp"
-            android:contentDescription="@string/msg_icon_popularity"
-            android:src="@drawable/ic_popularity"
-            app:layout_constraintBottom_toBottomOf="@+id/img_tvdetail_poster"
-            app:layout_constraintStart_toEndOf="@+id/img_tvdetail_poster" />
+                <TextView
+                    android:id="@+id/tv_tvdetail_rating"
+                    style="@style/TextContent.RatingBig"
+                    android:layout_width="0dp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    tools:text="8.4" />
 
-        <TextView
-            android:id="@+id/tv_tvdetail_popularity"
-            style="@style/TextContent.SmallText"
-            android:layout_marginStart="8dp"
-            android:layout_marginBottom="3dp"
-            android:alpha="0.5"
-            android:background="@android:color/transparent"
-            app:layout_constraintBottom_toBottomOf="@+id/img_tvdetail_poster"
-            app:layout_constraintStart_toEndOf="@+id/imageView"
-            tools:text="204.321" />
+                <TextView
+                    android:id="@+id/tv_tvdetail_judul"
+                    style="@style/TextContent.Judul"
+                    android:layout_width="0dp"
+                    android:layout_marginStart="15dp"
+                    android:layout_marginEnd="10dp"
+                    android:layout_marginBottom="5dp"
+                    android:maxLines="3"
+                    app:layout_constraintBottom_toTopOf="@+id/tv_tvdetail_popularity"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.0"
+                    app:layout_constraintStart_toEndOf="@+id/img_tvdetail_poster"
+                    tools:text="How To Train Your Dragon: Hidden World" />
 
-        <TextView
-            android:id="@+id/tv_tvdetail_releasedata"
-            style="@style/TextContent"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="15dp"
-            android:layout_marginBottom="24dp"
-            android:alpha="0.8"
-            tools:text="October 23, 2019"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toStartOf="parent" />
+                <ImageView
+                    android:id="@+id/imageView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginBottom="3dp"
+                    android:contentDescription="@string/msg_icon_popularity"
+                    android:src="@drawable/ic_popularity"
+                    app:layout_constraintBottom_toBottomOf="@+id/img_tvdetail_poster"
+                    app:layout_constraintStart_toEndOf="@+id/img_tvdetail_poster" />
 
-        <TextView
-            android:id="@+id/textView2"
-            style="@style/TextContent.SmallText"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="15dp"
-            android:layout_marginBottom="3dp"
-            android:text="@string/first_release_date"
-            app:layout_constraintBottom_toTopOf="@+id/tv_tvdetail_releasedata"
-            app:layout_constraintStart_toStartOf="parent" />
+                <TextView
+                    android:id="@+id/tv_tvdetail_popularity"
+                    style="@style/TextContent.SmallText"
+                    android:layout_marginStart="8dp"
+                    android:layout_marginBottom="3dp"
+                    android:alpha="0.5"
+                    android:background="@android:color/transparent"
+                    app:layout_constraintBottom_toBottomOf="@+id/img_tvdetail_poster"
+                    app:layout_constraintStart_toEndOf="@+id/imageView"
+                    tools:text="204.321" />
 
-        <TextView
-            style="@style/TextContent"
-            android:id="@+id/textView5"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/genre"
-            app:layout_constraintBaseline_toBaselineOf="@+id/textView2"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@+id/textView2" />
+                <TextView
+                    android:id="@+id/tv_tvdetail_releasedata"
+                    style="@style/TextContent"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="15dp"
+                    android:layout_marginBottom="24dp"
+                    android:alpha="0.8"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    tools:text="October 23, 2019" />
 
-        <ProgressBar
-            android:id="@+id/progressBar_tvdetail_poster"
-            style="?android:attr/progressBarStyle"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            app:layout_constraintBottom_toBottomOf="@+id/img_tvdetail_poster"
-            app:layout_constraintEnd_toEndOf="@+id/img_tvdetail_poster"
-            app:layout_constraintStart_toStartOf="@+id/img_tvdetail_poster"
-            app:layout_constraintTop_toTopOf="@+id/img_tvdetail_poster" />
+                <TextView
+                    android:id="@+id/textView2"
+                    style="@style/TextContent.SmallText"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="15dp"
+                    android:layout_marginBottom="3dp"
+                    android:text="@string/first_release_date"
+                    app:layout_constraintBottom_toTopOf="@+id/tv_tvdetail_releasedata"
+                    app:layout_constraintStart_toStartOf="parent" />
 
-    </androidx.constraintlayout.widget.ConstraintLayout>
+                <ProgressBar
+                    android:id="@+id/progressBar_tvdetail_poster"
+                    style="@style/ProgressBar"
+                    app:layout_constraintBottom_toBottomOf="@+id/img_tvdetail_poster"
+                    app:layout_constraintEnd_toEndOf="@+id/img_tvdetail_poster"
+                    app:layout_constraintStart_toStartOf="@+id/img_tvdetail_poster"
+                    app:layout_constraintTop_toTopOf="@+id/img_tvdetail_poster" />
 
-    <TextView
-        android:id="@+id/tv_moviedetail_"
-        style="@style/TextContent.SubJudul"
-        android:layout_marginStart="22dp"
-        android:layout_marginTop="20dp"
-        android:text="@string/text_overview"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/constraintLayout" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
 
-    <TextView
-        android:id="@+id/tv_tvdetail_sinopsis"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="22dp"
-        android:layout_marginTop="22dp"
-        android:layout_marginEnd="22dp"
-        android:alpha="0.8"
-        android:lineSpacingMultiplier="1.2"
-        android:textColor="@color/colorPrimaryText"
-        android:textSize="14sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tv_moviedetail_"
-        tools:text="Many thousands of years in the future, Earth ’s cities roam the globe on huge wheels, devouring each other in a struggle for ever diminishing resources. On one of these massive traction cities, the old London, Tom Natsworthy has an unexpected encounter with a mysterious young woman from the wastelands who will change the course of his life forever." />
+            <TextView
+                android:id="@+id/tv_moviedetail_"
+                style="@style/TextContent.SubJudul"
+                android:layout_marginStart="22dp"
+                android:layout_marginTop="20dp"
+                android:text="@string/text_overview"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/constraintLayout" />
+
+            <TextView
+                android:id="@+id/tv_tvdetail_sinopsis"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="22dp"
+                android:layout_marginTop="22dp"
+                android:layout_marginEnd="22dp"
+                android:alpha="0.8"
+                android:lineSpacingMultiplier="1.2"
+                android:textColor="@color/colorPrimaryText"
+                android:textSize="14sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/tv_moviedetail_"
+                tools:text="Many thousands of years in the future, Earth ’s cities roam the globe on huge wheels, devouring each other in a struggle for ever diminishing resources. On one of these massive traction cities, the old London, Tom Natsworthy has an unexpected encounter with a mysterious young woman from the wastelands who will change the course of his life forever." />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </ScrollView>
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>

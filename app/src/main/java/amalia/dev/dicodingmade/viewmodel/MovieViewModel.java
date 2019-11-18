@@ -44,23 +44,30 @@ public class MovieViewModel extends ViewModel {
         call.enqueue(new Callback<MovieResult>() {
             @Override
             public void onResponse(@Nullable Call<MovieResult> call, @Nullable Response<MovieResult> response) {
-                if(response.isSuccessful()){
-                    //save response into objek MovieResult
-                    MovieResult result = response.body();
+                if (response != null) {
+                    if(response.isSuccessful()){
+                        //save response into objek MovieResult
+                        MovieResult result = response.body();
 
-                    // moving List data(data dr server berupa list) into Arraylist, before saving in MutableLiveData
-                    ArrayList<Movie> listDataDb = new ArrayList<>(result.getMoviesResults());
-                    //inserting to MutableLiveData
-                    listMovies.postValue(listDataDb);
-                }else{
-                    Log.e("Load Movies","Response is NULL");
+                        // moving List data(data dr server berupa list) into Arraylist, before saving in MutableLiveData
+                        ArrayList<Movie> listDataDb = null;
+                        if (result != null) {
+                            listDataDb = new ArrayList<>(result.getMoviesResults());
+                        }
+                        //inserting to MutableLiveData
+                        listMovies.postValue(listDataDb);
+                    }else{
+                        Log.e("Load Movies","Response is NULL");
+                    }
                 }
 
             }
 
             @Override
             public void onFailure(@Nullable Call<MovieResult> call, @Nullable  Throwable t) {
-                Log.e("Load Movies ",t.toString());
+                if (t != null) {
+                    Log.e("Load Movies ",t.toString());
+                }
             }
         });
     }

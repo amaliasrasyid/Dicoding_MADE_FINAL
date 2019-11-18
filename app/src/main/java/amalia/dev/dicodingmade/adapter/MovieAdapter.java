@@ -100,8 +100,8 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.ViewHolder> 
             }
         }
 
-        public void notifyMessage(String msg){
-            Toast.makeText(context,msg,Toast.LENGTH_SHORT).show();
-        }
+//        public void notifyMessage(String msg){
+//            Toast.makeText(context,msg,Toast.LENGTH_SHORT).show();
+//        }
     }
 }

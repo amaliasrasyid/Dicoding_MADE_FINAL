@@ -40,22 +40,29 @@ public class TvShowViewModel extends ViewModel {
         call.enqueue(new Callback<TvShowResult>() {
             @Override
             public void onResponse(@Nullable Call<TvShowResult> call, @Nullable Response<TvShowResult> response) {
-                if(response.isSuccessful()){
-                    //saving response into an object
-                    TvShowResult result = response.body();
+                if (response != null) {
+                    if(response.isSuccessful()){
+                        //saving response into an object
+                        TvShowResult result = response.body();
 
-                    //moving list into arraylist before inserting into MutableLiveData<ArrayList<TvShow>>
-                    ArrayList<TvShow> listDataDb = new ArrayList<>(result.getTvShowsResults());
-                    //inserting to MutableLiveData
-                    listTvShows.postValue(listDataDb);
-                }else{
-                    Log.e("Load Tvshow","Response is NULL");
+                        //moving list into arraylist before inserting into MutableLiveData<ArrayList<TvShow>>
+                        ArrayList<TvShow> listDataDb = null;
+                        if (result != null) {
+                            listDataDb = new ArrayList<>(result.getTvShowsResults());
+                        }
+                        //inserting to MutableLiveData
+                        listTvShows.postValue(listDataDb);
+                    }else{
+                        Log.e("Load Tvshow","Response is NULL");
+                    }
                 }
             }
 
             @Override
             public void onFailure(@Nullable Call<TvShowResult> call, @Nullable Throwable t) {
-                Log.e("Load Tvshow",t.toString());
+                if (t != null) {
+                    Log.e("Load Tvshow",t.toString());
+                }
             }
         });
     }

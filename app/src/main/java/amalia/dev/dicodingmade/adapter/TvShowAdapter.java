@@ -99,9 +99,9 @@ public class TvShowAdapter extends RecyclerView.Adapter<TvShowAdapter.ViewHolder
                 v.getContext().startActivity(intent);
             }
         }
-
-        public void notifyMessage(String msg){
-            Toast.makeText(context,msg,Toast.LENGTH_SHORT).show();
-        }
+//
+//        public void notifyMessage(String msg){
+//            Toast.makeText(context,msg,Toast.LENGTH_SHORT).show();
+//        }
     }
 }

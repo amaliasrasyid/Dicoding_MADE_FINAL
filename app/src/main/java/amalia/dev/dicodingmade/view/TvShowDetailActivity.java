@@ -21,7 +21,7 @@ import amalia.dev.dicodingmade.R;
 import amalia.dev.dicodingmade.model.TvShow;
 
 public class TvShowDetailActivity extends AppCompatActivity {
-    public static final String EXTRA_TV_SHOW ="extra movie";
+    public static final String EXTRA_TV_SHOW ="extra tv show";
     private static final String BASE_URL_POSTER = "https://image.tmdb.org/t/p/w154";
     private static final String BASE_URL_BACK_POSTER = "https://image.tmdb.org/t/p/w500";
 
