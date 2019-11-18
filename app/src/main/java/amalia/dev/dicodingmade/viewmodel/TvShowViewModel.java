@@ -6,6 +6,8 @@ import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 import java.util.ArrayList;
+
+import amalia.dev.dicodingmade.BuildConfig;
 import amalia.dev.dicodingmade.etc.ApiInterface;
 import amalia.dev.dicodingmade.model.TvShow;
 import amalia.dev.dicodingmade.model.TvShowResult;
@@ -17,8 +19,8 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 public class TvShowViewModel extends ViewModel {
     private MutableLiveData<ArrayList<TvShow>> listTvShows;
-    private static final String BASE_URL = "http://api.themoviedb.org/3/";
-    private static final String API_KEY = "6aaf0b4b68f88ddc23dbe4cf46fb2ddd";
+    private static final String BASE_URL = "https://api.themoviedb.org/3/";
+    private String apiKey = BuildConfig.TMDB_API_KEY;
 
     public LiveData<ArrayList<TvShow>> getTvShows(){
         if(listTvShows == null){
@@ -36,7 +38,7 @@ public class TvShowViewModel extends ViewModel {
                 .build();
 
         ApiInterface apiInterface = retrofit.create(ApiInterface.class);
-        Call<TvShowResult> call = apiInterface.getListTvShow(API_KEY);
+        Call<TvShowResult> call = apiInterface.getListTvShow(apiKey);
         call.enqueue(new Callback<TvShowResult>() {
             @Override
             public void onResponse(@Nullable Call<TvShowResult> call, @Nullable Response<TvShowResult> response) {

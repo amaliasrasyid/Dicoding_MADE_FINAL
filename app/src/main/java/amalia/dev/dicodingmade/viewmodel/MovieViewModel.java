@@ -7,6 +7,8 @@ import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 import java.util.ArrayList;
+
+import amalia.dev.dicodingmade.BuildConfig;
 import amalia.dev.dicodingmade.etc.ApiInterface;
 import amalia.dev.dicodingmade.model.Movie;
 import amalia.dev.dicodingmade.model.MovieResult;
@@ -18,8 +20,8 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 public class MovieViewModel extends ViewModel {
     private MutableLiveData<ArrayList<Movie>> listMovies;
-    private static final String BASE_URL = "http://api.themoviedb.org/3/";
-    private static final String API_KEY = "6aaf0b4b68f88ddc23dbe4cf46fb2ddd";
+    private static final String BASE_URL = "https://api.themoviedb.org/3/";
+    private String apiKey = BuildConfig.TMDB_API_KEY;
 
 
     public LiveData<ArrayList<Movie>> getMovies(){
@@ -40,7 +42,7 @@ public class MovieViewModel extends ViewModel {
                 .build();
 
         ApiInterface apiInterface = retrofit.create(ApiInterface.class);
-        Call<MovieResult> call = apiInterface.getListMovies(API_KEY);
+        Call<MovieResult> call = apiInterface.getListMovies(apiKey);
         call.enqueue(new Callback<MovieResult>() {
             @Override
             public void onResponse(@Nullable Call<MovieResult> call, @Nullable Response<MovieResult> response) {
