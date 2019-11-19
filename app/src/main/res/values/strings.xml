@@ -12,6 +12,7 @@
     <string name="release_date">Release Date</string>
     <string name="overlay_grey_image">overlay grey image</string>
     <string name="image_back_poster">image background poster</string>
+    <string name="ok">OK</string>
 
 
 </resources>
