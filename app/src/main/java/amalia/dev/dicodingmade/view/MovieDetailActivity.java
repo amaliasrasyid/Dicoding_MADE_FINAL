@@ -5,7 +5,6 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
@@ -18,7 +17,6 @@ import com.bumptech.glide.load.resource.bitmap.RoundedCorners;
 import com.bumptech.glide.request.RequestListener;
 import com.bumptech.glide.request.target.Target;
 
-import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 
@@ -36,7 +34,7 @@ public class MovieDetailActivity extends AppCompatActivity {
     public static final String EXTRA_MOVIE ="extra movie";
     private static final String BASE_URL_POSTER = "https://image.tmdb.org/t/p/w154";
     private static final String BASE_URL_BACK_POSTER = "https://image.tmdb.org/t/p/w500";
-    private ArrayList<Genre>  genreData= new ArrayList<>();
+    private final ArrayList<Genre>  genreData= new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,7 +42,7 @@ public class MovieDetailActivity extends AppCompatActivity {
         setContentView(R.layout.activity_movie_detail);
         TextView popularity = findViewById(R.id.tv_moviedetail_popularity);
         TextView releaseDate = findViewById(R.id.tv_moviedetail_releasedata);
-        TextView overview = findViewById(R.id.tv_moviedetail_sinopsis);
+        TextView overview = findViewById(R.id.tv_moviedetail_overview);
         TextView genres = findViewById(R.id.tv_moviedetail_genres);
         ImageView poster = findViewById(R.id.img_moviedetail_poster);
         TextView title = findViewById(R.id.tv_moviedetail_judul);
@@ -123,9 +121,7 @@ public class MovieDetailActivity extends AppCompatActivity {
 
     private String convertToDatePattern(String releaseDate) {
         //create date pattern format
-        /**
-         * Locale.getDefault() get current Language android for format date
-         * */
+        //Locale.getDefault() get current Language android for format date
         SimpleDateFormat toDate = new SimpleDateFormat("yyyy-MM-dd",Locale.getDefault());
         SimpleDateFormat toString = new SimpleDateFormat("dd MMMM, yyyy",Locale.getDefault());
         Date date;

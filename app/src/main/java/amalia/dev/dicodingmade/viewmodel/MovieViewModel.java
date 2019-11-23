@@ -1,20 +1,13 @@
 package amalia.dev.dicodingmade.viewmodel;
 
-import android.app.Application;
-import android.util.Log;
-import android.widget.Toast;
 
-import androidx.annotation.NonNull;
+import android.util.Log;
 import androidx.annotation.Nullable;
-import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
-import java.util.ArrayList;
-
 import amalia.dev.dicodingmade.BuildConfig;
 import amalia.dev.dicodingmade.repository.ApiInterface;
-import amalia.dev.dicodingmade.model.Movie;
 import amalia.dev.dicodingmade.model.MovieResult;
 import amalia.dev.dicodingmade.repository.ApiRepository;
 import retrofit2.Call;

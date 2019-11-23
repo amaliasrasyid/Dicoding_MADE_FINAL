@@ -82,8 +82,6 @@
                 <TextView
                     android:id="@+id/textView"
                     style="@style/TextContent.SmallText"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
                     android:layout_marginStart="15dp"
                     android:layout_marginBottom="3dp"
                     android:text="@string/release_date"
@@ -104,7 +102,7 @@
 
                 <TextView
                     android:id="@+id/tv_moviedetail_judul"
-                    style="@style/TextContent.Judul"
+                    style="@style/TextContent.Title"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="15dp"
@@ -119,8 +117,7 @@
                 <TextView
                     android:id="@+id/tv_moviedetail_popularity"
                     style="@style/TextContent.SmallText"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:alpha="0.5"
                     android:layout_marginStart="8dp"
                     android:layout_marginBottom="3dp"
                     app:layout_constraintBottom_toBottomOf="@+id/img_moviedetail_poster"
@@ -151,10 +148,8 @@
                 <TextView
                     android:id="@+id/textView3"
                     style="@style/TextContent.SmallText"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
                     android:layout_marginTop="18dp"
-                    android:text="Genre"
+                    android:text="@string/text_genre"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toEndOf="@+id/textView"
                     app:layout_constraintTop_toBottomOf="@+id/tv_moviedetail_popularity" />
@@ -166,6 +161,8 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="3dp"
                     android:layout_marginEnd="10dp"
+                    android:layout_marginBottom="10dp"
+                    app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintHorizontal_bias="0.0"
                     app:layout_constraintStart_toStartOf="@+id/textView3"
@@ -185,7 +182,7 @@
                 app:layout_constraintTop_toBottomOf="@+id/constraintLayout2" />
 
             <TextView
-                android:id="@+id/tv_moviedetail_sinopsis"
+                android:id="@+id/tv_moviedetail_overview"
                 style="@style/TextContent"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"

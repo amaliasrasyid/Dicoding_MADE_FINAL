@@ -5,11 +5,8 @@ import androidx.annotation.Nullable;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
-import java.util.ArrayList;
-
 import amalia.dev.dicodingmade.BuildConfig;
 import amalia.dev.dicodingmade.repository.ApiInterface;
-import amalia.dev.dicodingmade.model.TvShow;
 import amalia.dev.dicodingmade.model.TvShowResult;
 import amalia.dev.dicodingmade.repository.ApiRepository;
 import retrofit2.Call;

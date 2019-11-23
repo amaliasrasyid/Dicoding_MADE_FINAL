@@ -10,7 +10,6 @@ import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -63,9 +62,7 @@ public class MovieFragment extends Fragment {
             public void onChanged(MovieResult movieResult) {
                 if(movieResult != null){
                     showLoading(false);
-                    ArrayList<Movie> dataListMovies =  new ArrayList<>();
-                    dataListMovies.addAll(movieResult.getMoviesResults());
-
+                    ArrayList<Movie> dataListMovies = new ArrayList<>(movieResult.getMoviesResults());
                     MovieAdapter adapter = new MovieAdapter(getActivity());
                     adapter.setData(dataListMovies);
                     rvListMovies.setLayoutManager(new LinearLayoutManager(getActivity()));

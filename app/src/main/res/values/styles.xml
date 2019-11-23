@@ -20,12 +20,12 @@
         <item name="android:layout_height">wrap_content</item>
     </style>
 
-    <style name="TextContent.Sinopsis">
+    <style name="TextContent.Overview">
         <item name="android:textSize">12sp</item>
         <item name="android:alpha">0.65</item>
     </style>
 
-    <style name="TextContent.Judul">
+    <style name="TextContent.Title">
         <item name="android:ellipsize">end</item>
         <item name="android:textSize">20sp</item>
         <item name="android:textStyle">bold</item>

@@ -7,7 +7,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.constraintlayout.widget.ConstraintLayout;
@@ -18,7 +17,6 @@ import com.bumptech.glide.load.resource.bitmap.CenterCrop;
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners;
 
 import java.util.ArrayList;
-import java.util.List;
 
 import amalia.dev.dicodingmade.R;
 import amalia.dev.dicodingmade.model.Movie;
@@ -60,8 +58,8 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.ViewHolder> 
 
     public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         final ImageView poster;
-        final TextView judul;
-        final TextView sinopsis;
+        final TextView title;
+        final TextView overview;
         final TextView rating;
         final TextView popularity;
         final ConstraintLayout containerItem;
@@ -70,8 +68,8 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.ViewHolder> 
 
             //proses binding komponen view yang ada pada custom layout untuk recyclerview item
             poster = itemView.findViewById(R.id.img_item_poster);
-            judul = itemView.findViewById(R.id.tv_item_judul);
-            sinopsis = itemView.findViewById(R.id.tv_item_sinopsis);
+            title = itemView.findViewById(R.id.tv_item_title);
+            overview = itemView.findViewById(R.id.tv_item_overview);
             popularity = itemView.findViewById(R.id.tv_item_popularity);
             rating = itemView.findViewById(R.id.tv_item_rating);
             containerItem = itemView.findViewById(R.id.constraintlayout_rvitem_container_item);
@@ -81,8 +79,8 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.ViewHolder> 
         }
 
         void bind(Movie movie){
-            judul.setText(movie.getTitle());
-            sinopsis.setText(movie.getOverview());
+            title.setText(movie.getTitle());
+            overview.setText(movie.getOverview());
             popularity.setText(String.valueOf(movie.getPopularity()));
             rating.setText(String.valueOf(movie.getVoteAverage()));
             Glide.with(context)

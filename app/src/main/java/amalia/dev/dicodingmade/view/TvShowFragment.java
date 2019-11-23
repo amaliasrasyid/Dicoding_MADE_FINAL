@@ -59,9 +59,7 @@ public class TvShowFragment extends Fragment {
             public void onChanged(TvShowResult tvShowResult) {
                 if(tvShowResult != null){
                     showLoading(false);
-                    ArrayList<TvShow> dataListTv = new ArrayList<>();
-                    dataListTv.addAll(tvShowResult.getTvShowsResults());
-
+                    ArrayList<TvShow> dataListTv = new ArrayList<>(tvShowResult.getTvShowsResults());
                     TvShowAdapter adapter = new TvShowAdapter(getActivity());
                     adapter.setData(dataListTv);
                     rvListTv.setLayoutManager(new LinearLayoutManager(getActivity()));

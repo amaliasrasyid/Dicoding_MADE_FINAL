@@ -66,7 +66,7 @@
                     style="@style/TextContent.SmallText"
                     android:id="@+id/textView5"
                     android:layout_marginTop="18dp"
-                    android:text="Genre"
+                    android:text="@string/text_genre"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toEndOf="@+id/textView2"
                     app:layout_constraintTop_toBottomOf="@+id/tv_tvdetail_popularity" />
@@ -95,7 +95,7 @@
 
                 <TextView
                     android:id="@+id/tv_tvdetail_judul"
-                    style="@style/TextContent.Judul"
+                    style="@style/TextContent.Title"
                     android:layout_width="0dp"
                     android:layout_marginStart="15dp"
                     android:layout_marginEnd="10dp"
@@ -160,14 +160,7 @@
                     app:layout_constraintStart_toStartOf="@+id/img_tvdetail_poster"
                     app:layout_constraintTop_toTopOf="@+id/img_tvdetail_poster" />
 
-                <TextView
-                    android:id="@+id/textView4"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="TextView"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"
-                    tools:layout_editor_absoluteX="208dp" />
+
 
                 <TextView
                     android:id="@+id/tv_tvdetail_genres"
@@ -175,11 +168,13 @@
                     android:layout_width="0dp"
                     android:layout_marginTop="3dp"
                     android:layout_marginEnd="10dp"
-                    android:text="TextView"
+                    android:layout_marginBottom="10dp"
+                    app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintHorizontal_bias="0.0"
                     app:layout_constraintStart_toStartOf="@+id/textView5"
-                    app:layout_constraintTop_toBottomOf="@+id/textView5" />
+                    app:layout_constraintTop_toBottomOf="@+id/textView5"
+                    tools:text="Textview"/>
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 

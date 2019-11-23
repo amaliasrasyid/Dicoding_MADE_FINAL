@@ -30,8 +30,8 @@
             android:contentDescription="@string/msg_poster_film"/>
 
         <TextView
-            android:id="@+id/tv_item_judul"
-            style="@style/TextContent.Judul"
+            android:id="@+id/tv_item_title"
+            style="@style/TextContent.Title"
             android:layout_width="0dp"
             android:maxLines="1"
             android:layout_marginStart="@dimen/margin_left_content_list"
@@ -51,7 +51,7 @@
             android:layout_marginBottom="15dp"
             android:contentDescription="@string/msg_icon_popularity"
             android:src="@drawable/ic_popularity"
-            app:layout_constraintBottom_toTopOf="@+id/tv_item_sinopsis"
+            app:layout_constraintBottom_toTopOf="@+id/tv_item_overview"
             app:layout_constraintStart_toEndOf="@+id/img_item_poster" />
 
         <TextView
@@ -61,13 +61,13 @@
             android:layout_marginBottom="15dp"
             android:alpha="0.5"
             android:background="@android:color/transparent"
-            app:layout_constraintBottom_toTopOf="@+id/tv_item_sinopsis"
+            app:layout_constraintBottom_toTopOf="@+id/tv_item_overview"
             app:layout_constraintStart_toEndOf="@+id/imageView"
             tools:text="204.321" />
 
         <TextView
-            android:id="@+id/tv_item_sinopsis"
-            style="@style/TextContent.Sinopsis"
+            android:id="@+id/tv_item_overview"
+            style="@style/TextContent.Overview"
             android:layout_width="0dp"
             android:layout_marginStart="@dimen/margin_left_content_list"
             android:layout_marginEnd="12dp"

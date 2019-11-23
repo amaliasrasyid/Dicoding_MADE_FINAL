@@ -55,7 +55,7 @@ public class Movie implements Parcelable{
         private String releaseDate;
 
 
-    protected Movie(Parcel in) {
+    private Movie(Parcel in) {
         if (in.readByte() == 0) {
             popularity = null;
         } else {

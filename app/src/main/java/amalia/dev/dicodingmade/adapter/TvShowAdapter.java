@@ -7,7 +7,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.constraintlayout.widget.ConstraintLayout;
@@ -59,9 +58,9 @@ public class TvShowAdapter extends RecyclerView.Adapter<TvShowAdapter.ViewHolder
 
     public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         final ImageView poster;
-        final TextView judul;
+        final TextView title;
         final TextView rating;
-        final TextView sinopsis;
+        final TextView overview;
         final TextView popularity;
         final ConstraintLayout containerItem;
 
@@ -70,8 +69,8 @@ public class TvShowAdapter extends RecyclerView.Adapter<TvShowAdapter.ViewHolder
 
             //proses binding komponen view yang ada pada custom layout untuk recyclerview item
             poster = itemView.findViewById(R.id.img_item_poster);
-            judul = itemView.findViewById(R.id.tv_item_judul);
-            sinopsis = itemView.findViewById(R.id.tv_item_sinopsis);
+            title = itemView.findViewById(R.id.tv_item_title);
+            overview = itemView.findViewById(R.id.tv_item_overview);
             popularity = itemView.findViewById(R.id.tv_item_popularity);
             rating = itemView.findViewById(R.id.tv_item_rating);
             containerItem = itemView.findViewById(R.id.constraintlayout_rvitem_container_item);
@@ -81,8 +80,8 @@ public class TvShowAdapter extends RecyclerView.Adapter<TvShowAdapter.ViewHolder
         }
 
         void bind(TvShow tvShow) {
-            judul.setText(tvShow.getOriginalName());
-            sinopsis.setText(tvShow.getOverview());
+            title.setText(tvShow.getOriginalName());
+            overview.setText(tvShow.getOverview());
             popularity.setText(String.valueOf(tvShow.getPopularity()));
             rating.setText(String.valueOf(tvShow.getVoteAverage()));
             Glide.with(context)

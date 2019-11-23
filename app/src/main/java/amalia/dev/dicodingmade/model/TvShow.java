@@ -16,7 +16,7 @@ public class TvShow implements Parcelable {
     private String originalName;
     @SerializedName("genre_ids")
     @Expose
-    private List<Integer> genreIds = null;
+    private List<Integer> genreIds;
     @SerializedName("name")
     @Expose
     private String name;

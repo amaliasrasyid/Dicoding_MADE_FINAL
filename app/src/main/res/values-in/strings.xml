@@ -10,7 +10,7 @@
     <string name="release_date">Tanggal Rilis</string>
     <string name="overlay_grey_image">gambar overlay abu-abu</string>
     <string name="image_back_poster">gambar backround poster</string>
-    <string name="ok">OK</string>
+    <string name="text_genre">Genre</string>
 
     <string name="tab_text1">Film</string>
     <string name="tab_text2">Acara Tv</string>

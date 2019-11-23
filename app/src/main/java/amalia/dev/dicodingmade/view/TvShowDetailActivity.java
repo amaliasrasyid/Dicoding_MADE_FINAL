@@ -32,7 +32,7 @@ public class TvShowDetailActivity extends AppCompatActivity {
     public static final String EXTRA_TV_SHOW ="extra tv show";
     private static final String BASE_URL_POSTER = "https://image.tmdb.org/t/p/w154";
     private static final String BASE_URL_BACK_POSTER = "https://image.tmdb.org/t/p/w500";
-    private ArrayList<Genre>  genreData= new ArrayList<>();
+    private final ArrayList<Genre>  genreData= new ArrayList<>();
 
 
     @Override
@@ -118,9 +118,8 @@ public class TvShowDetailActivity extends AppCompatActivity {
 
     private String convertToDatePattern(String releaseDate) {
         //create date pattern format
-        /**
-         * Locale.getDefault() get current Language android for format date
-         * */
+        //Locale.getDefault() get current Language android for format date
+
         SimpleDateFormat toDate = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
         SimpleDateFormat toString = new SimpleDateFormat("dd MMMM, yyyy",Locale.getDefault());
         Date date;
