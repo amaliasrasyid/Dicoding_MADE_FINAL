@@ -6,6 +6,7 @@ import android.os.Parcelable;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class Movie implements Parcelable{
@@ -53,7 +54,8 @@ public class Movie implements Parcelable{
         @Expose
         private String releaseDate;
 
-    private Movie(Parcel in) {
+
+    protected Movie(Parcel in) {
         if (in.readByte() == 0) {
             popularity = null;
         } else {
@@ -85,6 +87,8 @@ public class Movie implements Parcelable{
         }
         overview = in.readString();
         releaseDate = in.readString();
+        genreIds = new ArrayList<>();
+        in.readList(genreIds,null);
     }
 
     @Override
@@ -122,11 +126,7 @@ public class Movie implements Parcelable{
         }
         dest.writeString(overview);
         dest.writeString(releaseDate);
-    }
-
-    @Override
-    public int describeContents() {
-        return 0;
+        dest.writeList(genreIds);
     }
 
     public static final Creator<Movie> CREATOR = new Creator<Movie>() {
@@ -140,6 +140,12 @@ public class Movie implements Parcelable{
             return new Movie[size];
         }
     };
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
 
     public Double getPopularity() {
             return popularity;

@@ -18,6 +18,7 @@ import com.bumptech.glide.load.resource.bitmap.CenterCrop;
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import amalia.dev.dicodingmade.R;
 import amalia.dev.dicodingmade.model.Movie;

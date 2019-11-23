@@ -6,6 +6,7 @@ import android.os.Parcelable;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class TvShow implements Parcelable {
@@ -79,6 +80,8 @@ public class TvShow implements Parcelable {
         }
         overview = in.readString();
         posterPath = in.readString();
+        genreIds = new ArrayList<>();
+        in.readList(genreIds,null);
     }
 
     @Override
@@ -115,6 +118,7 @@ public class TvShow implements Parcelable {
         }
         dest.writeString(overview);
         dest.writeString(posterPath);
+        dest.writeList(genreIds);
     }
 
     @Override

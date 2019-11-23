@@ -147,6 +147,30 @@
                     app:layout_constraintBottom_toBottomOf="@+id/img_moviedetail_poster"
                     app:layout_constraintStart_toEndOf="@+id/img_moviedetail_poster"
                     app:srcCompat="@drawable/ic_popularity" />
+
+                <TextView
+                    android:id="@+id/textView3"
+                    style="@style/TextContent.SmallText"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="18dp"
+                    android:text="Genre"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toEndOf="@+id/textView"
+                    app:layout_constraintTop_toBottomOf="@+id/tv_moviedetail_popularity" />
+
+                <TextView
+                    android:id="@+id/tv_moviedetail_genres"
+                    style="@style/TextContent"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="3dp"
+                    android:layout_marginEnd="10dp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.0"
+                    app:layout_constraintStart_toStartOf="@+id/textView3"
+                    app:layout_constraintTop_toBottomOf="@+id/textView3"
+                    tools:text="TextView" />
             </androidx.constraintlayout.widget.ConstraintLayout>
 
             <TextView

@@ -1,11 +1,13 @@
 package amalia.dev.dicodingmade.model;
 
+import androidx.databinding.BaseObservable;
+import androidx.databinding.Bindable;
+
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
 import java.util.List;
 
-import amalia.dev.dicodingmade.model.Movie;
 
 public class MovieResult {
     @SerializedName("page")

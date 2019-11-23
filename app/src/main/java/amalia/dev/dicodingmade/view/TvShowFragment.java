@@ -20,6 +20,7 @@ import java.util.ArrayList;
 import amalia.dev.dicodingmade.R;
 import amalia.dev.dicodingmade.adapter.TvShowAdapter;
 import amalia.dev.dicodingmade.model.TvShow;
+import amalia.dev.dicodingmade.model.TvShowResult;
 import amalia.dev.dicodingmade.viewmodel.TvShowViewModel;
 
 /**
@@ -53,20 +54,21 @@ public class TvShowFragment extends Fragment {
 
         //instance viewmodel tvshow
         TvShowViewModel tvShowViewModel = new ViewModelProvider(this,new ViewModelProvider.NewInstanceFactory()).get(TvShowViewModel.class);
-        tvShowViewModel.getTvShows().observe(this, new Observer<ArrayList<TvShow>>() {
+        tvShowViewModel.getTvShows().observe(this, new Observer<TvShowResult>() {
             @Override
-            public void onChanged(ArrayList<TvShow> tvShows) {
-                //Updating UI
-                if(tvShows != null){
+            public void onChanged(TvShowResult tvShowResult) {
+                if(tvShowResult != null){
                     showLoading(false);
+                    ArrayList<TvShow> dataListTv = new ArrayList<>();
+                    dataListTv.addAll(tvShowResult.getTvShowsResults());
+
                     TvShowAdapter adapter = new TvShowAdapter(getActivity());
-                    //set data dg nilai yang didapat dr db TMDB
-                    adapter.setData(tvShows);
+                    adapter.setData(dataListTv);
                     rvListTv.setLayoutManager(new LinearLayoutManager(getActivity()));
                     rvListTv.setAdapter(adapter);
                 }else{
-                    //when fetching data, show indicator loading
                     showLoading(true);
+
                 }
             }
         });

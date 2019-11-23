@@ -1,4 +1,4 @@
-package amalia.dev.dicodingmade.etc;
+package amalia.dev.dicodingmade.repository;
 
 import amalia.dev.dicodingmade.model.MovieResult;
 import amalia.dev.dicodingmade.model.TvShowResult;

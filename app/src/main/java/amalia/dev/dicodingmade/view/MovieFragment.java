@@ -10,6 +10,7 @@ import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -21,6 +22,7 @@ import java.util.ArrayList;
 import amalia.dev.dicodingmade.adapter.MovieAdapter;
 import amalia.dev.dicodingmade.R;
 import amalia.dev.dicodingmade.model.Movie;
+import amalia.dev.dicodingmade.model.MovieResult;
 import amalia.dev.dicodingmade.viewmodel.MovieViewModel;
 
 
@@ -54,24 +56,27 @@ public class MovieFragment extends Fragment {
         super.onCreate(savedInstanceState);
 
         //instance viewmodel movie
+//        MovieViewModel movieViewModel = new MovieViewModel(getActivity().getApplication());
         MovieViewModel movieViewModel = new ViewModelProvider(this, new ViewModelProvider.NewInstanceFactory()).get(MovieViewModel.class);
-        movieViewModel.getMovies().observe(this, new Observer<ArrayList<Movie>>() {
-                @Override
-                public void onChanged(ArrayList<Movie> movies) {
-                    //Updating UI
-                    if (movies != null) {
-                        showLoading(false);
-                        MovieAdapter adapter = new MovieAdapter(getActivity());
-                        //set data dg nilai yang didapat dr db TMDB
-                        adapter.setData(movies);
-                        rvListMovies.setLayoutManager(new LinearLayoutManager(getActivity()));
-                        rvListMovies.setAdapter(adapter);
-                    }else {
-                        //when fetching data, show indicator loading
-                        showLoading(true);
-                    }
+        movieViewModel.getMovies().observe(this, new Observer<MovieResult>() {
+            @Override
+            public void onChanged(MovieResult movieResult) {
+                if(movieResult != null){
+                    showLoading(false);
+                    ArrayList<Movie> dataListMovies =  new ArrayList<>();
+                    dataListMovies.addAll(movieResult.getMoviesResults());
+
+                    MovieAdapter adapter = new MovieAdapter(getActivity());
+                    adapter.setData(dataListMovies);
+                    rvListMovies.setLayoutManager(new LinearLayoutManager(getActivity()));
+                    rvListMovies.setAdapter(adapter);
+                }else{
+                    showLoading(true);
                 }
-            });
+
+            }
+        });
+
     }
 
     public void notifyMessage(String msg){
