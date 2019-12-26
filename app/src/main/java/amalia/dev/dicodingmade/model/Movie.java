@@ -9,14 +9,8 @@ import com.google.gson.annotations.SerializedName;
 import java.util.ArrayList;
 import java.util.List;
 
-
 public class Movie implements Parcelable{
-        @SerializedName("id")
-        @Expose
-        private Integer id;
-        @SerializedName("genre_ids")
-        @Expose
-        private List<Integer> genreIds ;
+
         @SerializedName("popularity")
         @Expose
         private Double popularity;
@@ -29,6 +23,9 @@ public class Movie implements Parcelable{
         @SerializedName("poster_path")
         @Expose
         private String posterPath;
+        @SerializedName("id")
+        @Expose
+        private Integer id;
         @SerializedName("adult")
         @Expose
         private Boolean adult;
@@ -41,6 +38,9 @@ public class Movie implements Parcelable{
         @SerializedName("original_title")
         @Expose
         private String originalTitle;
+        @SerializedName("genre_ids")
+        @Expose
+        private List<Integer> genreIds ;
         @SerializedName("title")
         @Expose
         private String title;
@@ -54,7 +54,6 @@ public class Movie implements Parcelable{
         @Expose
         private String releaseDate;
 
-        public Movie(){}
 
     private Movie(Parcel in) {
         if (in.readByte() == 0) {

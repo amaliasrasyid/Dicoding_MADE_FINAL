@@ -9,11 +9,8 @@ import com.google.gson.annotations.SerializedName;
 import java.util.ArrayList;
 import java.util.List;
 
-
 public class TvShow implements Parcelable {
-    @SerializedName("id")
-    @Expose
-    private Integer id;
+
     @SerializedName("original_name")
     @Expose
     private String originalName;
@@ -41,6 +38,9 @@ public class TvShow implements Parcelable {
     @SerializedName("original_language")
     @Expose
     private String originalLanguage;
+    @SerializedName("id")
+    @Expose
+    private Integer id;
     @SerializedName("vote_average")
     @Expose
     private Double voteAverage;
@@ -50,8 +50,6 @@ public class TvShow implements Parcelable {
     @SerializedName("poster_path")
     @Expose
     private String posterPath;
-
-    public TvShow(){}
 
     private TvShow(Parcel in) {
         originalName = in.readString();
