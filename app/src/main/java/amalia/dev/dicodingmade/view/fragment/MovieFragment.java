@@ -1,4 +1,4 @@
-package amalia.dev.dicodingmade.view;
+package amalia.dev.dicodingmade.view.fragment;
 
 
 import android.os.Bundle;
@@ -29,7 +29,6 @@ import amalia.dev.dicodingmade.viewmodel.MovieViewModel;
  * A simple {@link Fragment} subclass.
  */
 public class MovieFragment extends Fragment {
-    private final ArrayList<Movie> mdata = new ArrayList<>();
     private RecyclerView rvListMovies;
     private ProgressBar progressBar;
 

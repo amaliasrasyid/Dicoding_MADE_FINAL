@@ -13,6 +13,9 @@
     <string name="overlay_grey_image">overlay grey image</string>
     <string name="image_back_poster">image background poster</string>
     <string name="text_genre">Genre</string>
+    <string name="title_movie">Movies</string>
+    <string name="title_tv_show">Tv Shows</string>
+    <string name="title_favorites">Favorites</string>
 
     <string-array name="genre_name">
         <item>Action</item>
@@ -35,6 +38,9 @@
         <item>War</item>
         <item>Western</item>
     </string-array>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 
 
 </resources>

@@ -10,8 +10,8 @@ import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentPagerAdapter;
 
 import amalia.dev.dicodingmade.R;
-import amalia.dev.dicodingmade.view.MovieFragment;
-import amalia.dev.dicodingmade.view.TvShowFragment;
+import amalia.dev.dicodingmade.view.fragment.MovieFavFragment;
+import amalia.dev.dicodingmade.view.fragment.TvShowFavFragment;
 
 public class SectionPagerAdapter extends FragmentPagerAdapter {
 
@@ -34,10 +34,10 @@ public class SectionPagerAdapter extends FragmentPagerAdapter {
         Fragment fragment = new Fragment();
         switch (position){
             case 0:
-                fragment = new MovieFragment();
+                fragment = new MovieFavFragment();
                 break;
             case 1:
-                fragment = new TvShowFragment();
+                fragment = new TvShowFavFragment();
                 break;
         }
         return fragment; 

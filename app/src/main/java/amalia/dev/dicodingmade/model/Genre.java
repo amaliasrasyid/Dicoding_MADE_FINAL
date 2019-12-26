@@ -1,6 +1,6 @@
 package amalia.dev.dicodingmade.model;
 
-public class Genre {
+public class Genre  {
     private int id;
     private String name;
 
@@ -8,6 +8,7 @@ public class Genre {
         this.id = id;
         this.name = name;
     }
+    public Genre(){}
 
     public int getId() {
         return id;

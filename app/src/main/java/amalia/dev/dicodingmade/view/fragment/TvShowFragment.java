@@ -1,4 +1,4 @@
-package amalia.dev.dicodingmade.view;
+package amalia.dev.dicodingmade.view.fragment;
 
 
 import android.os.Bundle;

@@ -1,6 +1,10 @@
 package amalia.dev.dicodingmade.view;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.navigation.NavController;
+import androidx.navigation.Navigation;
+import androidx.navigation.ui.AppBarConfiguration;
+import androidx.navigation.ui.NavigationUI;
 import androidx.viewpager.widget.ViewPager;
 
 import android.content.Intent;
@@ -9,6 +13,7 @@ import android.provider.Settings;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.tabs.TabLayout;
 
 import amalia.dev.dicodingmade.R;
@@ -21,16 +26,14 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        SectionPagerAdapter sectionPagerAdapter = new SectionPagerAdapter(this,getSupportFragmentManager());
-        ViewPager viewPager = findViewById(R.id.viewpager_main);
-        viewPager.setAdapter(sectionPagerAdapter);
+        BottomNavigationView navView = findViewById(R.id.bottom_nav_view_main);
+        NavController navController = Navigation.findNavController(this,R.id.nav_host_fragment);
 
-        TabLayout tabLayout = findViewById(R.id.tablayout_main);
-        tabLayout.setupWithViewPager(viewPager);
-        if(getSupportActionBar() != null) {
-            getSupportActionBar().setElevation(0);
-        }
-
+        AppBarConfiguration appBarConfiguration = new AppBarConfiguration.Builder(
+                R.id.navigation_movies,R.id.navigation_tvshows,R.id.navigation_favorites)
+                .build();
+        NavigationUI.setupActionBarWithNavController(this,navController,appBarConfiguration);
+        NavigationUI.setupWithNavController(navView,navController);
     }
 
     @Override

@@ -9,11 +9,8 @@ import com.google.gson.annotations.SerializedName;
 import java.util.ArrayList;
 import java.util.List;
 
-import io.realm.RealmObject;
-import io.realm.annotations.PrimaryKey;
 
-public class TvShow extends RealmObject implements Parcelable {
-    @PrimaryKey
+public class TvShow implements Parcelable {
     @SerializedName("id")
     @Expose
     private Integer id;
@@ -53,6 +50,8 @@ public class TvShow extends RealmObject implements Parcelable {
     @SerializedName("poster_path")
     @Expose
     private String posterPath;
+
+    public TvShow(){}
 
     private TvShow(Parcel in) {
         originalName = in.readString();

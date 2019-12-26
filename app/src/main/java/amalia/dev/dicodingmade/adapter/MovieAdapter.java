@@ -2,6 +2,7 @@ package amalia.dev.dicodingmade.adapter;
 
 import android.content.Context;
 import android.content.Intent;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -31,9 +32,9 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.ViewHolder> 
     }
 
     public void setData(ArrayList<Movie> items){
-        data.clear();
+//        data.clear();
         data.addAll(items);
-        notifyDataSetChanged();
+//        notifyDataSetChanged();
     }
 
     @NonNull
@@ -53,6 +54,7 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.ViewHolder> 
 
     @Override
     public int getItemCount() {
+//        Log.d("test realm",String.valueOf(data.size()));
         return data.size();
     }
 

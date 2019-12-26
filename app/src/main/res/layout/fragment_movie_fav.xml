@@ -3,18 +3,12 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".view.fragment.TvShowFragment">
+    tools:context=".view.fragment.MovieFavFragment">
+
 
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/rv_tvshow_fragment"
+        android:id="@+id/rv_movie_fav_fragment"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:clipToPadding="false"/>
-
-    <ProgressBar
-        android:id="@+id/progress_circular_tvshow"
-        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_gravity="center"/>
-
+        android:clipToPadding="false"/>
 </FrameLayout>

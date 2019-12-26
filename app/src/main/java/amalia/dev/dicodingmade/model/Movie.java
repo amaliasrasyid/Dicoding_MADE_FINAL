@@ -9,14 +9,14 @@ import com.google.gson.annotations.SerializedName;
 import java.util.ArrayList;
 import java.util.List;
 
-import io.realm.RealmObject;
-import io.realm.annotations.PrimaryKey;
 
-public class Movie extends RealmObject implements Parcelable{
-        @PrimaryKey
+public class Movie implements Parcelable{
         @SerializedName("id")
         @Expose
         private Integer id;
+        @SerializedName("genre_ids")
+        @Expose
+        private List<Integer> genreIds ;
         @SerializedName("popularity")
         @Expose
         private Double popularity;
@@ -41,9 +41,6 @@ public class Movie extends RealmObject implements Parcelable{
         @SerializedName("original_title")
         @Expose
         private String originalTitle;
-        @SerializedName("genre_ids")
-        @Expose
-        private List<Integer> genreIds ;
         @SerializedName("title")
         @Expose
         private String title;
@@ -57,6 +54,7 @@ public class Movie extends RealmObject implements Parcelable{
         @Expose
         private String releaseDate;
 
+        public Movie(){}
 
     private Movie(Parcel in) {
         if (in.readByte() == 0) {

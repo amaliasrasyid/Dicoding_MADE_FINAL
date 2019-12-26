@@ -5,6 +5,8 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
@@ -28,13 +30,17 @@ import java.util.Locale;
 import amalia.dev.dicodingmade.R;
 import amalia.dev.dicodingmade.model.Genre;
 import amalia.dev.dicodingmade.model.Movie;
+import amalia.dev.dicodingmade.repository.sqlite.MovieHelper;
 
 
-public class MovieDetailActivity extends AppCompatActivity {
+public class MovieDetailActivity extends AppCompatActivity{
     public static final String EXTRA_MOVIE ="extra movie";
     private static final String BASE_URL_POSTER = "https://image.tmdb.org/t/p/w154";
     private static final String BASE_URL_BACK_POSTER = "https://image.tmdb.org/t/p/w500";
     private final ArrayList<Genre>  genreData= new ArrayList<>();
+    private Menu menu;// Global Menu Declaration
+    private Movie movie = new Movie();
+    MovieHelper movieHelper;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,16 +58,16 @@ public class MovieDetailActivity extends AppCompatActivity {
         ProgressBar pbPoster = findViewById(R.id.progressBar_moviedetail_poster);
 
         //getting data from the objek that clicked in list
-        Movie movie = getIntent().getParcelableExtra(EXTRA_MOVIE);
+         movie = getIntent().getParcelableExtra(EXTRA_MOVIE);
 
-        //get genre's name based the id
-        loadGenreData();
-        List<Integer> genresId = movie.getGenreIds();
-        String genresName = getGenresName(genresId);
+//        //get genre's name based the id
+//        loadGenreData();
+//        List<Integer> genresId = movie.getGenreIds();
+//        String genresName = getGenresName(genresId);
 
 
         //binding view & data
-        genres.setText(genresName);
+//        genres.setText(genresName);
         popularity.setText(String.valueOf(movie.getPopularity()));
         rating.setText(String.valueOf(movie.getVoteAverage()));
         overview.setText(movie.getOverview());
@@ -83,6 +89,53 @@ public class MovieDetailActivity extends AppCompatActivity {
         if(getSupportActionBar() != null){
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         }
+
+        movieHelper = MovieHelper.getInstance(this);
+        movieHelper.open();
+
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        this.menu = menu;
+        getMenuInflater().inflate(R.menu.menu_fav,menu);
+        if(isCheckedFav(movie.getId())){
+            menu.findItem(R.id.menu_fav_unchecked).setVisible(false);
+            menu.findItem(R.id.menu_fav_checked).setVisible(true);
+        }
+        return super.onCreateOptionsMenu(menu);
+    }
+
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()){
+            case R.id.menu_fav_unchecked:
+                item.setVisible(false);
+                menu.getItem(1).setVisible(true);
+                addFavorite(movie);
+            return true;
+            case R.id.menu_fav_checked:
+                item.setVisible(false);
+                menu.getItem(0).setVisible(true);
+                deleteFavorite(movie.getId());
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+
+    }
+
+    private void deleteFavorite(Integer id) {
+        movieHelper.deleteFavMovie(String.valueOf(id));
+    }
+
+    private void addFavorite(Movie movie) {
+        movieHelper.insertFavMovie(movie);
+    }
+
+    private boolean isCheckedFav(int id) {
+      return  movieHelper.isStored(String.valueOf(id));
     }
 
     private String getGenresName(List<Integer> genresId) {
@@ -155,4 +208,9 @@ public class MovieDetailActivity extends AppCompatActivity {
         };
     }
 
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        movieHelper.close();
+    }
 }

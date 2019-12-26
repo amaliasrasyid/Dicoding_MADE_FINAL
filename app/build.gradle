@@ -1,6 +1,4 @@
 apply plugin: 'com.android.application'
-apply plugin: 'realm-android'
-
 
 android {
     compileSdkVersion 28
@@ -12,8 +10,8 @@ android {
         versionCode 1
         versionName "1.0"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
-        buildConfigField("String","TMDB_API_KEY",'"6aaf0b4b68f88ddc23dbe4cf46fb2ddd"')
-        dataBinding{
+        buildConfigField("String", "TMDB_API_KEY", '"6aaf0b4b68f88ddc23dbe4cf46fb2ddd"')
+        dataBinding {
             enabled = true
         }
     }
@@ -49,6 +47,9 @@ dependencies {
     implementation 'com.github.bumptech.glide:glide:4.10.0'
     annotationProcessor 'com.github.bumptech.glide:compiler:4.10.0'
 
-    //realm database
+    //navigation component
+    implementation 'androidx.navigation:navigation-fragment:2.1.0'
+    implementation 'androidx.navigation:navigation-ui:2.1.0'
+
 
 }
