@@ -17,7 +17,12 @@
         tools:layout="@layout/fragment_tv_show" />
     <fragment
         android:id="@+id/navigation_favorites"
-        android:name="amalia.dev.dicodingmade.view.fragment.MovieFavFragment"
-        android:label="fragment_movie_fav"
-        tools:layout="@layout/fragment_movie_fav" />
+        android:name="amalia.dev.dicodingmade.view.fragment.FavoritesFragment"
+        android:label="fragment_favorites"
+        tools:layout="@layout/fragment_favorites" />
+    <!--    <fragment-->
+<!--        android:id="@+id/navigation_favorites"-->
+<!--        android:name="amalia.dev.dicodingmade.view.fragment.MovieFavFragment"-->
+<!--        android:label="fragment_movie_fav"-->
+<!--        tools:layout="@layout/fragment_movie_fav" />-->
 </navigation>

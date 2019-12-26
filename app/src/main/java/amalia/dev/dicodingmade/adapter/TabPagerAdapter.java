@@ -13,7 +13,7 @@ import amalia.dev.dicodingmade.R;
 import amalia.dev.dicodingmade.view.fragment.MovieFavFragment;
 import amalia.dev.dicodingmade.view.fragment.TvShowFavFragment;
 
-public class SectionPagerAdapter extends FragmentPagerAdapter {
+public class TabPagerAdapter extends FragmentPagerAdapter {
 
     private final Context mContext;
     @StringRes
@@ -22,7 +22,7 @@ public class SectionPagerAdapter extends FragmentPagerAdapter {
             R.string.tab_text2
     };
 
-    public SectionPagerAdapter(Context context, FragmentManager fm) {
+    public TabPagerAdapter(Context context, FragmentManager fm) {
         super(fm, BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT);
         mContext = context;
     }

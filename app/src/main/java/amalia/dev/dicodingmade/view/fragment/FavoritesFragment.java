@@ -3,19 +3,19 @@ package amalia.dev.dicodingmade.view.fragment;
 
 import android.os.Bundle;
 
+import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentManager;
-import androidx.fragment.app.FragmentTransaction;
 import androidx.viewpager.widget.ViewPager;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import com.google.android.material.tabs.TabLayout;
 
 import amalia.dev.dicodingmade.R;
-import amalia.dev.dicodingmade.adapter.SectionPagerAdapter;
+import amalia.dev.dicodingmade.adapter.TabPagerAdapter;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -35,23 +35,22 @@ public class FavoritesFragment extends Fragment {
         View view =  inflater.inflate(R.layout.fragment_favorites, container, false);
 
 
-        SectionPagerAdapter sectionPagerAdapter = new SectionPagerAdapter(getActivity(),getActivity().getSupportFragmentManager());
+        //MUST USING getChilFragmentManager cause without it, when onResume() after onDestroy() views dissappear
+        TabPagerAdapter tabPagerAdapter = new TabPagerAdapter(getActivity(),getChildFragmentManager());
         ViewPager viewPager = view.findViewById(R.id.viewpager_favorites);
-        viewPager.setAdapter(sectionPagerAdapter);
+        viewPager.setAdapter(tabPagerAdapter);
 
         TabLayout tabLayout = view.findViewById(R.id.tablayout_favorites);
         tabLayout.setupWithViewPager(viewPager);
         if(getActivity().getActionBar() != null) {
              getActivity().getActionBar().setElevation(0);
         }
-//        FragmentManager fragmentManager = getChildFragmentManager();
-//        FragmentTransaction ft = fragmentManager.beginTransaction();
-//        MovieFavFragment favFragment = new MovieFavFragment();
-//        ft.replace(R.id.container_main,favFragment);
-//        ft.commit();
-
 
         return view;
     }
 
+
+    public void notifyMessage(String msg){
+        Toast.makeText(getActivity(),msg,Toast.LENGTH_SHORT).show();
+    }
 }
