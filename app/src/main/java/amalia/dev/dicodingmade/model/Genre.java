@@ -1,6 +1,10 @@
 package amalia.dev.dicodingmade.model;
 
-public class Genre  {
+import io.realm.RealmObject;
+import io.realm.annotations.PrimaryKey;
+
+public class Genre  extends RealmObject {
+    @PrimaryKey
     private int id;
     private String name;
 

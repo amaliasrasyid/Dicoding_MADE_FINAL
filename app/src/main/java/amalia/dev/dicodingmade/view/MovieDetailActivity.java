@@ -30,7 +30,10 @@ import java.util.Locale;
 import amalia.dev.dicodingmade.R;
 import amalia.dev.dicodingmade.model.Genre;
 import amalia.dev.dicodingmade.model.Movie;
+import amalia.dev.dicodingmade.repository.realm.RealmHelper;
 import amalia.dev.dicodingmade.repository.sqlite.MovieHelper;
+import io.realm.Realm;
+import io.realm.RealmConfiguration;
 
 
 public class MovieDetailActivity extends AppCompatActivity{
@@ -41,6 +44,8 @@ public class MovieDetailActivity extends AppCompatActivity{
     private Menu menu;// Global Menu Declaration
     private Movie movie = new Movie();
     MovieHelper movieHelper;
+    Realm realm;
+    RealmHelper realmHelper;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -90,8 +95,13 @@ public class MovieDetailActivity extends AppCompatActivity{
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         }
 
-        movieHelper = MovieHelper.getInstance(this);
-        movieHelper.open();
+        //database local
+//        movieHelper = MovieHelper.getInstance(this);
+//        movieHelper.open();
+        RealmConfiguration realmConfiguration = new RealmConfiguration.Builder().build();
+        realm = Realm.getInstance(realmConfiguration);
+        realmHelper = new RealmHelper(realm);
+
 
     }
 
@@ -127,15 +137,18 @@ public class MovieDetailActivity extends AppCompatActivity{
     }
 
     private void deleteFavorite(Integer id) {
-        movieHelper.deleteFavMovie(String.valueOf(id));
+//        movieHelper.deleteFavMovie(String.valueOf(id));
+        realmHelper.deleteFavMovies(id);
     }
 
     private void addFavorite(Movie movie) {
-        movieHelper.insertFavMovie(movie);
+//        movieHelper.insertFavMovie(movie);
+        realmHelper.insertMovie(movie);
     }
 
     private boolean isCheckedFav(int id) {
-      return  movieHelper.isStored(String.valueOf(id));
+//        return  movieHelper.isStored(String.valueOf(id));
+        return  realmHelper.isMovieExist(id);
     }
 
     private String getGenresName(List<Integer> genresId) {
@@ -211,6 +224,7 @@ public class MovieDetailActivity extends AppCompatActivity{
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        movieHelper.close();
+//        movieHelper.close();
+        realm.close();
     }
 }

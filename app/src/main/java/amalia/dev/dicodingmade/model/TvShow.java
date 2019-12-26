@@ -9,23 +9,24 @@ import com.google.gson.annotations.SerializedName;
 import java.util.ArrayList;
 import java.util.List;
 
-public class TvShow implements Parcelable {
+import io.realm.RealmList;
+import io.realm.RealmObject;
+import io.realm.annotations.PrimaryKey;
+
+public class TvShow extends RealmObject implements Parcelable {
 
     @SerializedName("original_name")
     @Expose
     private String originalName;
     @SerializedName("genre_ids")
     @Expose
-    private List<Integer> genreIds;
+    private RealmList<Integer> genreIds;
     @SerializedName("name")
     @Expose
     private String name;
     @SerializedName("popularity")
     @Expose
     private Double popularity;
-    @SerializedName("origin_country")
-    @Expose
-    private List<String> originCountry;
     @SerializedName("vote_count")
     @Expose
     private Integer voteCount;
@@ -38,6 +39,7 @@ public class TvShow implements Parcelable {
     @SerializedName("original_language")
     @Expose
     private String originalLanguage;
+    @PrimaryKey
     @SerializedName("id")
     @Expose
     private Integer id;
@@ -51,6 +53,8 @@ public class TvShow implements Parcelable {
     @Expose
     private String posterPath;
 
+    public TvShow(){}
+
     private TvShow(Parcel in) {
         originalName = in.readString();
         name = in.readString();
@@ -59,7 +63,6 @@ public class TvShow implements Parcelable {
         } else {
             popularity = in.readDouble();
         }
-        originCountry = in.createStringArrayList();
         if (in.readByte() == 0) {
             voteCount = null;
         } else {
@@ -80,7 +83,7 @@ public class TvShow implements Parcelable {
         }
         overview = in.readString();
         posterPath = in.readString();
-        genreIds = new ArrayList<>();
+        genreIds = new RealmList<>();
         in.readList(genreIds,null);
     }
 
@@ -94,7 +97,6 @@ public class TvShow implements Parcelable {
             dest.writeByte((byte) 1);
             dest.writeDouble(popularity);
         }
-        dest.writeStringList(originCountry);
         if (voteCount == null) {
             dest.writeByte((byte) 0);
         } else {
@@ -150,7 +152,7 @@ public class TvShow implements Parcelable {
         return genreIds;
     }
 
-    public void setGenreIds(List<Integer> genreIds) {
+    public void setGenreIds(RealmList<Integer> genreIds) {
         this.genreIds = genreIds;
     }
 
@@ -170,13 +172,7 @@ public class TvShow implements Parcelable {
         this.popularity = popularity;
     }
 
-    public List<String> getOriginCountry() {
-        return originCountry;
-    }
 
-    public void setOriginCountry(List<String> originCountry) {
-        this.originCountry = originCountry;
-    }
 
     public Integer getVoteCount() {
         return voteCount;
