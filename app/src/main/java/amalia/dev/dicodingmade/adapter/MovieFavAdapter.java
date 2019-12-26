@@ -2,7 +2,6 @@ package amalia.dev.dicodingmade.adapter;
 
 import android.content.Context;
 import android.content.Intent;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,6 +9,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -22,20 +22,22 @@ import java.util.ArrayList;
 import amalia.dev.dicodingmade.R;
 import amalia.dev.dicodingmade.model.Movie;
 import amalia.dev.dicodingmade.view.MovieDetailActivity;
+import io.realm.OrderedRealmCollection;
+import io.realm.RealmRecyclerViewAdapter;
+import io.realm.RealmResults;
 
-public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.ViewHolder> {
-    private final ArrayList<Movie> data = new ArrayList<>();
+public class MovieFavAdapter extends RealmRecyclerViewAdapter<Movie, MovieFavAdapter.ViewHolder> {
     private final Context context; //ini diperlukan untuk mengetahui posisi awal saat Intent dilakukan
     private static final String BASE_URL_IMG = "https://image.tmdb.org/t/p/w154";
-    public MovieAdapter(Context context){
+    OrderedRealmCollection<Movie> data;
+
+    public MovieFavAdapter(Context context, @Nullable OrderedRealmCollection<Movie> data) {
+        super(data,true);
         this.context = context;
+        this.data = data;
     }
 
-    public void setData(ArrayList<Movie> items){
-        data.clear();
-        data.addAll(items);
-        notifyDataSetChanged();
-    }
+
 
     @NonNull
     @Override

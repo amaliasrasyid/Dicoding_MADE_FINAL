@@ -16,10 +16,12 @@ import java.util.ArrayList;
 
 import amalia.dev.dicodingmade.R;
 import amalia.dev.dicodingmade.adapter.MovieAdapter;
+import amalia.dev.dicodingmade.adapter.MovieFavAdapter;
 import amalia.dev.dicodingmade.model.Movie;
 import amalia.dev.dicodingmade.repository.realm.RealmHelper;
 import amalia.dev.dicodingmade.repository.sqlite.MovieHelper;
 import io.realm.Realm;
+import io.realm.RealmChangeListener;
 import io.realm.RealmConfiguration;
 
 /**
@@ -28,8 +30,10 @@ import io.realm.RealmConfiguration;
 public class MovieFavFragment extends Fragment {
     private RecyclerView rv;
     private ArrayList<Movie> dataLocal = new ArrayList<>();
-    private MovieHelper movieHelper; //for getting data from local database
     Realm realm;
+    RealmHelper realmHelper;
+    RealmChangeListener realmChangeListener;
+
 
 
     public MovieFavFragment() {
@@ -45,29 +49,38 @@ public class MovieFavFragment extends Fragment {
         rv.setLayoutManager(new LinearLayoutManager(getActivity()));
         rv.setHasFixedSize(true);
 
-        MovieAdapter adapter = new MovieAdapter(getActivity());
-
-        //get data from local db (sqlite)
-//        movieHelper = MovieHelper.getInstance(getActivity().getApplicationContext());
-//        movieHelper.open();
-//        dataLocal = movieHelper.getListFavMovies();
+        //get data from local db
         RealmConfiguration realmConfiguration = new RealmConfiguration.Builder().build();
         realm = Realm.getInstance(realmConfiguration);
-         RealmHelper  realmHelper = new RealmHelper(realm);
-         dataLocal.addAll(realmHelper.getListFavoriteMovies());
+        realmHelper = new RealmHelper(realm);
+
+        MovieFavAdapter adapter = new MovieFavAdapter(getActivity(),realmHelper.getListFavoriteMovies());
 
 
         //set data into adapter
-        adapter.setData(dataLocal);
         //set adapter into rv
         rv.setAdapter(adapter);
+
+        refresh();
         return view;
     }
+
+   //when there's change on data, do refresh
+    void refresh(){
+        realmChangeListener = new RealmChangeListener() {
+            @Override
+            public void onChange(Object o) {
+                MovieFavAdapter adapter = new MovieFavAdapter(getActivity(),realmHelper.getListFavoriteMovies());
+                rv.setAdapter(adapter);
+            }
+        };
+        realm.addChangeListener(realmChangeListener);
+    }
+
     //don't forget sqlite must close after using it
     @Override
     public void onDestroy() {
         super.onDestroy();
-//        movieHelper.close();
         realm.close();
     }
 

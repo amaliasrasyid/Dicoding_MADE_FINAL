@@ -6,7 +6,11 @@ import java.util.List;
 
 import amalia.dev.dicodingmade.model.Movie;
 import amalia.dev.dicodingmade.model.TvShow;
+import io.realm.OrderedCollectionChangeSet;
+import io.realm.OrderedRealmCollectionChangeListener;
 import io.realm.Realm;
+import io.realm.RealmChangeListener;
+import io.realm.RealmModel;
 import io.realm.RealmResults;
 
 public class RealmHelper {
@@ -58,8 +62,8 @@ public class RealmHelper {
     }
 
     //get list movie from local db
-    public List<Movie> getListFavoriteMovies(){
-        RealmResults<Movie> results = realm.where(Movie.class).findAll();//query(?)
+    public RealmResults<Movie> getListFavoriteMovies(){
+        RealmResults<Movie> results = realm.where(Movie.class).findAll();
         return  results;
     }
 

@@ -43,7 +43,6 @@ public class MovieDetailActivity extends AppCompatActivity{
     private final ArrayList<Genre>  genreData= new ArrayList<>();
     private Menu menu;// Global Menu Declaration
     private Movie movie = new Movie();
-    MovieHelper movieHelper;
     Realm realm;
     RealmHelper realmHelper;
 
@@ -96,8 +95,6 @@ public class MovieDetailActivity extends AppCompatActivity{
         }
 
         //database local
-//        movieHelper = MovieHelper.getInstance(this);
-//        movieHelper.open();
         RealmConfiguration realmConfiguration = new RealmConfiguration.Builder().build();
         realm = Realm.getInstance(realmConfiguration);
         realmHelper = new RealmHelper(realm);
@@ -137,17 +134,14 @@ public class MovieDetailActivity extends AppCompatActivity{
     }
 
     private void deleteFavorite(Integer id) {
-//        movieHelper.deleteFavMovie(String.valueOf(id));
         realmHelper.deleteFavMovies(id);
     }
 
     private void addFavorite(Movie movie) {
-//        movieHelper.insertFavMovie(movie);
         realmHelper.insertMovie(movie);
     }
 
     private boolean isCheckedFav(int id) {
-//        return  movieHelper.isStored(String.valueOf(id));
         return  realmHelper.isMovieExist(id);
     }
 
@@ -224,7 +218,6 @@ public class MovieDetailActivity extends AppCompatActivity{
     @Override
     protected void onDestroy() {
         super.onDestroy();
-//        movieHelper.close();
         realm.close();
     }
 }
