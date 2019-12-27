@@ -85,16 +85,21 @@ public class RealmHelper {
     }
 
     //delete data fav movie
-    public void deleteFavMovies(int id){
+    public void deleteFavMovies(int[] id){
         //first, find the movie with the id
-        final RealmResults<Movie> movie = realm.where(Movie.class).equalTo("id",id).findAll();
-        realm.executeTransaction(new Realm.Transaction() {
-            @Override
-            public void execute(Realm realm) {
-                movie.deleteFromRealm(0);//todo:why "0" ?
-            }
-        });
+        int i=0;
+        do{
+            final RealmResults<Movie> movie = realm.where(Movie.class).equalTo("id",id[i]).findAll();
+            realm.executeTransaction(new Realm.Transaction() {
+                @Override
+                public void execute(Realm realm) {
+                    movie.deleteFromRealm(0);//todo:why "0" ?
+                }
+            });
+        }while(i < id.length);
+
     }
+
 
     //delete data fav tv show
     public void deleteFavTvShow(int id){

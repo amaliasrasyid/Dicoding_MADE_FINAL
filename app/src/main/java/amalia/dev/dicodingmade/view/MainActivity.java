@@ -1,6 +1,10 @@
 package amalia.dev.dicodingmade.view;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
@@ -16,22 +20,20 @@ import android.widget.Toast;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 import amalia.dev.dicodingmade.R;
+import amalia.dev.dicodingmade.view.fragment.FavoritesFragment;
+import amalia.dev.dicodingmade.view.fragment.MovieFragment;
+import amalia.dev.dicodingmade.view.fragment.TvShowFragment;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements BottomNavigationView.OnNavigationItemSelectedListener {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        loadFragment(new MovieFragment());
 
         BottomNavigationView navView = findViewById(R.id.bottom_nav_view_main);
-        NavController navController = Navigation.findNavController(this,R.id.nav_host_fragment);
-
-        AppBarConfiguration appBarConfiguration = new AppBarConfiguration.Builder(
-                R.id.navigation_movies,R.id.navigation_tvshows,R.id.navigation_favorites)
-                .build();
-        NavigationUI.setupActionBarWithNavController(this,navController,appBarConfiguration);
-        NavigationUI.setupWithNavController(navView,navController);
+        navView.setOnNavigationItemSelectedListener(this);
     }
 
     @Override
@@ -53,4 +55,30 @@ public class MainActivity extends AppCompatActivity {
         Toast.makeText(this,msg,Toast.LENGTH_SHORT).show();
     }
 
+    public boolean loadFragment(Fragment fragment){
+        if (fragment != null) {
+            getSupportFragmentManager().beginTransaction()
+                    .replace(R.id.container_main, fragment)
+                    .commit();
+            return true;
+        }
+        return false;
+    }
+
+    @Override
+    public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
+        Fragment fragment = null;
+        switch (menuItem.getItemId()){
+            case R.id.navigation_movies:
+                fragment = new MovieFragment();
+                break;
+            case R.id.navigation_tvshows:
+                fragment = new TvShowFragment();
+                break;
+            case R.id.navigation_favorites:
+                fragment = new FavoritesFragment();
+                break;
+        }
+        return  loadFragment(fragment);
+    }
 }
