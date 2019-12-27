@@ -69,10 +69,10 @@ public class TvShowAdapter extends RecyclerView.Adapter<TvShowAdapter.ViewHolder
 
             //proses binding komponen view yang ada pada custom layout untuk recyclerview item
             poster = itemView.findViewById(R.id.img_item_poster);
-            title = itemView.findViewById(R.id.tv_item_title);
-            overview = itemView.findViewById(R.id.tv_item_overview);
+            title = itemView.findViewById(R.id.rv_item_title);
+            overview = itemView.findViewById(R.id.rv_item_overview);
             popularity = itemView.findViewById(R.id.tv_item_popularity);
-            rating = itemView.findViewById(R.id.tv_item_rating);
+            rating = itemView.findViewById(R.id.rv_item_rating);
             containerItem = itemView.findViewById(R.id.constraintlayout_rvitem_container_item);
 
             //set listener

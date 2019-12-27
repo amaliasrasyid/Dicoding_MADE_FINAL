@@ -1,6 +1,7 @@
 package amalia.dev.dicodingmade.view.fragment;
 
 
+import android.app.ActionBar;
 import android.os.Bundle;
 
 import androidx.annotation.Nullable;
@@ -42,9 +43,7 @@ public class FavoritesFragment extends Fragment {
 
         TabLayout tabLayout = view.findViewById(R.id.tablayout_favorites);
         tabLayout.setupWithViewPager(viewPager);
-        if(getActivity().getActionBar() != null) {
-             getActivity().getActionBar().setElevation(0);
-        }
+
 
         return view;
     }

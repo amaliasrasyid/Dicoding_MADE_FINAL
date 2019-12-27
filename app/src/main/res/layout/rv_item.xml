@@ -5,6 +5,16 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
 
+    <CheckBox
+        android:id="@+id/rv_item_checkBox"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="16dp"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/constraintlayout_rvitem_container_item"
         android:layout_width="0dp"
@@ -13,30 +23,30 @@
         android:layout_marginTop="35dp"
         android:layout_marginEnd="21dp"
         android:background="@drawable/bg_rounded_shape"
-        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/rv_item_checkBox"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
         <ImageView
-            style="@style/ImagePosterStyle"
             android:id="@+id/img_item_poster"
+            style="@style/ImagePosterStyle"
             android:layout_marginStart="9dp"
             android:layout_marginTop="9dp"
             android:layout_marginBottom="9dp"
+            android:contentDescription="@string/msg_poster_film"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            tools:src="@drawable/example_poster"
-            android:contentDescription="@string/msg_poster_film"/>
+            tools:src="@drawable/example_poster" />
 
         <TextView
-            android:id="@+id/tv_item_title"
+            android:id="@+id/rv_item_title"
             style="@style/TextContent.Title"
             android:layout_width="0dp"
-            android:maxLines="1"
             android:layout_marginStart="@dimen/margin_left_content_list"
             android:layout_marginEnd="12dp"
             android:layout_marginBottom="3dp"
+            android:maxLines="1"
             android:textAlignment="viewStart"
             app:layout_constraintBottom_toTopOf="@+id/tv_item_popularity"
             app:layout_constraintEnd_toEndOf="parent"
@@ -51,7 +61,7 @@
             android:layout_marginBottom="15dp"
             android:contentDescription="@string/msg_icon_popularity"
             android:src="@drawable/ic_popularity"
-            app:layout_constraintBottom_toTopOf="@+id/tv_item_overview"
+            app:layout_constraintBottom_toTopOf="@+id/rv_item_overview"
             app:layout_constraintStart_toEndOf="@+id/img_item_poster" />
 
         <TextView
@@ -61,12 +71,12 @@
             android:layout_marginBottom="15dp"
             android:alpha="0.5"
             android:background="@android:color/transparent"
-            app:layout_constraintBottom_toTopOf="@+id/tv_item_overview"
+            app:layout_constraintBottom_toTopOf="@+id/rv_item_overview"
             app:layout_constraintStart_toEndOf="@+id/imageView"
             tools:text="204.321" />
 
         <TextView
-            android:id="@+id/tv_item_overview"
+            android:id="@+id/rv_item_overview"
             style="@style/TextContent.Overview"
             android:layout_width="0dp"
             android:layout_marginStart="@dimen/margin_left_content_list"
@@ -81,8 +91,8 @@
             tools:text="Many thousands of years in the future, Earth ’s cities roam the globe on huge wheels, devouring each other in a struggle for ever diminishing resources. On one of these massive traction cities, the old London, Tom Natsworthy has an unexpected encounter with a mysterious young woman from the wastelands who will change the course of his life forever." />
 
         <TextView
+            android:id="@+id/rv_item_rating"
             style="@style/TextContent.RatingSmall"
-            android:id="@+id/tv_item_rating"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             tools:text="8.4" />
