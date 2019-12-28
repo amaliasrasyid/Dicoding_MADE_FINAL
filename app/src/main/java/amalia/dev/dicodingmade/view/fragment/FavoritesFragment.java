@@ -9,6 +9,7 @@ import androidx.fragment.app.Fragment;
 import androidx.viewpager.widget.ViewPager;
 
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
@@ -33,13 +34,14 @@ public class FavoritesFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View view =  inflater.inflate(R.layout.fragment_favorites, container, false);
+        View view = inflater.inflate(R.layout.fragment_favorites, container, false);
 
 
         //MUST USING getChilFragmentManager cause without it, when onResume() after onDestroy() views dissappear
-        TabPagerAdapter tabPagerAdapter = new TabPagerAdapter(getActivity(),getChildFragmentManager());
+        TabPagerAdapter tabPagerAdapter = new TabPagerAdapter(getActivity(), getChildFragmentManager());
         ViewPager viewPager = view.findViewById(R.id.viewpager_favorites);
         viewPager.setAdapter(tabPagerAdapter);
+
 
         TabLayout tabLayout = view.findViewById(R.id.tablayout_favorites);
         tabLayout.setupWithViewPager(viewPager);
@@ -49,7 +51,7 @@ public class FavoritesFragment extends Fragment {
     }
 
 
-    public void notifyMessage(String msg){
-        Toast.makeText(getActivity(),msg,Toast.LENGTH_SHORT).show();
+    public void notifyMessage(String msg) {
+        Toast.makeText(getActivity(), msg, Toast.LENGTH_SHORT).show();
     }
 }

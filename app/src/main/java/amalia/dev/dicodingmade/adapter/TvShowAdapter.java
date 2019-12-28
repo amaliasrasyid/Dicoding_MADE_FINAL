@@ -73,7 +73,7 @@ public class TvShowAdapter extends RecyclerView.Adapter<TvShowAdapter.ViewHolder
             overview = itemView.findViewById(R.id.rv_item_overview);
             popularity = itemView.findViewById(R.id.tv_item_popularity);
             rating = itemView.findViewById(R.id.rv_item_rating);
-            containerItem = itemView.findViewById(R.id.constraintlayout_rvitem_container_item);
+            containerItem = itemView.findViewById(R.id.constraintlayout_rvitem_viewforeground);
 
             //set listener
             containerItem.setOnClickListener(this);
@@ -92,7 +92,7 @@ public class TvShowAdapter extends RecyclerView.Adapter<TvShowAdapter.ViewHolder
 
         @Override
         public void onClick(View v) {
-            if(v.getId() == R.id.constraintlayout_rvitem_container_item){
+            if(v.getId() == R.id.constraintlayout_rvitem_viewforeground){
                 Intent intent = new Intent(context, TvShowDetailActivity.class);
                 intent.putExtra(TvShowDetailActivity.EXTRA_TV_SHOW,data.get(getAdapterPosition()));
                 v.getContext().startActivity(intent);

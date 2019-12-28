@@ -9,12 +9,15 @@ import com.google.gson.annotations.SerializedName;
 import java.util.ArrayList;
 import java.util.List;
 
+import io.realm.Realm;
 import io.realm.RealmList;
 import io.realm.RealmObject;
 import io.realm.annotations.PrimaryKey;
 
 public class Movie extends RealmObject implements Parcelable{
-
+        @SerializedName("genre_ids")
+        @Expose
+        private RealmList<Integer> genreIds ;
         @SerializedName("popularity")
         @Expose
         private Double popularity;
@@ -43,9 +46,7 @@ public class Movie extends RealmObject implements Parcelable{
         @SerializedName("original_title")
         @Expose
         private String originalTitle;
-        @SerializedName("genre_ids")
-        @Expose
-        private RealmList<Integer> genreIds ;
+
         @SerializedName("title")
         @Expose
         private String title;
@@ -58,11 +59,11 @@ public class Movie extends RealmObject implements Parcelable{
         @SerializedName("release_date")
         @Expose
         private String releaseDate;
+        private boolean tmpDelete = false;
 
         public Movie(){}
 
-
-    private Movie(Parcel in) {
+    protected Movie(Parcel in) {
         if (in.readByte() == 0) {
             popularity = null;
         } else {
@@ -94,8 +95,11 @@ public class Movie extends RealmObject implements Parcelable{
         }
         overview = in.readString();
         releaseDate = in.readString();
-        genreIds = new RealmList<>();
+        tmpDelete = in.readByte() != 0;
+        genreIds =new RealmList<Integer>();
         in.readList(genreIds,null);
+
+
     }
 
     @Override
@@ -133,7 +137,13 @@ public class Movie extends RealmObject implements Parcelable{
         }
         dest.writeString(overview);
         dest.writeString(releaseDate);
+        dest.writeByte((byte) (tmpDelete ? 1 : 0));
         dest.writeList(genreIds);
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
     }
 
     public static final Creator<Movie> CREATOR = new Creator<Movie>() {
@@ -148,11 +158,13 @@ public class Movie extends RealmObject implements Parcelable{
         }
     };
 
-    @Override
-    public int describeContents() {
-        return 0;
+    public boolean isTmpDelete() {
+        return tmpDelete;
     }
 
+    public void setTmpDelete(boolean tmpDelete) {
+        this.tmpDelete = tmpDelete;
+    }
 
     public Double getPopularity() {
             return popularity;

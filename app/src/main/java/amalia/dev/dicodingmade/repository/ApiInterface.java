@@ -1,5 +1,6 @@
 package amalia.dev.dicodingmade.repository;
 
+import amalia.dev.dicodingmade.model.GenreResult;
 import amalia.dev.dicodingmade.model.MovieResult;
 import amalia.dev.dicodingmade.model.TvShowResult;
 import retrofit2.Call;
@@ -18,6 +19,9 @@ public interface  ApiInterface {
     @GET("discover/movie/")
     Call<MovieResult> getListMovies(
             @Query("api_key") String apiKey
-
+    );
+    @GET("genre/movie/list")
+    Call<GenreResult> getGenres(
+            @Query("api_key") String apiKey
     );
 }

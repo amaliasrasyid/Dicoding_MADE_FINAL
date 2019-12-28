@@ -53,7 +53,6 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.ViewHolder> 
 
     @Override
     public int getItemCount() {
-//        Log.d("test realm",String.valueOf(data.size()));
         return data.size();
     }
 
@@ -73,7 +72,7 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.ViewHolder> 
             overview = itemView.findViewById(R.id.rv_item_overview);
             popularity = itemView.findViewById(R.id.tv_item_popularity);
             rating = itemView.findViewById(R.id.rv_item_rating);
-            containerItem = itemView.findViewById(R.id.constraintlayout_rvitem_container_item);
+            containerItem = itemView.findViewById(R.id.constraintlayout_rvitem_viewforeground);
 
             //set listener
             containerItem.setOnClickListener(this);
@@ -93,7 +92,7 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.ViewHolder> 
 
         @Override
         public void onClick(View v) {
-            if(v.getId() == R.id.constraintlayout_rvitem_container_item){
+            if(v.getId() == R.id.constraintlayout_rvitem_viewforeground){
                 Intent intent = new Intent(context, MovieDetailActivity.class);
                 intent.putExtra(MovieDetailActivity.EXTRA_MOVIE,data.get(getAdapterPosition()));
                 v.getContext().startActivity(intent);

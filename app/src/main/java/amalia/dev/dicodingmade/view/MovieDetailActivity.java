@@ -34,13 +34,13 @@ import amalia.dev.dicodingmade.repository.realm.RealmHelper;
 import amalia.dev.dicodingmade.repository.sqlite.MovieHelper;
 import io.realm.Realm;
 import io.realm.RealmConfiguration;
+import io.realm.RealmList;
 
 
 public class MovieDetailActivity extends AppCompatActivity{
     public static final String EXTRA_MOVIE ="extra movie";
     private static final String BASE_URL_POSTER = "https://image.tmdb.org/t/p/w154";
     private static final String BASE_URL_BACK_POSTER = "https://image.tmdb.org/t/p/w500";
-    private final ArrayList<Genre>  genreData= new ArrayList<>();
     private Menu menu;// Global Menu Declaration
     private Movie movie = new Movie();
     Realm realm;
@@ -61,17 +61,26 @@ public class MovieDetailActivity extends AppCompatActivity{
         ProgressBar pbBackPoster = findViewById(R.id.progressBar_moviedetail_backposter);
         ProgressBar pbPoster = findViewById(R.id.progressBar_moviedetail_poster);
 
+        //database local
+        RealmConfiguration realmConfiguration = new RealmConfiguration.Builder().build();
+        realm = Realm.getInstance(realmConfiguration);
+        realmHelper = new RealmHelper(realm);
+
         //getting data from the objek that clicked in list
          movie = getIntent().getParcelableExtra(EXTRA_MOVIE);
 
-//        //get genre's name based the id
-//        loadGenreData();
-//        List<Integer> genresId = movie.getGenreIds();
-//        String genresName = getGenresName(genresId);
+        //get genre's name based the id
+        List<Integer> genresId =  movie.getGenreIds();
+        if(genresId != null){
+            String genresName = getGenresName(genresId);
+            genres.setText(genresName);
+        }
+
+
 
 
         //binding view & data
-//        genres.setText(genresName);
+
         popularity.setText(String.valueOf(movie.getPopularity()));
         rating.setText(String.valueOf(movie.getVoteAverage()));
         overview.setText(movie.getOverview());
@@ -93,11 +102,6 @@ public class MovieDetailActivity extends AppCompatActivity{
         if(getSupportActionBar() != null){
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         }
-
-        //database local
-        RealmConfiguration realmConfiguration = new RealmConfiguration.Builder().build();
-        realm = Realm.getInstance(realmConfiguration);
-        realmHelper = new RealmHelper(realm);
 
 
     }
@@ -150,12 +154,9 @@ public class MovieDetailActivity extends AppCompatActivity{
 
         for (int j=0;j<genresId.size();j++){
             int value = genresId.get(j);
-            //search value that same
-            for (int i=0;i<genreData.size();i++){
-                if(value == genreData.get(i).getId()){
-                    genresName.add(genreData.get(i).getName());
-                }
-            }
+            //search name genre based the id
+            realmHelper = new RealmHelper(realm);
+            genresName.add(realmHelper.getGenreName(value));
         }
         //convert list<String> to string
         StringBuilder sb = new StringBuilder();
@@ -167,17 +168,6 @@ public class MovieDetailActivity extends AppCompatActivity{
         return sb.toString();
     }
 
-    private void loadGenreData(){
-        int[] genreIdData = {28, 12, 16, 35, 80, 99, 18, 10751, 14, 36, 27, 10402, 9648};
-        String[] genreNameData = getResources().getStringArray(R.array.genre_name);
-
-        for (int i=0;i<genreIdData.length;i++){
-            //create new object genre
-            Genre genre = new Genre(genreIdData[i],genreNameData[i]);
-            //insert into arraylist
-            genreData.add(genre);
-        }
-    }
 
     private String convertToDatePattern(String releaseDate) {
         //create date pattern format
