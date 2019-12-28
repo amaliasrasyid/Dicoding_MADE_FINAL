@@ -4,9 +4,6 @@ package amalia.dev.dicodingmade.view.fragment;
 import android.graphics.Color;
 import android.os.Bundle;
 
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.DividerItemDecoration;
@@ -14,27 +11,19 @@ import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.util.Log;
 import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
 import android.widget.Toast;
-import android.widget.Toolbar;
 
 import com.google.android.material.snackbar.Snackbar;
 
-import java.util.ArrayList;
-
 import amalia.dev.dicodingmade.R;
-import amalia.dev.dicodingmade.adapter.MovieAdapter;
 import amalia.dev.dicodingmade.adapter.MovieFavAdapter;
-import amalia.dev.dicodingmade.adapter.RecyclerItemTouchHelper;
+import amalia.dev.dicodingmade.adapter.MovieFavTouchHelper;
 import amalia.dev.dicodingmade.model.Movie;
 import amalia.dev.dicodingmade.repository.realm.RealmHelper;
-import amalia.dev.dicodingmade.repository.sqlite.MovieHelper;
 import io.realm.Realm;
 import io.realm.RealmChangeListener;
 import io.realm.RealmConfiguration;
@@ -43,7 +32,7 @@ import io.realm.RealmResults;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class MovieFavFragment extends Fragment implements RecyclerItemTouchHelper.RecylerItemTouchHelperListener {
+public class MovieFavFragment extends Fragment implements MovieFavTouchHelper.RecylerItemTouchHelperListener {
     private RecyclerView rv;
     private RealmResults <Movie> dataLocal;
     private Realm realm;
@@ -74,7 +63,7 @@ public class MovieFavFragment extends Fragment implements RecyclerItemTouchHelpe
         rv.addItemDecoration(new DividerItemDecoration(getActivity(),DividerItemDecoration.VERTICAL));
 
         //adding item touch listener
-        ItemTouchHelper.SimpleCallback listener = new RecyclerItemTouchHelper(0,ItemTouchHelper.LEFT,this);
+        ItemTouchHelper.SimpleCallback listener = new MovieFavTouchHelper(0,ItemTouchHelper.LEFT,this);
         new ItemTouchHelper(listener).attachToRecyclerView(rv);
 
         //get data from local db
@@ -99,7 +88,7 @@ public class MovieFavFragment extends Fragment implements RecyclerItemTouchHelpe
             String name = dataLocal.get(viewHolder.getAdapterPosition()).getTitle();
             final Movie deletedMovie = dataLocal.get(position);
             //remove favorite movie temporary by set true val tmpDelete
-            realmHelper.updateTmpDelete(deletedMovie.getId(),true);
+            realmHelper.updateTmpDeleteM(deletedMovie.getId(),true);
 
 
             //showing snackbar with undo option for restoring deleted movie fav
@@ -108,7 +97,7 @@ public class MovieFavFragment extends Fragment implements RecyclerItemTouchHelpe
                 @Override
                 public void onClick(View v) {
                     //restore deleted movie by changing value askedDeletion back to false
-                    realmHelper.updateTmpDelete(deletedMovie.getId(),false);
+                    realmHelper.updateTmpDeleteM(deletedMovie.getId(),false);
 
                 }
             });

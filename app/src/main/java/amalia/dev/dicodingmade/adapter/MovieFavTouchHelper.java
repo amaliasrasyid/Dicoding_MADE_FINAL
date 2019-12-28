@@ -8,10 +8,10 @@ import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.RecyclerView;
 
-public class RecyclerItemTouchHelper extends ItemTouchHelper.SimpleCallback {
+public class MovieFavTouchHelper extends ItemTouchHelper.SimpleCallback {
 
     RecylerItemTouchHelperListener listener;
-    public RecyclerItemTouchHelper(int dragDirs, int swipeDirs,RecylerItemTouchHelperListener listener) {
+    public MovieFavTouchHelper(int dragDirs, int swipeDirs, RecylerItemTouchHelperListener listener) {
         super(dragDirs, swipeDirs);
         this.listener = listener;
     }

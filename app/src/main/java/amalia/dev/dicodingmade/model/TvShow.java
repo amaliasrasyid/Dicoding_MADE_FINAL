@@ -52,6 +52,7 @@ public class TvShow extends RealmObject implements Parcelable {
     @SerializedName("poster_path")
     @Expose
     private String posterPath;
+    private boolean tmpDelete = false;
 
     public TvShow(){}
 
@@ -83,6 +84,7 @@ public class TvShow extends RealmObject implements Parcelable {
         }
         overview = in.readString();
         posterPath = in.readString();
+        tmpDelete = in.readByte() != 0;
         genreIds = new RealmList<>();
         in.readList(genreIds,null);
     }
@@ -120,6 +122,7 @@ public class TvShow extends RealmObject implements Parcelable {
         }
         dest.writeString(overview);
         dest.writeString(posterPath);
+        dest.writeByte((byte) (tmpDelete ? 1 : 0));
         dest.writeList(genreIds);
     }
 
@@ -139,6 +142,15 @@ public class TvShow extends RealmObject implements Parcelable {
             return new TvShow[size];
         }
     };
+
+
+    public boolean isTmpDelete() {
+        return tmpDelete;
+    }
+
+    public void setTmpDelete(boolean tmpDelete) {
+        this.tmpDelete = tmpDelete;
+    }
 
     public String getOriginalName() {
         return originalName;

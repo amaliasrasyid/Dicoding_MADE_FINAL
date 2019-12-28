@@ -5,6 +5,8 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
@@ -25,14 +27,19 @@ import java.util.List;
 import java.util.Locale;
 
 import amalia.dev.dicodingmade.R;
-import amalia.dev.dicodingmade.model.Genre;
 import amalia.dev.dicodingmade.model.TvShow;
+import amalia.dev.dicodingmade.repository.realm.RealmHelper;
+import io.realm.Realm;
+import io.realm.RealmConfiguration;
 
 public class TvShowDetailActivity extends AppCompatActivity {
     public static final String EXTRA_TV_SHOW ="extra tv show";
     private static final String BASE_URL_POSTER = "https://image.tmdb.org/t/p/w154";
     private static final String BASE_URL_BACK_POSTER = "https://image.tmdb.org/t/p/w500";
-    private final ArrayList<Genre>  genreData= new ArrayList<>();
+    private Realm realm;
+    private RealmHelper realmHelper;
+    private TvShow tvShow = new TvShow();
+    private Menu menu;
 
 
     @Override
@@ -52,16 +59,23 @@ public class TvShowDetailActivity extends AppCompatActivity {
         ProgressBar pbBackPoster = findViewById(R.id.progressBar_tvdetail_backposter);
         ProgressBar pbPoster = findViewById(R.id.progressBar_tvdetail_poster);
 
+        //Realm configuratio
+        RealmConfiguration configuration = new RealmConfiguration.Builder().build();
+        realm = Realm.getInstance(configuration);
+        realmHelper = new RealmHelper(realm);
+
         //getting data from the objek that clicked in list
-        TvShow tvShow = getIntent().getParcelableExtra(EXTRA_TV_SHOW);
+        tvShow = getIntent().getParcelableExtra(EXTRA_TV_SHOW);
 
         //get genre's name based the id
-        loadGenreData();
         List<Integer> genresId = tvShow.getGenreIds();
-        String genresName = getGenresName(genresId);
+        if(genresId != null){
+            String genresName = getGenresName(genresId);
+            genres.setText(genresName);
+        }
+
 
         //binding view & data
-        genres.setText(genresName);
         popularity.setText(String.valueOf(tvShow.getPopularity()));
         rating.setText(String.valueOf(tvShow.getVoteAverage()));
         overview.setText(tvShow.getOverview());
@@ -82,17 +96,56 @@ public class TvShowDetailActivity extends AppCompatActivity {
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         }
     }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        this.menu = menu;
+        getMenuInflater().inflate(R.menu.menu_fav,menu);
+        if(isCheckedFav(tvShow.getId())){
+            menu.findItem(R.id.menu_fav_unchecked).setVisible(false);
+            menu.findItem(R.id.menu_fav_checked).setVisible(true);
+        }
+        return super.onCreateOptionsMenu(menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()){
+            case R.id.menu_fav_unchecked:
+                item.setVisible(false);
+                menu.getItem(1).setVisible(true);
+                addFavorite(tvShow);
+            return true;
+            case R.id.menu_fav_checked:
+                item.setVisible(false);
+                menu.getItem(0).setVisible(true);
+                deleteFavorite(tvShow.getId());
+            return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+    }
+
+    private void deleteFavorite(int id) {
+        realmHelper.deleteFavTvShow(id);
+    }
+
+    private void addFavorite(TvShow tvShow) {
+        realmHelper.insertTvShow(tvShow);
+    }
+
+    private boolean isCheckedFav(int id) {
+        return  realmHelper.isTvShowExist(id);
+    }
+
+
     private String getGenresName(List<Integer> genresId) {
         List<String> genresName = new ArrayList<>();
 
         for (int j=0;j<genresId.size();j++){
             int value = genresId.get(j);
             //search value that same
-            for (int i=0;i<genreData.size();i++){
-                if(value == genreData.get(i).getId()){
-                    genresName.add(genreData.get(i).getName());
-                }
-            }
+            genresName.add(realmHelper.getGenreName(value));
         }
         //convert list<String> to string
         StringBuilder sb = new StringBuilder();
@@ -104,17 +157,6 @@ public class TvShowDetailActivity extends AppCompatActivity {
         return sb.toString();
     }
 
-    private void loadGenreData(){
-        int[] genreIdData = {28, 12, 16, 35, 80, 99, 18, 10751, 14, 36, 27, 10402, 9648};
-        String[] genreNameData = getResources().getStringArray(R.array.genre_name);
-
-        for (int i=0;i<genreIdData.length;i++){
-            //create new object genre
-            Genre genre = new Genre(genreIdData[i],genreNameData[i]);
-            //insert into arraylist
-            genreData.add(genre);
-        }
-    }
 
     private String convertToDatePattern(String releaseDate) {
         //create date pattern format
@@ -151,5 +193,11 @@ public class TvShowDetailActivity extends AppCompatActivity {
                 return false;
             }
         };
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        realm.close();
     }
 }

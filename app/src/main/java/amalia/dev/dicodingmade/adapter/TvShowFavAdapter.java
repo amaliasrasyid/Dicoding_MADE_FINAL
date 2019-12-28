@@ -20,18 +20,20 @@ import com.bumptech.glide.load.resource.bitmap.RoundedCorners;
 
 import amalia.dev.dicodingmade.R;
 import amalia.dev.dicodingmade.model.Movie;
+import amalia.dev.dicodingmade.model.TvShow;
 import amalia.dev.dicodingmade.view.MovieDetailActivity;
+import amalia.dev.dicodingmade.view.TvShowDetailActivity;
 import io.realm.OrderedRealmCollection;
 import io.realm.RealmRecyclerViewAdapter;
 
-public class MovieFavAdapter extends RealmRecyclerViewAdapter<Movie, MovieFavAdapter.ViewHolder> {
+public class TvShowFavAdapter extends RealmRecyclerViewAdapter<TvShow, TvShowFavAdapter.ViewHolder> {
     private final Activity activity; //ini diperlukan untuk mengetahui posisi awal saat Intent dilakukan
     private static final String BASE_URL_IMG = "https://image.tmdb.org/t/p/w154";
-    OrderedRealmCollection<Movie> data;
+    OrderedRealmCollection<TvShow> data;
 
 
 
-    public MovieFavAdapter(Activity activity, @Nullable OrderedRealmCollection<Movie> data) {
+    public TvShowFavAdapter(Activity activity, @Nullable OrderedRealmCollection<TvShow> data) {
         super(data,true);
 //        this.context = context;
         this.activity = activity;
@@ -86,13 +88,13 @@ public class MovieFavAdapter extends RealmRecyclerViewAdapter<Movie, MovieFavAda
             containerItem.setOnClickListener(this);
         }
 
-        void bind(Movie movie){
-            title.setText(movie.getTitle());
-            overview.setText(movie.getOverview());
-            popularity.setText(String.valueOf(movie.getPopularity()));
-            rating.setText(String.valueOf(movie.getVoteAverage()));
+        void bind(TvShow tvShow){
+            title.setText(tvShow.getOriginalName());
+            overview.setText(tvShow.getOverview());
+            popularity.setText(String.valueOf(tvShow.getPopularity()));
+            rating.setText(String.valueOf(tvShow.getVoteAverage()));
             Glide.with(activity)
-                    .load(BASE_URL_IMG+movie.getPosterPath())
+                    .load(BASE_URL_IMG+tvShow.getPosterPath())
                     .transform(new CenterCrop(),new RoundedCorners(15))
                     .into(poster);
         }
@@ -101,8 +103,8 @@ public class MovieFavAdapter extends RealmRecyclerViewAdapter<Movie, MovieFavAda
         @Override
         public void onClick(View v) {
             if(v.getId() == R.id.constraintlayout_rvitem_viewforeground){
-                Intent intent = new Intent(activity, MovieDetailActivity.class);
-                intent.putExtra(MovieDetailActivity.EXTRA_MOVIE,data.get(getAdapterPosition()));
+                Intent intent = new Intent(activity, TvShowDetailActivity.class);
+                intent.putExtra(TvShowDetailActivity.EXTRA_TV_SHOW,data.get(getAdapterPosition()));
                 v.getContext().startActivity(intent);
             }
         }

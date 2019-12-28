@@ -28,13 +28,10 @@ import java.util.List;
 import java.util.Locale;
 
 import amalia.dev.dicodingmade.R;
-import amalia.dev.dicodingmade.model.Genre;
 import amalia.dev.dicodingmade.model.Movie;
 import amalia.dev.dicodingmade.repository.realm.RealmHelper;
-import amalia.dev.dicodingmade.repository.sqlite.MovieHelper;
 import io.realm.Realm;
 import io.realm.RealmConfiguration;
-import io.realm.RealmList;
 
 
 public class MovieDetailActivity extends AppCompatActivity{
@@ -155,7 +152,6 @@ public class MovieDetailActivity extends AppCompatActivity{
         for (int j=0;j<genresId.size();j++){
             int value = genresId.get(j);
             //search name genre based the id
-            realmHelper = new RealmHelper(realm);
             genresName.add(realmHelper.getGenreName(value));
         }
         //convert list<String> to string

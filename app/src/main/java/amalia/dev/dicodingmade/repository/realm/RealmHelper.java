@@ -68,8 +68,8 @@ public class RealmHelper {
     }
 
     //get list tvshow from local db
-    public List<TvShow> getListFavoriteTvShows(){
-        RealmResults<TvShow> results = realm.where(TvShow.class).findAll();
+    public RealmResults<TvShow> getListFavoriteTvShows(){
+        RealmResults<TvShow> results = realm.where(TvShow.class).equalTo("tmpDelete",false).findAll();
         return results;
     }
 
@@ -108,8 +108,8 @@ public class RealmHelper {
         });
     }
 
-    //update tmpDelete status
-    public void updateTmpDelete(final int id,final boolean tmpDeleteStatus){
+    //update tmpDelete status movie
+    public void updateTmpDeleteM(final int id, final boolean tmpDeleteStatus){
         // Asynchronously update objects on a background thread
         realm.executeTransactionAsync(new Realm.Transaction() {
             @Override
@@ -117,6 +117,30 @@ public class RealmHelper {
                 Movie mMovie = realm.where(Movie.class).equalTo("id",id).findFirst();
                 mMovie.setTmpDelete(tmpDeleteStatus);
                 realm.insertOrUpdate(mMovie);
+            }
+        },new Realm.Transaction.OnSuccess() {
+            @Override
+            public void onSuccess() {
+                // Original queries and Realm objects are automatically updated.
+                Log.d("Realm Helper","succes update status");
+            }
+        },new Realm.Transaction.OnError() {
+            @Override
+            public void onError(Throwable error) {
+                error.printStackTrace();
+            }
+        });
+    }
+
+    //update tmpDelete status tvshow
+    public void updateTmpDeleteTS(final int id, final boolean tmpDeleteStatus){
+        // Asynchronously update objects on a background thread
+        realm.executeTransactionAsync(new Realm.Transaction() {
+            @Override
+            public void execute(Realm realm) {
+                TvShow tvShow = realm.where(TvShow.class).equalTo("id",id).findFirst();
+                tvShow.setTmpDelete(tmpDeleteStatus);
+                realm.insertOrUpdate(tvShow);
             }
         },new Realm.Transaction.OnSuccess() {
             @Override
