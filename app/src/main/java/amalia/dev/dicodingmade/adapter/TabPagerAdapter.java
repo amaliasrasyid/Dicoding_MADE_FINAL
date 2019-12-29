@@ -10,8 +10,8 @@ import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentPagerAdapter;
 
 import amalia.dev.dicodingmade.R;
-import amalia.dev.dicodingmade.view.fragment.MovieFavFragment;
-import amalia.dev.dicodingmade.view.fragment.TvShowFavFragment;
+import amalia.dev.dicodingmade.view.movie.MovieFavFragment;
+import amalia.dev.dicodingmade.view.tvshow.TvShowFavFragment;
 
 public class TabPagerAdapter extends FragmentPagerAdapter {
 

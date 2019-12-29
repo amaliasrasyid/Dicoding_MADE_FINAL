@@ -20,7 +20,7 @@ import java.util.ArrayList;
 
 import amalia.dev.dicodingmade.R;
 import amalia.dev.dicodingmade.model.TvShow;
-import amalia.dev.dicodingmade.view.TvShowDetailActivity;
+import amalia.dev.dicodingmade.view.tvshow.TvShowDetailActivity;
 
 public class TvShowAdapter extends RecyclerView.Adapter<TvShowAdapter.ViewHolder> {
     private final ArrayList<TvShow> data = new ArrayList<>();

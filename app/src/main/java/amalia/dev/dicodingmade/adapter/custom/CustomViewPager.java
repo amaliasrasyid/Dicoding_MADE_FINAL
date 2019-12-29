@@ -1,4 +1,4 @@
-package amalia.dev.dicodingmade.view;
+package amalia.dev.dicodingmade.adapter.custom;
 
 import android.annotation.SuppressLint;
 import android.content.Context;

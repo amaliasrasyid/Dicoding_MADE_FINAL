@@ -3,7 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".view.fragment.TvShowFavFragment"
+    tools:context=".view.tvshow.TvShowFavFragment"
     android:id="@+id/frameLayout_tv_show_fragment_container">
 
   <androidx.recyclerview.widget.RecyclerView

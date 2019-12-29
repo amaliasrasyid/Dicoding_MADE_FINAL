@@ -20,7 +20,7 @@ import java.util.ArrayList;
 
 import amalia.dev.dicodingmade.R;
 import amalia.dev.dicodingmade.model.Movie;
-import amalia.dev.dicodingmade.view.MovieDetailActivity;
+import amalia.dev.dicodingmade.view.movie.MovieDetailActivity;
 
 public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.ViewHolder> {
     private final ArrayList<Movie> data = new ArrayList<>();

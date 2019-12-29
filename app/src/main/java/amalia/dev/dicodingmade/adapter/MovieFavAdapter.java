@@ -17,7 +17,7 @@ import com.bumptech.glide.load.resource.bitmap.RoundedCorners;
 
 import amalia.dev.dicodingmade.R;
 import amalia.dev.dicodingmade.model.Movie;
-import amalia.dev.dicodingmade.view.MovieDetailActivity;
+import amalia.dev.dicodingmade.view.movie.MovieDetailActivity;
 import io.realm.OrderedRealmCollection;
 import io.realm.RealmRecyclerViewAdapter;
 

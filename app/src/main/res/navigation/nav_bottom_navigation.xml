@@ -7,17 +7,17 @@
 
     <fragment
         android:id="@+id/navigation_movies"
-        android:name="amalia.dev.dicodingmade.view.fragment.MovieFragment"
+        android:name="amalia.dev.dicodingmade.view.movie.MovieFragment"
         android:label="@string/title_movies"
         tools:layout="@layout/fragment_movie" />
     <fragment
         android:id="@+id/navigation_tvshows"
-        android:name="amalia.dev.dicodingmade.view.fragment.TvShowFragment"
+        android:name="amalia.dev.dicodingmade.view.tvshow.TvShowFragment"
         android:label="@string/title_tv_shows"
         tools:layout="@layout/fragment_tv_show" />
     <fragment
         android:id="@+id/navigation_favorites"
-        android:name="amalia.dev.dicodingmade.view.fragment.FavoritesFragment"
+        android:name="amalia.dev.dicodingmade.view.favorite.FavoritesFragment"
         android:label="@string/title_favorites"
         tools:layout="@layout/fragment_favorites" />
 </navigation>

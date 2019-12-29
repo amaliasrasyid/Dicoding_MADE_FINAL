@@ -15,10 +15,10 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         tools:targetApi="m">
-        <activity android:name=".view.TvShowDetailActivity"
+        <activity android:name=".view.tvshow.TvShowDetailActivity"
             android:parentActivityName=".view.MainActivity"/>
         <activity
-            android:name=".view.MovieDetailActivity"
+            android:name=".view.movie.MovieDetailActivity"
             android:parentActivityName=".view.MainActivity" />
         <activity android:name=".view.MainActivity">
             <intent-filter>
