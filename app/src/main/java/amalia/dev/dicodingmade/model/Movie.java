@@ -6,10 +6,8 @@ import android.os.Parcelable;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-import java.util.ArrayList;
 import java.util.List;
 
-import io.realm.Realm;
 import io.realm.RealmList;
 import io.realm.RealmObject;
 import io.realm.annotations.PrimaryKey;
@@ -96,7 +94,7 @@ public class Movie extends RealmObject implements Parcelable{
         overview = in.readString();
         releaseDate = in.readString();
         tmpDelete = in.readByte() != 0;
-        genreIds =new RealmList<Integer>();
+        genreIds = new RealmList<>();
         in.readList(genreIds,null);
 
 

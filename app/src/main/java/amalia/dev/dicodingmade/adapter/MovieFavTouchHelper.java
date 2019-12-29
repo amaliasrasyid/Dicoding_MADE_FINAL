@@ -10,7 +10,8 @@ import androidx.recyclerview.widget.RecyclerView;
 
 public class MovieFavTouchHelper extends ItemTouchHelper.SimpleCallback {
 
-    RecylerItemTouchHelperListener listener;
+    private final RecylerItemTouchHelperListener listener;
+
     public MovieFavTouchHelper(int dragDirs, int swipeDirs, RecylerItemTouchHelperListener listener) {
         super(dragDirs, swipeDirs);
         this.listener = listener;

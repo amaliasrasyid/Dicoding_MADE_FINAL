@@ -6,6 +6,7 @@
     <string name="text_change_language_settings">Ubah Pengaturan Bahasa</string>
     <string name="msg_icon_popularity">ikon popularitas</string>
     <string name="msg_poster_tv_show">poster acara tv</string>
+    <string name="msg_icon_delete">ikon hapus</string>
     <string name="first_release_date">Tanggal Pertama Kali Rilis</string>
     <string name="release_date">Tanggal Rilis</string>
     <string name="overlay_grey_image">gambar overlay abu-abu</string>
@@ -15,6 +16,9 @@
     <string name="title_tv_shows">Acara TV</string>
     <string name="title_favorites">Favorite</string>
     <string name="delete">Hapus</string>
+    <string name="text_unfavorite">Tidak Favorite</string>
+    <string name="text_favorite">Favorite</string>
+
 
 
     <string name="tab_text1">Film</string>

@@ -14,7 +14,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ProgressBar;
-import android.widget.Toast;
 
 import java.util.ArrayList;
 
@@ -41,7 +40,7 @@ public class MovieFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View view = inflater.inflate(R.layout.fragment_movie,container,false);
+        View view = inflater.inflate(R.layout.fragment_movie, container, false);
         rvListMovies = view.findViewById(R.id.rv_movie_fragment);
         progressBar = view.findViewById(R.id.progress_circular_movie);
 
@@ -59,14 +58,14 @@ public class MovieFragment extends Fragment {
         movieViewModel.getMovies().observe(this, new Observer<MovieResult>() {
             @Override
             public void onChanged(MovieResult movieResult) {
-                if(movieResult != null){
+                if (movieResult != null) {
                     showLoading(false);
                     ArrayList<Movie> dataListMovies = new ArrayList<>(movieResult.getMoviesResults());
                     MovieAdapter adapter = new MovieAdapter(getActivity());
                     adapter.setData(dataListMovies);
                     rvListMovies.setLayoutManager(new LinearLayoutManager(getActivity()));
                     rvListMovies.setAdapter(adapter);
-                }else{
+                } else {
                     showLoading(true);
                 }
 
@@ -75,9 +74,6 @@ public class MovieFragment extends Fragment {
 
     }
 
-    public void notifyMessage(String msg){
-        Toast.makeText(getActivity(),msg,Toast.LENGTH_SHORT).show();
-    }
     private void showLoading(Boolean state) {
         if (state) {
             progressBar.setVisibility(View.VISIBLE);

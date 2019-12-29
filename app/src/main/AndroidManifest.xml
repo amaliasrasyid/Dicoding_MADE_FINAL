@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     package="amalia.dev.dicodingmade">
     <!-- Internet Permission -->
     <uses-permission android:name="android.permission.INTERNET" />
@@ -12,7 +13,8 @@
         android:usesCleartextTraffic="true"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:theme="@style/AppTheme">
+        android:theme="@style/AppTheme"
+        tools:targetApi="m">
         <activity android:name=".view.TvShowDetailActivity"
             android:parentActivityName=".view.MainActivity"/>
         <activity

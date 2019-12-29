@@ -7,10 +7,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
-
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -27,11 +24,11 @@ import io.realm.RealmRecyclerViewAdapter;
 public class MovieFavAdapter extends RealmRecyclerViewAdapter<Movie, MovieFavAdapter.ViewHolder> {
     private final Activity activity; //ini diperlukan untuk mengetahui posisi awal saat Intent dilakukan
     private static final String BASE_URL_IMG = "https://image.tmdb.org/t/p/w154";
-    OrderedRealmCollection<Movie> data;
+    private final OrderedRealmCollection<Movie> data;
 
 
 
-    public MovieFavAdapter(Activity activity, @Nullable OrderedRealmCollection<Movie> data) {
+    public MovieFavAdapter(Activity activity, @NonNull OrderedRealmCollection<Movie> data) {
         super(data,true);
 //        this.context = context;
         this.activity = activity;
@@ -107,10 +104,6 @@ public class MovieFavAdapter extends RealmRecyclerViewAdapter<Movie, MovieFavAda
             }
         }
 
-
-        public void notifyMessage(String msg){
-            Toast.makeText(activity,msg,Toast.LENGTH_SHORT).show();
-        }
 
     }
 }

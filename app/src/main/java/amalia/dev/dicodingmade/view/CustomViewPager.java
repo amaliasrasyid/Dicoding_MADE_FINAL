@@ -1,5 +1,6 @@
 package amalia.dev.dicodingmade.view;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
@@ -19,6 +20,7 @@ public class CustomViewPager extends ViewPager {
         super(context, attrs);
     }
 
+    @SuppressLint("ClickableViewAccessibility")
     @Override
     public boolean onTouchEvent(MotionEvent ev) {
         return false;
@@ -27,4 +29,5 @@ public class CustomViewPager extends ViewPager {
     public boolean onInterceptTouchEvent(MotionEvent ev) {
         return false;
     }
+
 }

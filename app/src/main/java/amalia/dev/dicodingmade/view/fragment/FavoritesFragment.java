@@ -1,18 +1,13 @@
 package amalia.dev.dicodingmade.view.fragment;
 
 
-import android.app.ActionBar;
 import android.os.Bundle;
-
-import androidx.annotation.Nullable;
-import androidx.fragment.app.Fragment;
-import androidx.viewpager.widget.ViewPager;
-
 import android.view.LayoutInflater;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
+
+import androidx.fragment.app.Fragment;
+import androidx.viewpager.widget.ViewPager;
 
 import com.google.android.material.tabs.TabLayout;
 
@@ -50,8 +45,4 @@ public class FavoritesFragment extends Fragment {
         return view;
     }
 
-
-    public void notifyMessage(String msg) {
-        Toast.makeText(getActivity(), msg, Toast.LENGTH_SHORT).show();
-    }
 }

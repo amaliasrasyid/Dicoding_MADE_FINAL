@@ -18,6 +18,9 @@ import android.widget.FrameLayout;
 
 import com.google.android.material.snackbar.Snackbar;
 
+import java.util.Objects;
+
+import javax.annotation.Nullable;
 import amalia.dev.dicodingmade.R;
 import amalia.dev.dicodingmade.adapter.TvShowFavAdapter;
 import amalia.dev.dicodingmade.adapter.TvShowFavTouchHelper;
@@ -38,7 +41,7 @@ public class TvShowFavFragment extends Fragment implements TvShowFavTouchHelper.
     private Realm realm;
     private RealmHelper realmHelper;
     private TvShowFavAdapter adapter;
-    private RealmChangeListener realmChangeListener;
+    private RealmChangeListener<Realm> realmChangeListener;
 
 
     public TvShowFavFragment() {
@@ -56,7 +59,7 @@ public class TvShowFavFragment extends Fragment implements TvShowFavTouchHelper.
         rv.setLayoutManager(new LinearLayoutManager(getActivity()));
         rv.setHasFixedSize(true);
         rv.setItemAnimator(new DefaultItemAnimator());
-        rv.addItemDecoration(new DividerItemDecoration(getActivity(),DividerItemDecoration.VERTICAL));
+        rv.addItemDecoration(new DividerItemDecoration(Objects.requireNonNull(getActivity()),DividerItemDecoration.VERTICAL));
 
         //adding item touch listener
         ItemTouchHelper.SimpleCallback listener = new TvShowFavTouchHelper(0,ItemTouchHelper.LEFT,this);
@@ -76,11 +79,11 @@ public class TvShowFavFragment extends Fragment implements TvShowFavTouchHelper.
         return  view;
     }
     //when there's change on data, do refresh
-    void refresh(){
-        realmChangeListener = new RealmChangeListener() {
+    private void refresh(){
+        realmChangeListener = new RealmChangeListener<Realm>() {
             @Override
-            public void onChange(Object o) {
-                adapter = new TvShowFavAdapter(getActivity(),realmHelper.getListFavoriteTvShows());
+            public void onChange(@Nullable Realm realm) {
+                adapter = new TvShowFavAdapter(getActivity(), realmHelper.getListFavoriteTvShows());
                 rv.setAdapter(adapter);
             }
         };
@@ -92,10 +95,12 @@ public class TvShowFavFragment extends Fragment implements TvShowFavTouchHelper.
         //pastikan viewholder-nya miliki MovieFavAdapter
         if (viewHolder instanceof TvShowFavAdapter.ViewHolder) {
             //get title movie to show in snacbar when removing
-            String name = dataLocal.get(viewHolder.getAdapterPosition()).getOriginalName();
+            String name = Objects.requireNonNull(dataLocal.get(viewHolder.getAdapterPosition())).getOriginalName();
             final TvShow deletedTvShow = dataLocal.get(position);
             //remove favorite movie temporary by set true val tmpDelete
-            realmHelper.updateTmpDeleteTS(deletedTvShow.getId(), true);
+            if (deletedTvShow != null) {
+                realmHelper.updateTmpDeleteTS(deletedTvShow.getId(), true);
+            }
 
 
             //showing snackbar with undo option for restoring deleted movie fav
@@ -104,7 +109,9 @@ public class TvShowFavFragment extends Fragment implements TvShowFavTouchHelper.
                 @Override
                 public void onClick(View v) {
                     //restore deleted movie by changing value askedDeletion back to false
-                    realmHelper.updateTmpDeleteTS(deletedTvShow.getId(), false);
+                    if (deletedTvShow != null) {
+                        realmHelper.updateTmpDeleteTS(deletedTvShow.getId(), false);
+                    }
 
                 }
             });
@@ -114,7 +121,7 @@ public class TvShowFavFragment extends Fragment implements TvShowFavTouchHelper.
                 public void onDismissed(Snackbar transientBottomBar, int event) {
                     super.onDismissed(transientBottomBar, event);
                     //when snackbar closed, delete permanently
-                    if (deletedTvShow.isTmpDelete()) {
+                    if (deletedTvShow != null && deletedTvShow.isTmpDelete()) {
                         realmHelper.deleteFavTvShow(deletedTvShow.getId());
                     }
                 }
@@ -126,6 +133,7 @@ public class TvShowFavFragment extends Fragment implements TvShowFavTouchHelper.
     @Override
     public void onDestroy(){
         super.onDestroy();
+        realm.removeChangeListener(realmChangeListener);
         realm.close();
     }
 }

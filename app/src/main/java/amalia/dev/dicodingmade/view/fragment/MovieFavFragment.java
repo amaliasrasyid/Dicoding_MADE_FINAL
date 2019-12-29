@@ -4,6 +4,7 @@ package amalia.dev.dicodingmade.view.fragment;
 import android.graphics.Color;
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.DividerItemDecoration;
@@ -15,9 +16,10 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
-import android.widget.Toast;
 
 import com.google.android.material.snackbar.Snackbar;
+
+import java.util.Objects;
 
 import amalia.dev.dicodingmade.R;
 import amalia.dev.dicodingmade.adapter.MovieFavAdapter;
@@ -34,13 +36,12 @@ import io.realm.RealmResults;
  */
 public class MovieFavFragment extends Fragment implements MovieFavTouchHelper.RecylerItemTouchHelperListener {
     private RecyclerView rv;
-    private RealmResults <Movie> dataLocal;
+    private RealmResults<Movie> dataLocal;
     private Realm realm;
     private RealmHelper realmHelper;
-    private RealmChangeListener realmChangeListener;
     private MovieFavAdapter adapter;
     private FrameLayout frameLayout;
-
+    private RealmChangeListener<Realm> realmChangeListener;
 
 
     public MovieFavFragment() {
@@ -55,15 +56,14 @@ public class MovieFavFragment extends Fragment implements MovieFavTouchHelper.Re
         frameLayout = view.findViewById(R.id.frameLayout_movie_fav_fragment_container);
 
 
-
         rv = view.findViewById(R.id.rv_movie_fav_fragment);
         rv.setLayoutManager(new LinearLayoutManager(getActivity()));
         rv.setHasFixedSize(true);
         rv.setItemAnimator(new DefaultItemAnimator());
-        rv.addItemDecoration(new DividerItemDecoration(getActivity(),DividerItemDecoration.VERTICAL));
+        rv.addItemDecoration(new DividerItemDecoration(Objects.requireNonNull(getActivity()), DividerItemDecoration.VERTICAL));
 
         //adding item touch listener
-        ItemTouchHelper.SimpleCallback listener = new MovieFavTouchHelper(0,ItemTouchHelper.LEFT,this);
+        ItemTouchHelper.SimpleCallback listener = new MovieFavTouchHelper(0, ItemTouchHelper.LEFT, this);
         new ItemTouchHelper(listener).attachToRecyclerView(rv);
 
         //get data from local db
@@ -71,7 +71,7 @@ public class MovieFavFragment extends Fragment implements MovieFavTouchHelper.Re
         realm = Realm.getInstance(realmConfiguration);
         realmHelper = new RealmHelper(realm);
         dataLocal = realmHelper.getListFavoriteMovies();
-        adapter = new MovieFavAdapter(getActivity(),dataLocal);
+        adapter = new MovieFavAdapter(getActivity(), dataLocal);
 
         //set adapter into rv
         rv.setAdapter(adapter);
@@ -83,31 +83,36 @@ public class MovieFavFragment extends Fragment implements MovieFavTouchHelper.Re
     @Override
     public void onSwiped(RecyclerView.ViewHolder viewHolder, int direction, final int position) {
         //pastikan viewholder-nya miliki MovieFavAdapter
-        if(viewHolder instanceof MovieFavAdapter.ViewHolder){
+        if (viewHolder instanceof MovieFavAdapter.ViewHolder) {
             //get title movie to show in snacbar when removing
-            String name = dataLocal.get(viewHolder.getAdapterPosition()).getTitle();
+
+            String name = Objects.requireNonNull(dataLocal.get(viewHolder.getAdapterPosition())).getTitle();
             final Movie deletedMovie = dataLocal.get(position);
             //remove favorite movie temporary by set true val tmpDelete
-            realmHelper.updateTmpDeleteM(deletedMovie.getId(),true);
+            if (deletedMovie != null) {
+                realmHelper.updateTmpDeleteM(deletedMovie.getId(), true);
+            }
 
 
             //showing snackbar with undo option for restoring deleted movie fav
-            Snackbar snackbar  = Snackbar.make(frameLayout,name+" deleted from favorites!",Snackbar.LENGTH_SHORT);
+            Snackbar snackbar = Snackbar.make(frameLayout, name + " deleted from favorites!", Snackbar.LENGTH_SHORT);
             snackbar.setAction("RESTORE", new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     //restore deleted movie by changing value askedDeletion back to false
-                    realmHelper.updateTmpDeleteM(deletedMovie.getId(),false);
+                    if (deletedMovie != null) {
+                        realmHelper.updateTmpDeleteM(deletedMovie.getId(), false);
+                    }
 
                 }
             });
             snackbar.setActionTextColor(Color.YELLOW);
-            snackbar.addCallback(new Snackbar.Callback(){
+            snackbar.addCallback(new Snackbar.Callback() {
                 @Override
                 public void onDismissed(Snackbar transientBottomBar, int event) {
                     super.onDismissed(transientBottomBar, event);
                     //when snackbar closed, delete permanently
-                    if(deletedMovie.isTmpDelete()) {
+                    if (deletedMovie != null && deletedMovie.isTmpDelete()) {
                         realmHelper.deleteFavMovies(deletedMovie.getId());
                     }
                 }
@@ -117,11 +122,12 @@ public class MovieFavFragment extends Fragment implements MovieFavTouchHelper.Re
     }
 
     //when there's change on data, do refresh
-    void refresh(){
-        realmChangeListener = new RealmChangeListener() {
+    private void refresh() {
+        realmChangeListener= new RealmChangeListener<Realm>() {
             @Override
-            public void onChange(Object o) {
-               adapter = new MovieFavAdapter(getActivity(),realmHelper.getListFavoriteMovies());
+            public void onChange(@NonNull Realm realm) {
+                // ... do something with the updates (UI, etc.) ...
+                adapter = new MovieFavAdapter(getActivity(),realmHelper.getListFavoriteMovies());
                 rv.setAdapter(adapter);
             }
         };
@@ -132,14 +138,10 @@ public class MovieFavFragment extends Fragment implements MovieFavTouchHelper.Re
     @Override
     public void onDestroy() {
         super.onDestroy();
+        realm.removeChangeListener(realmChangeListener);
         realm.close();
 
     }
-
-    public void notifyMessage(String msg){
-            Toast.makeText(getActivity(),msg,Toast.LENGTH_SHORT).show();
-        }
-
 
 
 }

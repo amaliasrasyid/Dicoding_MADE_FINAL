@@ -108,8 +108,7 @@ public class MovieHelper {
         //GENRE ID NOT YET INSERTED
 
         // Insert the new row, returning the primary key value of the new row
-        long newRow = database.insert(TABLE_NAME,null,values);
-        return  newRow;
+        return database.insert(TABLE_NAME,null,values);
     }
 
     public int deleteFavMovie(String id){

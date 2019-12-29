@@ -10,7 +10,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 public class TvShowFavTouchHelper extends ItemTouchHelper.SimpleCallback {
 
-    RecylerItemTouchHelperListener listener;
+    private final RecylerItemTouchHelperListener listener;
     public TvShowFavTouchHelper(int dragDirs, int swipeDirs, RecylerItemTouchHelperListener listener) {
         super(dragDirs, swipeDirs);
         this.listener = listener;

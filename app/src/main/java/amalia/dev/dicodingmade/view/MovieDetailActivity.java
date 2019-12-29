@@ -40,8 +40,8 @@ public class MovieDetailActivity extends AppCompatActivity{
     private static final String BASE_URL_BACK_POSTER = "https://image.tmdb.org/t/p/w500";
     private Menu menu;// Global Menu Declaration
     private Movie movie = new Movie();
-    Realm realm;
-    RealmHelper realmHelper;
+    private Realm realm;
+    private RealmHelper realmHelper;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
