@@ -38,16 +38,26 @@ import retrofit2.Callback;
 import retrofit2.Response;
 import retrofit2.Retrofit;
 
-public class MainActivity extends AppCompatActivity implements BottomNavigationView.OnNavigationItemSelectedListener {
+public class MainActivity extends AppCompatActivity{
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        loadFragment(new MovieFragment());
 
         BottomNavigationView navView = findViewById(R.id.bottom_nav_view_main);
-        navView.setOnNavigationItemSelectedListener(this);
+        NavController navController = Navigation.findNavController(this,R.id.container_main);
+        AppBarConfiguration appBarConfiguration = new AppBarConfiguration.Builder(
+                R.id.navigation_movies,R.id.navigation_tvshows,R.id.navigation_favorites).build();
+
+        NavigationUI.setupActionBarWithNavController(this,navController,appBarConfiguration);
+        NavigationUI.setupWithNavController(navView,navController);
+
+//        //if back pressed, app will closed
+//        if(navController.popBackStack()){
+//            finish();
+//        }
+
 
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
         if(!prefs.getBoolean("JustOnce",false)){
@@ -106,30 +116,5 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
         Toast.makeText(this,msg,Toast.LENGTH_SHORT).show();
     }
 
-    public boolean loadFragment(Fragment fragment){
-        if (fragment != null) {
-            getSupportFragmentManager().beginTransaction()
-                    .replace(R.id.container_main, fragment)
-                    .commit();
-            return true;
-        }
-        return false;
-    }
 
-    @Override
-    public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
-        Fragment fragment = null;
-        switch (menuItem.getItemId()){
-            case R.id.navigation_movies:
-                fragment = new MovieFragment();
-                break;
-            case R.id.navigation_tvshows:
-                fragment = new TvShowFragment();
-                break;
-            case R.id.navigation_favorites:
-                fragment = new FavoritesFragment();
-                break;
-        }
-        return  loadFragment(fragment);
-    }
 }

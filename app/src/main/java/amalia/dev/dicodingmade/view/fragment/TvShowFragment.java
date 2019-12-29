@@ -7,6 +7,8 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.navigation.NavController;
+import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -14,6 +16,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ProgressBar;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 
@@ -43,6 +46,8 @@ public class TvShowFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_tv_show,container,false);
         rvListTv = view.findViewById(R.id.rv_tvshow_fragment);
         progressBar = view.findViewById(R.id.progress_circular_tvshow);
+
+
 
         rvListTv.setHasFixedSize(true);
         return view;
@@ -79,4 +84,9 @@ public class TvShowFragment extends Fragment {
             progressBar.setVisibility(View.GONE);
         }
     }
+
+    public void notifyMessage(String msg){
+        Toast.makeText(getActivity(),msg,Toast.LENGTH_SHORT).show();
+    }
+
 }

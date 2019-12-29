@@ -3,12 +3,12 @@
     <item
         android:id="@+id/navigation_movies"
         android:icon="@drawable/ic_movie_24px"
-        android:title="@string/title_movie"/>
+        android:title="@string/title_movies"/>
 
     <item
         android:id="@+id/navigation_tvshows"
         android:icon="@drawable/ic_tvshow_24px"
-        android:title="@string/title_tv_show"/>
+        android:title="@string/title_tv_shows"/>
 
     <item
         android:id="@+id/navigation_favorites"
