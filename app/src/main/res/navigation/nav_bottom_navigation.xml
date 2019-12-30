@@ -3,20 +3,20 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/nav_bottom_navigation.xml"
-    app:startDestination="@id/navigation_movies">
+    app:startDestination="@id/menu_navigation_movies">
 
     <fragment
-        android:id="@+id/navigation_movies"
+        android:id="@+id/menu_navigation_movies"
         android:name="amalia.dev.dicodingmade.view.movie.MovieFragment"
         android:label="@string/title_movies"
         tools:layout="@layout/fragment_movie" />
     <fragment
-        android:id="@+id/navigation_tvshows"
+        android:id="@+id/menu_navigation_tvshows"
         android:name="amalia.dev.dicodingmade.view.tvshow.TvShowFragment"
         android:label="@string/title_tv_shows"
         tools:layout="@layout/fragment_tv_show" />
     <fragment
-        android:id="@+id/navigation_favorites"
+        android:id="@+id/menu_navigation_favorites"
         android:name="amalia.dev.dicodingmade.view.favorite.FavoritesFragment"
         android:label="@string/title_favorites"
         tools:layout="@layout/fragment_favorites" />

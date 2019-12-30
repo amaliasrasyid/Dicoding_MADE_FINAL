@@ -18,8 +18,8 @@ public class TabPagerAdapter extends FragmentPagerAdapter {
     private final Context mContext;
     @StringRes
     private final  int[] TAB_TITLES = new int[]{
-            R.string.tab_text1,
-            R.string.tab_text2
+            R.string.title_tab1,
+            R.string.title_tab2
     };
 
     public TabPagerAdapter(Context context, FragmentManager fm) {

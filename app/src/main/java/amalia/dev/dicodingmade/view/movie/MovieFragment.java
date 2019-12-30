@@ -19,7 +19,7 @@ import java.util.ArrayList;
 
 import amalia.dev.dicodingmade.adapter.MovieAdapter;
 import amalia.dev.dicodingmade.R;
-import amalia.dev.dicodingmade.model.Movie;
+import amalia.dev.dicodingmade.model.MovieRealmObject;
 import amalia.dev.dicodingmade.model.MovieResult;
 import amalia.dev.dicodingmade.viewmodel.MovieViewModel;
 
@@ -41,7 +41,7 @@ public class MovieFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_movie, container, false);
-        rvListMovies = view.findViewById(R.id.rv_movie_fragment);
+        rvListMovies = view.findViewById(R.id.recyclerview_movie);
         progressBar = view.findViewById(R.id.progress_circular_movie);
 
         rvListMovies.setHasFixedSize(true);
@@ -60,7 +60,7 @@ public class MovieFragment extends Fragment {
             public void onChanged(MovieResult movieResult) {
                 if (movieResult != null) {
                     showLoading(false);
-                    ArrayList<Movie> dataListMovies = new ArrayList<>(movieResult.getMoviesResults());
+                    ArrayList<MovieRealmObject> dataListMovies = new ArrayList<>(movieResult.getMoviesResults());
                     MovieAdapter adapter = new MovieAdapter(getActivity());
                     adapter.setData(dataListMovies);
                     rvListMovies.setLayoutManager(new LinearLayoutManager(getActivity()));

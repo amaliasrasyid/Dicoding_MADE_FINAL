@@ -12,7 +12,7 @@ import io.realm.RealmList;
 import io.realm.RealmObject;
 import io.realm.annotations.PrimaryKey;
 
-public class Movie extends RealmObject implements Parcelable{
+public class MovieRealmObject extends RealmObject implements Parcelable{
         @SerializedName("genre_ids")
         @Expose
         private RealmList<Integer> genreIds ;
@@ -59,9 +59,9 @@ public class Movie extends RealmObject implements Parcelable{
         private String releaseDate;
         private boolean tmpDelete = false;
 
-        public Movie(){}
+        public MovieRealmObject(){}
 
-    protected Movie(Parcel in) {
+    protected MovieRealmObject(Parcel in) {
         if (in.readByte() == 0) {
             popularity = null;
         } else {
@@ -144,15 +144,15 @@ public class Movie extends RealmObject implements Parcelable{
         return 0;
     }
 
-    public static final Creator<Movie> CREATOR = new Creator<Movie>() {
+    public static final Creator<MovieRealmObject> CREATOR = new Creator<MovieRealmObject>() {
         @Override
-        public Movie createFromParcel(Parcel in) {
-            return new Movie(in);
+        public MovieRealmObject createFromParcel(Parcel in) {
+            return new MovieRealmObject(in);
         }
 
         @Override
-        public Movie[] newArray(int size) {
-            return new Movie[size];
+        public MovieRealmObject[] newArray(int size) {
+            return new MovieRealmObject[size];
         }
     };
 

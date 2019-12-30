@@ -5,9 +5,9 @@ import android.util.Log;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
-import amalia.dev.dicodingmade.model.Genre;
-import amalia.dev.dicodingmade.model.Movie;
-import amalia.dev.dicodingmade.model.TvShow;
+import amalia.dev.dicodingmade.model.GenreRealmObject;
+import amalia.dev.dicodingmade.model.MovieRealmObject;
+import amalia.dev.dicodingmade.model.TvShowRealmObject;
 import io.realm.Realm;
 import io.realm.RealmResults;
 
@@ -23,8 +23,8 @@ public class RealmHelper {
      * there is two way,first by creating the object itself and second using
      * copyToRealm() method and pass the object into it
      * */
-    //create or insert data Movie
-    public void insertMovie(final Movie movie){
+    //create or insert data MovieRealmObject
+    public void insertMovie(final MovieRealmObject movie){
         //by using executeTransaction the beginTransaction and commintTransaction will call automatically
         realm.executeTransaction(new Realm.Transaction() {
             @Override
@@ -39,7 +39,7 @@ public class RealmHelper {
     }
 
     //create or insert data tvshow
-    public void insertTvShow(final TvShow tvShow){
+    public void insertTvShow(final TvShowRealmObject tvShow){
         realm.executeTransaction(new Realm.Transaction() {
             @Override
             public void execute(@NonNull Realm realm) {
@@ -51,30 +51,30 @@ public class RealmHelper {
     }
 
     //get list movie from local db
-    public RealmResults<Movie> getListFavoriteMovies(){
-        return realm.where(Movie.class).equalTo("tmpDelete",false).findAll();
+    public RealmResults<MovieRealmObject> getListFavoriteMovies(){
+        return realm.where(MovieRealmObject.class).equalTo("tmpDelete",false).findAll();
     }
 
     //get list tvshow from local db
-    public RealmResults<TvShow> getListFavoriteTvShows(){
-        return realm.where(TvShow.class).equalTo("tmpDelete",false).findAll();
+    public RealmResults<TvShowRealmObject> getListFavoriteTvShows(){
+        return realm.where(TvShowRealmObject.class).equalTo("tmpDelete",false).findAll();
     }
 
     //search data for checking if marked or not (favorite)
     public boolean isMovieExist(int id){
-        RealmResults<Movie> movie = realm.where(Movie.class).equalTo("id",id).findAll();
+        RealmResults<MovieRealmObject> movie = realm.where(MovieRealmObject.class).equalTo("id",id).findAll();
         return (movie.size() != 0);//when there is no data, it will return list with size 0 not null
     }
 
     public boolean isTvShowExist(int id){
-        RealmResults<TvShow> tvShow = realm.where(TvShow.class).equalTo("id",id).findAll();
+        RealmResults<TvShowRealmObject> tvShow = realm.where(TvShowRealmObject.class).equalTo("id",id).findAll();
         return (tvShow.size() != 0);//when there is no data, it will return list with size 0 not null
     }
 
     //delete data fav movie
     public void deleteFavMovies(int id){
         //first, find the movie with the id
-        final RealmResults<Movie> movie = realm.where(Movie.class).equalTo("id",id).findAll();
+        final RealmResults<MovieRealmObject> movie = realm.where(MovieRealmObject.class).equalTo("id",id).findAll();
         realm.executeTransaction(new Realm.Transaction() {
             @Override
             public void execute(@NonNull  Realm realm) {
@@ -86,7 +86,7 @@ public class RealmHelper {
     //delete data fav tv show
     public void deleteFavTvShow(int id){
         //first, find the tvshow based the given id
-        final RealmResults<TvShow> tvShow = realm.where(TvShow.class).equalTo("id",id).findAll();
+        final RealmResults<TvShowRealmObject> tvShow = realm.where(TvShowRealmObject.class).equalTo("id",id).findAll();
         realm.executeTransaction(new Realm.Transaction() {
             @Override
             public void execute(@NonNull Realm realm) {
@@ -101,7 +101,7 @@ public class RealmHelper {
         realm.executeTransactionAsync(new Realm.Transaction() {
             @Override
             public void execute(@NonNull  Realm realm) {
-                Movie mMovie = realm.where(Movie.class).equalTo("id",id).findFirst();
+                MovieRealmObject mMovie = realm.where(MovieRealmObject.class).equalTo("id",id).findFirst();
                 if(mMovie != null){
                     mMovie.setTmpDelete(tmpDeleteStatus);
                     realm.insertOrUpdate(mMovie);
@@ -129,7 +129,7 @@ public class RealmHelper {
         realm.executeTransactionAsync(new Realm.Transaction() {
             @Override
             public void execute(@NonNull Realm realm) {
-                TvShow tvShow = realm.where(TvShow.class).equalTo("id",id).findFirst();
+                TvShowRealmObject tvShow = realm.where(TvShowRealmObject.class).equalTo("id",id).findFirst();
                 if(tvShow != null){
                     tvShow.setTmpDelete(tmpDeleteStatus);
                     realm.insertOrUpdate(tvShow);
@@ -152,7 +152,7 @@ public class RealmHelper {
     }
 
     //load genre data from json (API)
-    public void insertGenre(final Genre genre){
+    public void insertGenre(final GenreRealmObject genre){
         realm.executeTransaction(new Realm.Transaction() {
             @Override
             public void execute(@NonNull Realm realm) {
@@ -163,7 +163,7 @@ public class RealmHelper {
     }
 
     public String getGenreName(int id){
-        Genre genre = realm.where(Genre.class).equalTo("id",id).findFirst();
+        GenreRealmObject genre = realm.where(GenreRealmObject.class).equalTo("id",id).findFirst();
         if(genre != null){
             return genre.getName();
         }else{

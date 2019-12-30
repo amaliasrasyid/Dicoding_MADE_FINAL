@@ -17,7 +17,7 @@ public class TvShowResult {
     private Integer totalPages;
     @SerializedName("results")
     @Expose
-    private List<TvShow> tvShowsResult;
+    private List<TvShowRealmObject> tvShowsResult;
 
     public Integer getPage() {
         return page;
@@ -43,11 +43,11 @@ public class TvShowResult {
         this.totalPages = totalPages;
     }
 
-    public List<TvShow> getTvShowsResults() {
+    public List<TvShowRealmObject> getTvShowsResults() {
         return tvShowsResult;
     }
 
-    public void setTvShowsResult(List<TvShow> tvShowsResult) {
+    public void setTvShowsResult(List<TvShowRealmObject> tvShowsResult) {
         this.tvShowsResult = tvShowsResult;
     }
 

@@ -19,18 +19,18 @@ import com.bumptech.glide.load.resource.bitmap.RoundedCorners;
 import java.util.ArrayList;
 
 import amalia.dev.dicodingmade.R;
-import amalia.dev.dicodingmade.model.Movie;
+import amalia.dev.dicodingmade.model.MovieRealmObject;
 import amalia.dev.dicodingmade.view.movie.MovieDetailActivity;
 
 public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.ViewHolder> {
-    private final ArrayList<Movie> data = new ArrayList<>();
+    private final ArrayList<MovieRealmObject> data = new ArrayList<>();
     private final Context context; //ini diperlukan untuk mengetahui posisi awal saat Intent dilakukan
     private static final String BASE_URL_IMG = "https://image.tmdb.org/t/p/w154";
     public MovieAdapter(Context context){
         this.context = context;
     }
 
-    public void setData(ArrayList<Movie> items){
+    public void setData(ArrayList<MovieRealmObject> items){
         data.clear();
         data.addAll(items);
         notifyDataSetChanged();
@@ -40,7 +40,7 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.ViewHolder> 
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         //inflate layout for item recylerview
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.rv_item,parent,false);
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_recyclerview,parent,false);
         return new ViewHolder(view);
     }
 
@@ -78,7 +78,7 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.ViewHolder> 
             containerItem.setOnClickListener(this);
         }
 
-        void bind(Movie movie){
+        void bind(MovieRealmObject movie){
             title.setText(movie.getTitle());
             overview.setText(movie.getOverview());
             popularity.setText(String.valueOf(movie.getPopularity()));

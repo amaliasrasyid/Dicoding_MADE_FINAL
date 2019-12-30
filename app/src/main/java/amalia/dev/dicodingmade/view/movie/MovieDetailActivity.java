@@ -28,7 +28,7 @@ import java.util.List;
 import java.util.Locale;
 
 import amalia.dev.dicodingmade.R;
-import amalia.dev.dicodingmade.model.Movie;
+import amalia.dev.dicodingmade.model.MovieRealmObject;
 import amalia.dev.dicodingmade.repository.realm.RealmHelper;
 import io.realm.Realm;
 import io.realm.RealmConfiguration;
@@ -39,7 +39,7 @@ public class MovieDetailActivity extends AppCompatActivity{
     private static final String BASE_URL_POSTER = "https://image.tmdb.org/t/p/w154";
     private static final String BASE_URL_BACK_POSTER = "https://image.tmdb.org/t/p/w500";
     private Menu menu;// Global Menu Declaration
-    private Movie movie = new Movie();
+    private MovieRealmObject movie = new MovieRealmObject();
     private Realm realm;
     private RealmHelper realmHelper;
 
@@ -47,14 +47,14 @@ public class MovieDetailActivity extends AppCompatActivity{
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_movie_detail);
-        TextView popularity = findViewById(R.id.tv_moviedetail_popularity);
-        TextView releaseDate = findViewById(R.id.tv_moviedetail_releasedata);
-        TextView overview = findViewById(R.id.tv_moviedetail_overview);
-        TextView genres = findViewById(R.id.tv_moviedetail_genres);
-        ImageView poster = findViewById(R.id.img_moviedetail_poster);
-        TextView title = findViewById(R.id.tv_moviedetail_judul);
-        TextView rating = findViewById(R.id.tv_moviedetail_rating);
-        ImageView backPoster = findViewById(R.id.img_moviedetail_backposter);
+        TextView popularity = findViewById(R.id.text_moviedetail_popularity);
+        TextView releaseDate = findViewById(R.id.text_moviedetail_releasedata);
+        TextView overview = findViewById(R.id.text_moviedetail_overview);
+        TextView genres = findViewById(R.id.text_moviedetail_genres);
+        ImageView poster = findViewById(R.id.image_moviedetail_poster);
+        TextView title = findViewById(R.id.text_moviedetail_judul);
+        TextView rating = findViewById(R.id.text_moviedetail_rating);
+        ImageView backPoster = findViewById(R.id.image_moviedetail_backposter);
         ProgressBar pbBackPoster = findViewById(R.id.progressBar_moviedetail_backposter);
         ProgressBar pbPoster = findViewById(R.id.progressBar_moviedetail_poster);
 
@@ -106,7 +106,7 @@ public class MovieDetailActivity extends AppCompatActivity{
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         this.menu = menu;
-        getMenuInflater().inflate(R.menu.menu_fav,menu);
+        getMenuInflater().inflate(R.menu.menu_favorite,menu);
         if(isCheckedFav(movie.getId())){
             menu.findItem(R.id.menu_fav_unchecked).setVisible(false);
             menu.findItem(R.id.menu_fav_checked).setVisible(true);
@@ -138,7 +138,7 @@ public class MovieDetailActivity extends AppCompatActivity{
         realmHelper.deleteFavMovies(id);
     }
 
-    private void addFavorite(Movie movie) {
+    private void addFavorite(MovieRealmObject movie) {
         realmHelper.insertMovie(movie);
     }
 

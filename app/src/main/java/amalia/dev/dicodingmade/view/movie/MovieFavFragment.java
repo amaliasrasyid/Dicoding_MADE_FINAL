@@ -5,6 +5,7 @@ import android.graphics.Color;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
+import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.DividerItemDecoration;
@@ -15,7 +16,8 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.FrameLayout;
+import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.google.android.material.snackbar.Snackbar;
 
@@ -24,7 +26,7 @@ import java.util.Objects;
 import amalia.dev.dicodingmade.R;
 import amalia.dev.dicodingmade.adapter.MovieFavAdapter;
 import amalia.dev.dicodingmade.adapter.MovieFavTouchHelper;
-import amalia.dev.dicodingmade.model.Movie;
+import amalia.dev.dicodingmade.model.MovieRealmObject;
 import amalia.dev.dicodingmade.repository.realm.RealmHelper;
 import io.realm.Realm;
 import io.realm.RealmChangeListener;
@@ -36,11 +38,13 @@ import io.realm.RealmResults;
  */
 public class MovieFavFragment extends Fragment implements MovieFavTouchHelper.RecylerItemTouchHelperListener {
     private RecyclerView rv;
-    private RealmResults<Movie> dataLocal;
+    private RealmResults<MovieRealmObject> dataLocal;
     private Realm realm;
     private RealmHelper realmHelper;
     private MovieFavAdapter adapter;
-    private FrameLayout frameLayout;
+    private ConstraintLayout constraintLayout;
+    private ImageView imgNoFav;
+    private TextView tvNoFav;
     private RealmChangeListener<Realm> realmChangeListener;
 
 
@@ -53,10 +57,12 @@ public class MovieFavFragment extends Fragment implements MovieFavTouchHelper.Re
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_movie_fav, container, false);
-        frameLayout = view.findViewById(R.id.frameLayout_movie_fav_fragment_container);
+        constraintLayout = view.findViewById(R.id.constraintLayout_movie_fav_fragment_container);
+        imgNoFav = view.findViewById(R.id.image_moviefav_nofavorites);
+        tvNoFav = view.findViewById(R.id.text_moviefav_nofavorites);
+        rv = view.findViewById(R.id.recyclerview_moviefav);
 
 
-        rv = view.findViewById(R.id.rv_movie_fav_fragment);
         rv.setLayoutManager(new LinearLayoutManager(getActivity()));
         rv.setHasFixedSize(true);
         rv.setItemAnimator(new DefaultItemAnimator());
@@ -75,8 +81,11 @@ public class MovieFavFragment extends Fragment implements MovieFavTouchHelper.Re
 
         //set adapter into rv
         rv.setAdapter(adapter);
-
         refresh();
+        if(dataLocal.size() == 0){
+            tvNoFav.setVisibility(View.VISIBLE);
+            imgNoFav.setVisibility(View.VISIBLE);
+        }
         return view;
     }
 
@@ -87,7 +96,7 @@ public class MovieFavFragment extends Fragment implements MovieFavTouchHelper.Re
             //get title movie to show in snacbar when removing
 
             String name = Objects.requireNonNull(dataLocal.get(viewHolder.getAdapterPosition())).getTitle();
-            final Movie deletedMovie = dataLocal.get(position);
+            final MovieRealmObject deletedMovie = dataLocal.get(position);
             //remove favorite movie temporary by set true val tmpDelete
             if (deletedMovie != null) {
                 realmHelper.updateTmpDeleteM(deletedMovie.getId(), true);
@@ -95,7 +104,7 @@ public class MovieFavFragment extends Fragment implements MovieFavTouchHelper.Re
 
 
             //showing snackbar with undo option for restoring deleted movie fav
-            Snackbar snackbar = Snackbar.make(frameLayout, name + " deleted from favorites!", Snackbar.LENGTH_SHORT);
+            Snackbar snackbar = Snackbar.make(constraintLayout, name + " deleted from favorites!", Snackbar.LENGTH_SHORT);
             snackbar.setAction("RESTORE", new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {

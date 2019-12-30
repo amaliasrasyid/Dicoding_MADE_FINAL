@@ -20,7 +20,7 @@ import java.util.ArrayList;
 
 import amalia.dev.dicodingmade.R;
 import amalia.dev.dicodingmade.adapter.TvShowAdapter;
-import amalia.dev.dicodingmade.model.TvShow;
+import amalia.dev.dicodingmade.model.TvShowRealmObject;
 import amalia.dev.dicodingmade.model.TvShowResult;
 import amalia.dev.dicodingmade.viewmodel.TvShowViewModel;
 
@@ -62,7 +62,7 @@ public class TvShowFragment extends Fragment {
             public void onChanged(TvShowResult tvShowResult) {
                 if(tvShowResult != null){
                     showLoading(false);
-                    ArrayList<TvShow> dataListTv = new ArrayList<>(tvShowResult.getTvShowsResults());
+                    ArrayList<TvShowRealmObject> dataListTv = new ArrayList<>(tvShowResult.getTvShowsResults());
                     TvShowAdapter adapter = new TvShowAdapter(getActivity());
                     adapter.setData(dataListTv);
                     rvListTv.setLayoutManager(new LinearLayoutManager(getActivity()));

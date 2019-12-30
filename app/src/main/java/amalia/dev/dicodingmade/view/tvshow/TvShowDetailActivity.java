@@ -27,7 +27,7 @@ import java.util.List;
 import java.util.Locale;
 
 import amalia.dev.dicodingmade.R;
-import amalia.dev.dicodingmade.model.TvShow;
+import amalia.dev.dicodingmade.model.TvShowRealmObject;
 import amalia.dev.dicodingmade.repository.realm.RealmHelper;
 import io.realm.Realm;
 import io.realm.RealmConfiguration;
@@ -38,7 +38,7 @@ public class TvShowDetailActivity extends AppCompatActivity {
     private static final String BASE_URL_BACK_POSTER = "https://image.tmdb.org/t/p/w500";
     private Realm realm;
     private RealmHelper realmHelper;
-    private TvShow tvShow = new TvShow();
+    private TvShowRealmObject tvShow = new TvShowRealmObject();
     private Menu menu;
 
 
@@ -48,14 +48,14 @@ public class TvShowDetailActivity extends AppCompatActivity {
         setContentView(R.layout.activity_tv_show_detail);
 
         //binding
-        TextView popularity = findViewById(R.id.tv_tvdetail_popularity);
-        TextView freleaseDate = findViewById(R.id.tv_tvdetail_releasedata);
-        TextView overview = findViewById(R.id.tv_tvdetail_sinopsis);
-        TextView genres = findViewById(R.id.tv_tvdetail_genres);
-        ImageView poster = findViewById(R.id.img_tvdetail_poster);
-        TextView title = findViewById(R.id.tv_tvdetail_judul);
-        TextView rating = findViewById(R.id.tv_tvdetail_rating);
-        ImageView backPoster = findViewById(R.id.img_tvdetail_backposter);
+        TextView popularity = findViewById(R.id.text_tvdetail_popularity);
+        TextView freleaseDate = findViewById(R.id.text_tvdetail_releasedata);
+        TextView overview = findViewById(R.id.text_tvdetail_sinopsis);
+        TextView genres = findViewById(R.id.text_tvdetail_genres);
+        ImageView poster = findViewById(R.id.image_tvdetail_poster);
+        TextView title = findViewById(R.id.text_tvdetail_judul);
+        TextView rating = findViewById(R.id.text_tvdetail_rating);
+        ImageView backPoster = findViewById(R.id.image_tvdetail_backposter);
         ProgressBar pbBackPoster = findViewById(R.id.progressBar_tvdetail_backposter);
         ProgressBar pbPoster = findViewById(R.id.progressBar_tvdetail_poster);
 
@@ -100,7 +100,7 @@ public class TvShowDetailActivity extends AppCompatActivity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         this.menu = menu;
-        getMenuInflater().inflate(R.menu.menu_fav,menu);
+        getMenuInflater().inflate(R.menu.menu_favorite,menu);
         if(isCheckedFav(tvShow.getId())){
             menu.findItem(R.id.menu_fav_unchecked).setVisible(false);
             menu.findItem(R.id.menu_fav_checked).setVisible(true);
@@ -130,7 +130,7 @@ public class TvShowDetailActivity extends AppCompatActivity {
         realmHelper.deleteFavTvShow(id);
     }
 
-    private void addFavorite(TvShow tvShow) {
+    private void addFavorite(TvShowRealmObject tvShow) {
         realmHelper.insertTvShow(tvShow);
     }
 

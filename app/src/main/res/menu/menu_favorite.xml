@@ -5,11 +5,11 @@
         android:id="@+id/menu_fav_unchecked"
         android:icon="@drawable/ic_fav_24px"
         app:showAsAction="ifRoom"
-        android:title="@string/text_unfavorite"/>
+        android:title="@string/action_unfavorite"/>
     <item
         android:id="@+id/menu_fav_checked"
         android:icon="@drawable/ic_fav_checked_24px"
-        android:title="@string/text_favorite"
+        android:title="@string/msg_favorite"
         app:showAsAction="ifRoom"
         android:visible="false"/>
 </menu>

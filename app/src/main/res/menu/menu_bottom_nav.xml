@@ -1,17 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
     <item
-        android:id="@+id/navigation_movies"
+        android:id="@+id/menu_navigation_movies"
         android:icon="@drawable/ic_movie_24px"
         android:title="@string/title_movies"/>
 
     <item
-        android:id="@+id/navigation_tvshows"
+        android:id="@+id/menu_navigation_tvshows"
         android:icon="@drawable/ic_tvshow_24px"
         android:title="@string/title_tv_shows"/>
 
     <item
-        android:id="@+id/navigation_favorites"
+        android:id="@+id/menu_navigation_favorites"
         android:icon="@drawable/ic_fav_24px"
         android:title="@string/title_favorites"/>
 </menu>

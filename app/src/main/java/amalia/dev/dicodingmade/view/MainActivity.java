@@ -42,7 +42,7 @@ public class MainActivity extends AppCompatActivity {
         BottomNavigationView navView = findViewById(R.id.bottom_nav_view_main);
         NavController navController = Navigation.findNavController(this, R.id.container_main);
         AppBarConfiguration appBarConfiguration = new AppBarConfiguration.Builder(
-                R.id.navigation_movies, R.id.navigation_tvshows, R.id.navigation_favorites).build();
+                R.id.menu_navigation_movies, R.id.menu_navigation_tvshows, R.id.menu_navigation_favorites).build();
 
         NavigationUI.setupActionBarWithNavController(this, navController, appBarConfiguration);
         NavigationUI.setupWithNavController(navView, navController);
@@ -96,7 +96,7 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        if (item.getItemId() == R.id.action_menu_setting) {
+        if (item.getItemId() == R.id.menu_setting) {
             Intent mIntent = new Intent(Settings.ACTION_LOCALE_SETTINGS);
             startActivity(mIntent);
         }

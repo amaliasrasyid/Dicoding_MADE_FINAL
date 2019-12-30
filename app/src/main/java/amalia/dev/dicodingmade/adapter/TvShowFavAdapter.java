@@ -17,18 +17,18 @@ import com.bumptech.glide.load.resource.bitmap.CenterCrop;
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners;
 
 import amalia.dev.dicodingmade.R;
-import amalia.dev.dicodingmade.model.TvShow;
+import amalia.dev.dicodingmade.model.TvShowRealmObject;
 import amalia.dev.dicodingmade.view.tvshow.TvShowDetailActivity;
 import io.realm.OrderedRealmCollection;
 import io.realm.RealmRecyclerViewAdapter;
 
-public class TvShowFavAdapter extends RealmRecyclerViewAdapter<TvShow, TvShowFavAdapter.ViewHolder> {
+public class TvShowFavAdapter extends RealmRecyclerViewAdapter<TvShowRealmObject, TvShowFavAdapter.ViewHolder> {
     private final Activity activity; //ini diperlukan untuk mengetahui posisi awal saat Intent dilakukan
     private static final String BASE_URL_IMG = "https://image.tmdb.org/t/p/w154";
-    private final OrderedRealmCollection<TvShow> data;
+    private final OrderedRealmCollection<TvShowRealmObject> data;
 
 
-    public TvShowFavAdapter(Activity activity, @NonNull OrderedRealmCollection<TvShow> data) {
+    public TvShowFavAdapter(Activity activity, @NonNull OrderedRealmCollection<TvShowRealmObject> data) {
         super(data, true);
 //        this.context = context;
         this.activity = activity;
@@ -41,7 +41,7 @@ public class TvShowFavAdapter extends RealmRecyclerViewAdapter<TvShow, TvShowFav
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         //inflate layout for item recylerview
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.rv_item, parent, false);
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_recyclerview, parent, false);
         return new ViewHolder(view);
     }
 
@@ -83,7 +83,7 @@ public class TvShowFavAdapter extends RealmRecyclerViewAdapter<TvShow, TvShowFav
             containerItem.setOnClickListener(this);
         }
 
-        void bind(TvShow tvShow) {
+        void bind(TvShowRealmObject tvShow) {
             title.setText(tvShow.getOriginalName());
             overview.setText(tvShow.getOverview());
             popularity.setText(String.valueOf(tvShow.getPopularity()));

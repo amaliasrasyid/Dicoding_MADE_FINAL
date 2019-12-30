@@ -9,13 +9,13 @@ public class GenreResult {
 
     @SerializedName("genres")
     @Expose
-    private List<Genre> genres = null;
+    private List<GenreRealmObject> genres = null;
 
-    public List<Genre> getGenres() {
+    public List<GenreRealmObject> getGenres() {
         return genres;
     }
 
-    public void setGenres(List<Genre> genres) {
+    public void setGenres(List<GenreRealmObject> genres) {
         this.genres = genres;
     }
 }

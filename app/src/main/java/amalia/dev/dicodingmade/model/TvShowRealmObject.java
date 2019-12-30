@@ -12,7 +12,7 @@ import io.realm.RealmList;
 import io.realm.RealmObject;
 import io.realm.annotations.PrimaryKey;
 
-public class TvShow extends RealmObject implements Parcelable {
+public class TvShowRealmObject extends RealmObject implements Parcelable {
 
     @SerializedName("original_name")
     @Expose
@@ -53,9 +53,9 @@ public class TvShow extends RealmObject implements Parcelable {
     private String posterPath;
     private boolean tmpDelete = false;
 
-    public TvShow(){}
+    public TvShowRealmObject(){}
 
-    private TvShow(Parcel in) {
+    private TvShowRealmObject(Parcel in) {
         originalName = in.readString();
         name = in.readString();
         if (in.readByte() == 0) {
@@ -130,15 +130,15 @@ public class TvShow extends RealmObject implements Parcelable {
         return 0;
     }
 
-    public static final Creator<TvShow> CREATOR = new Creator<TvShow>() {
+    public static final Creator<TvShowRealmObject> CREATOR = new Creator<TvShowRealmObject>() {
         @Override
-        public TvShow createFromParcel(Parcel in) {
-            return new TvShow(in);
+        public TvShowRealmObject createFromParcel(Parcel in) {
+            return new TvShowRealmObject(in);
         }
 
         @Override
-        public TvShow[] newArray(int size) {
-            return new TvShow[size];
+        public TvShowRealmObject[] newArray(int size) {
+            return new TvShowRealmObject[size];
         }
     };
 

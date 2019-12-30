@@ -4,6 +4,7 @@ package amalia.dev.dicodingmade.view.tvshow;
 import android.graphics.Color;
 import android.os.Bundle;
 
+import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.DividerItemDecoration;
@@ -14,7 +15,8 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.FrameLayout;
+import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.google.android.material.snackbar.Snackbar;
 
@@ -24,7 +26,7 @@ import javax.annotation.Nullable;
 import amalia.dev.dicodingmade.R;
 import amalia.dev.dicodingmade.adapter.TvShowFavAdapter;
 import amalia.dev.dicodingmade.adapter.TvShowFavTouchHelper;
-import amalia.dev.dicodingmade.model.TvShow;
+import amalia.dev.dicodingmade.model.TvShowRealmObject;
 import amalia.dev.dicodingmade.repository.realm.RealmHelper;
 import io.realm.Realm;
 import io.realm.RealmChangeListener;
@@ -36,8 +38,8 @@ import io.realm.RealmResults;
  */
 public class TvShowFavFragment extends Fragment implements TvShowFavTouchHelper.RecylerItemTouchHelperListener {
     private RecyclerView rv;
-    private RealmResults<TvShow> dataLocal;
-    private FrameLayout frameLayout;
+    private RealmResults<TvShowRealmObject> dataLocal;
+    private ConstraintLayout constraintLayout;
     private Realm realm;
     private RealmHelper realmHelper;
     private TvShowFavAdapter adapter;
@@ -54,8 +56,11 @@ public class TvShowFavFragment extends Fragment implements TvShowFavTouchHelper.
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_tv_show_fav, container, false);
-        rv = view.findViewById(R.id.rv_tvshow_fav_fragment);
-        frameLayout = view.findViewById(R.id.frameLayout_tv_show_fragment_container);
+        rv = view.findViewById(R.id.recyclerview_tvshowfav);
+        constraintLayout = view.findViewById(R.id.constraintLayout_tv_show_fragment_container);
+        TextView tvNoFav = view.findViewById(R.id.text_moviefav_nofavorites);
+        ImageView imgNoFav = view.findViewById(R.id.image_moviefav_nofavorites);
+
         rv.setLayoutManager(new LinearLayoutManager(getActivity()));
         rv.setHasFixedSize(true);
         rv.setItemAnimator(new DefaultItemAnimator());
@@ -73,8 +78,12 @@ public class TvShowFavFragment extends Fragment implements TvShowFavTouchHelper.
         adapter = new TvShowFavAdapter(getActivity(),dataLocal);
         //set adapter into rv
         rv.setAdapter(adapter);
-
         refresh();
+
+        if(dataLocal.size() == 0){
+            tvNoFav.setVisibility(View.VISIBLE);
+            imgNoFav.setVisibility(View.VISIBLE);
+        }
 
         return  view;
     }
@@ -96,7 +105,7 @@ public class TvShowFavFragment extends Fragment implements TvShowFavTouchHelper.
         if (viewHolder instanceof TvShowFavAdapter.ViewHolder) {
             //get title movie to show in snacbar when removing
             String name = Objects.requireNonNull(dataLocal.get(viewHolder.getAdapterPosition())).getOriginalName();
-            final TvShow deletedTvShow = dataLocal.get(position);
+            final TvShowRealmObject deletedTvShow = dataLocal.get(position);
             //remove favorite movie temporary by set true val tmpDelete
             if (deletedTvShow != null) {
                 realmHelper.updateTmpDeleteTS(deletedTvShow.getId(), true);
@@ -104,7 +113,7 @@ public class TvShowFavFragment extends Fragment implements TvShowFavTouchHelper.
 
 
             //showing snackbar with undo option for restoring deleted movie fav
-            Snackbar snackbar = Snackbar.make(frameLayout, name + " deleted from favorites!", Snackbar.LENGTH_SHORT);
+            Snackbar snackbar = Snackbar.make(constraintLayout, name + " deleted from favorites!", Snackbar.LENGTH_SHORT);
             snackbar.setAction("RESTORE", new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {

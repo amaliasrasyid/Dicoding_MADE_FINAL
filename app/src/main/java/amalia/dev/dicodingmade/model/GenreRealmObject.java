@@ -3,16 +3,16 @@ package amalia.dev.dicodingmade.model;
 import io.realm.RealmObject;
 import io.realm.annotations.PrimaryKey;
 
-public class Genre  extends RealmObject {
+public class GenreRealmObject extends RealmObject {
     @PrimaryKey
     private int id;
     private String name;
 
-    public Genre(int id, String name) {
+    public GenreRealmObject(int id, String name) {
         this.id = id;
         this.name = name;
     }
-    public Genre(){}
+    public GenreRealmObject(){}
 
     public int getId() {
         return id;

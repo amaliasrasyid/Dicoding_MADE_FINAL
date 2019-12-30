@@ -16,19 +16,19 @@ import com.bumptech.glide.load.resource.bitmap.CenterCrop;
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners;
 
 import amalia.dev.dicodingmade.R;
-import amalia.dev.dicodingmade.model.Movie;
+import amalia.dev.dicodingmade.model.MovieRealmObject;
 import amalia.dev.dicodingmade.view.movie.MovieDetailActivity;
 import io.realm.OrderedRealmCollection;
 import io.realm.RealmRecyclerViewAdapter;
 
-public class MovieFavAdapter extends RealmRecyclerViewAdapter<Movie, MovieFavAdapter.ViewHolder> {
+public class MovieFavAdapter extends RealmRecyclerViewAdapter<MovieRealmObject, MovieFavAdapter.ViewHolder> {
     private final Activity activity; //ini diperlukan untuk mengetahui posisi awal saat Intent dilakukan
     private static final String BASE_URL_IMG = "https://image.tmdb.org/t/p/w154";
-    private final OrderedRealmCollection<Movie> data;
+    private final OrderedRealmCollection<MovieRealmObject> data;
 
 
 
-    public MovieFavAdapter(Activity activity, @NonNull OrderedRealmCollection<Movie> data) {
+    public MovieFavAdapter(Activity activity, @NonNull OrderedRealmCollection<MovieRealmObject> data) {
         super(data,true);
 //        this.context = context;
         this.activity = activity;
@@ -41,7 +41,7 @@ public class MovieFavAdapter extends RealmRecyclerViewAdapter<Movie, MovieFavAda
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         //inflate layout for item recylerview
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.rv_item,parent,false);
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_recyclerview,parent,false);
         return new ViewHolder(view);
     }
 
@@ -83,7 +83,7 @@ public class MovieFavAdapter extends RealmRecyclerViewAdapter<Movie, MovieFavAda
             containerItem.setOnClickListener(this);
         }
 
-        void bind(Movie movie){
+        void bind(MovieRealmObject movie){
             title.setText(movie.getTitle());
             overview.setText(movie.getOverview());
             popularity.setText(String.valueOf(movie.getPopularity()));
