@@ -32,13 +32,13 @@ public class MovieFavTouchHelper extends ItemTouchHelper.SimpleCallback {
 
     @Override
     public void onChildDrawOver(@NonNull Canvas c, @NonNull RecyclerView recyclerView, RecyclerView.ViewHolder viewHolder, float dX, float dY, int actionState, boolean isCurrentlyActive) {
-        View foregroundView = ((MovieFavAdapter.ViewHolder)viewHolder).containerItem;
+        View foregroundView = ((MovieAdapter.ViewHolder)viewHolder).containerItem;
         getDefaultUIUtil().onDrawOver(c, recyclerView,foregroundView, dX, dY, actionState, isCurrentlyActive);
     }
 
     @Override
     public void clearView(@NonNull RecyclerView recyclerView, @NonNull RecyclerView.ViewHolder viewHolder) {
-        View foregroundView = ((MovieFavAdapter.ViewHolder)viewHolder).containerItem;
+        View foregroundView = ((MovieAdapter.ViewHolder)viewHolder).containerItem;
         getDefaultUIUtil().clearView(foregroundView);
     }
 
@@ -49,7 +49,7 @@ public class MovieFavTouchHelper extends ItemTouchHelper.SimpleCallback {
 
     @Override
     public void onChildDraw(@NonNull Canvas c, @NonNull RecyclerView recyclerView, @NonNull RecyclerView.ViewHolder viewHolder, float dX, float dY, int actionState, boolean isCurrentlyActive) {
-        View foregroundView = ((MovieFavAdapter.ViewHolder)viewHolder).containerItem;
+        View foregroundView = ((MovieAdapter.ViewHolder)viewHolder).containerItem;
         getDefaultUIUtil().onDraw(c, recyclerView, foregroundView, dX, dY, actionState, isCurrentlyActive);
     }
 

@@ -8,6 +8,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -19,12 +20,15 @@ import amalia.dev.dicodingmade.R;
 import amalia.dev.dicodingmade.model.MovieRealmObject;
 import amalia.dev.dicodingmade.view.movie.MovieDetailActivity;
 import io.realm.OrderedRealmCollection;
+import io.realm.Realm;
+import io.realm.RealmList;
 import io.realm.RealmRecyclerViewAdapter;
 
 public class MovieFavAdapter extends RealmRecyclerViewAdapter<MovieRealmObject, MovieFavAdapter.ViewHolder> {
     private final Activity activity; //ini diperlukan untuk mengetahui posisi awal saat Intent dilakukan
     private static final String BASE_URL_IMG = "https://image.tmdb.org/t/p/w154";
     private final OrderedRealmCollection<MovieRealmObject> data;
+    RealmList<MovieRealmObject> movieRealmObjects;
 
 
 
@@ -35,6 +39,7 @@ public class MovieFavAdapter extends RealmRecyclerViewAdapter<MovieRealmObject, 
         this.data = data;
 
     }
+
 
 
     @NonNull

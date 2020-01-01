@@ -171,5 +171,9 @@ public class RealmHelper {
         }
     }
 
+    public GenreRealmObject getGenre(int id){
+        return realm.where(GenreRealmObject.class).equalTo("id",id).findFirst();
+    }
+
 
 }

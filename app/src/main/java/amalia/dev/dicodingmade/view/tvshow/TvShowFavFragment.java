@@ -58,8 +58,8 @@ public class TvShowFavFragment extends Fragment implements TvShowFavTouchHelper.
         View view = inflater.inflate(R.layout.fragment_tv_show_fav, container, false);
         rv = view.findViewById(R.id.recyclerview_tvshowfav);
         constraintLayout = view.findViewById(R.id.constraintLayout_tv_show_fragment_container);
-        TextView tvNoFav = view.findViewById(R.id.text_moviefav_nofavorites);
-        ImageView imgNoFav = view.findViewById(R.id.image_moviefav_nofavorites);
+        TextView tvNoFav = view.findViewById(R.id.text_tvshowfav_nofavorites);
+        ImageView imgNoFav = view.findViewById(R.id.image_tvshowfav_nofavorites);
 
         rv.setLayoutManager(new LinearLayoutManager(getActivity()));
         rv.setHasFixedSize(true);

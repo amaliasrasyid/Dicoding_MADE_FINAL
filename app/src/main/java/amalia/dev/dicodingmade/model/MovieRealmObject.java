@@ -61,6 +61,20 @@ public class MovieRealmObject extends RealmObject implements Parcelable{
 
         public MovieRealmObject(){}
 
+        public MovieRealmObject(int id,double popularity,String backdropPath,String posterPath,String title,double voteAverage,String overview,String releaseDate){
+            this.id = id;
+            this.popularity = popularity;
+            this.backdropPath = backdropPath;
+            this.posterPath = posterPath;
+            this.title = title;
+            this.voteAverage = voteAverage;
+            this.overview = overview;
+            this.releaseDate = releaseDate;
+            //list genre id belum
+        }
+
+
+
     protected MovieRealmObject(Parcel in) {
         if (in.readByte() == 0) {
             popularity = null;
