@@ -25,7 +25,7 @@ public class MovieFavTouchHelper extends ItemTouchHelper.SimpleCallback {
     @Override
     public void onSelectedChanged(@Nullable RecyclerView.ViewHolder viewHolder, int actionState) {
         if(viewHolder != null){
-            View foregroundView = ((MovieFavAdapter.ViewHolder)viewHolder).containerItem;
+            View foregroundView = ((MovieAdapter.ViewHolder)viewHolder).containerItem;
             getDefaultUIUtil().onSelected(foregroundView);
         }
     }

@@ -60,6 +60,9 @@ public class CatalogProvider extends ContentProvider {
         //create URI content://amalia.dev.dicodingmade/movie/id
         uriMatcher.addURI(AUTHORITY,MovieColumns.TABLE_NAME+"/#",MOVIE_ID);
 
+        //create URI content://amalia.dev.dicodingmade/movie/tmpDelete
+//        uriMatcher.addURI(AUTHORITY,MovieColumns.TABLE_NAME+"/#",MOVIE_ID);
+
         //create URI content://amalia.dev.dicodingmade/tvshow
         uriMatcher.addURI(AUTHORITY,TvShowColumns.TABLE_NAME,TVSHOW);
 

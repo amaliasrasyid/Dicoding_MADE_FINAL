@@ -61,7 +61,7 @@ public class MovieRealmObject extends RealmObject implements Parcelable{
 
         public MovieRealmObject(){}
 
-        public MovieRealmObject(int id,double popularity,String backdropPath,String posterPath,String title,double voteAverage,String overview,String releaseDate){
+        public MovieRealmObject(int id,double popularity,String backdropPath,String posterPath,String title,double voteAverage,String overview,String releaseDate,RealmList<Integer>genreIds){
             this.id = id;
             this.popularity = popularity;
             this.backdropPath = backdropPath;
@@ -70,7 +70,7 @@ public class MovieRealmObject extends RealmObject implements Parcelable{
             this.voteAverage = voteAverage;
             this.overview = overview;
             this.releaseDate = releaseDate;
-            //list genre id belum
+            this.genreIds = genreIds;
         }
 
 

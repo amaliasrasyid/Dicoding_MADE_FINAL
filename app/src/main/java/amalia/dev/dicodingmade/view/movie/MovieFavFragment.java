@@ -106,10 +106,6 @@ public class MovieFavFragment extends Fragment implements MovieFavTouchHelper.Re
         }
         rv.setAdapter(adapter);
 //        refresh();
-        if(dataLocal.size() == 0){
-            tvNoFav.setVisibility(View.VISIBLE);
-            imgNoFav.setVisibility(View.VISIBLE);
-        }
         return view;
     }
 
@@ -174,14 +170,7 @@ public class MovieFavFragment extends Fragment implements MovieFavTouchHelper.Re
         realm.addChangeListener(realmChangeListener);
     }
 
-    //don't forget realm must close after using it
-    @Override
-    public void onDestroy() {
-        super.onDestroy();
-//        realm.removeChangeListener(realmChangeListener);
-//        realm.close();
 
-    }
 
     @Override
     public void preExecute() {
@@ -191,11 +180,12 @@ public class MovieFavFragment extends Fragment implements MovieFavTouchHelper.Re
     @Override
     public void postExecute(List<MovieRealmObject> movie) {
         if(movie.size() > 0){
-            ArrayList<MovieRealmObject> listMovie = new ArrayList<>();
-            listMovie.addAll(movie);
-            adapter.setData(listMovie);
+            dataLocal.addAll(movie);
+            adapter.setData(dataLocal);
         }else{
             notifyMessage("Data tidak ada");
+            tvNoFav.setVisibility(View.VISIBLE);
+            imgNoFav.setVisibility(View.VISIBLE);
         }
     }
 
