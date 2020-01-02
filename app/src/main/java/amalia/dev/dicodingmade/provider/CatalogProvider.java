@@ -10,6 +10,8 @@ import android.net.Uri;
 
 import androidx.annotation.NonNull;
 
+import java.util.Objects;
+
 import javax.annotation.Nullable;
 
 import amalia.dev.dicodingmade.model.GenreRealmObject;
@@ -31,6 +33,7 @@ public class CatalogProvider extends ContentProvider {
     private RealmHelper realmHelper;
     private static final int MOVIE = 10;
     private static final int MOVIE_ID =11;
+    private static final int MOVIE_TMP_DELETE =12;
     private static final int TVSHOW = 20;
     private static final int TVSHOW_ID = 21;
     private static final int GENRE = 30;
@@ -60,8 +63,8 @@ public class CatalogProvider extends ContentProvider {
         //create URI content://amalia.dev.dicodingmade/movie/id
         uriMatcher.addURI(AUTHORITY,MovieColumns.TABLE_NAME+"/#",MOVIE_ID);
 
-        //create URI content://amalia.dev.dicodingmade/movie/tmpDelete
-//        uriMatcher.addURI(AUTHORITY,MovieColumns.TABLE_NAME+"/#",MOVIE_ID);
+        //create URI content://amalia.dev.dicodingmade/movie/{tmpDelete}/{id}
+        uriMatcher.addURI(AUTHORITY,MovieColumns.TABLE_NAME+"/*"+MOVIE_TMP_DELETE+"/#",MOVIE_ID);
 
         //create URI content://amalia.dev.dicodingmade/tvshow
         uriMatcher.addURI(AUTHORITY,TvShowColumns.TABLE_NAME,TVSHOW);
@@ -75,9 +78,37 @@ public class CatalogProvider extends ContentProvider {
     }
 
     @Override
+    public int update(@NonNull Uri uri, ContentValues values, String selection,
+                      String[] selectionArgs) {
+        // TODO: Implement this to handle requests to update one or more rows.
+        int id;
+        boolean tmpDelete;
+        //realm instance
+        realm = Realm.getDefaultInstance();
+        realmHelper = new RealmHelper(realm);
+        switch (uriMatcher.match(uri)){
+            case MOVIE_TMP_DELETE:
+                id = Integer.parseInt(uri.getPathSegments().get(2));
+                tmpDelete = Boolean.parseBoolean(uri.getPathSegments().get(1));
+                realmHelper.updateTmpDeleteM(id,tmpDelete);
+                break;
+//            case TVSHOW_ID:
+//                break;
+            default:
+                id = 0;
+
+        }
+        return  id;
+
+    }
+
+    @Override
     public int delete(Uri uri, String selection, String[] selectionArgs) {
         // Implement this to handle requests to delete one or more rows.
         int idDeleted;
+        //instance realm
+        realm = Realm.getDefaultInstance();
+        realmHelper = new RealmHelper(realm);
         switch (uriMatcher.match(uri)){
             case MOVIE_ID:
                 idDeleted = Integer.parseInt(uri.getPathSegments().get(1));
@@ -185,7 +216,7 @@ public class CatalogProvider extends ContentProvider {
 
     @Override
     public boolean onCreate() {
-        Realm.init(getContext());
+        Realm.init(Objects.requireNonNull(getContext()));
         //konfigurasi Realm
         RealmConfiguration configuration = new RealmConfiguration.Builder()
                 .schemaVersion(0)
@@ -201,11 +232,12 @@ public class CatalogProvider extends ContentProvider {
                         String[] selectionArgs, String sortOrder) {
         // TODO: Implement this to handle query requests from clients.
         MatrixCursor matrixCursor;
+        //create realm insance
+        realm = Realm.getDefaultInstance();
+        realmHelper = new RealmHelper(realm);
         switch (uriMatcher.match(uri)){
             case MOVIE:
                 matrixCursor = matrixMovie;
-                realm = Realm.getDefaultInstance();
-                realmHelper = new RealmHelper(realm);
                 RealmResults<MovieRealmObject> movieResults = realmHelper.getListFavoriteMovies();
                 //convert data realmresult
                 for(MovieRealmObject movie : movieResults){
@@ -216,7 +248,6 @@ public class CatalogProvider extends ContentProvider {
                 }
                 break;
             case TVSHOW:
-                realm = Realm.getDefaultInstance();
                 matrixCursor = matrixTvshow;
                 RealmResults<TvShowRealmObject> tvshowResults = realmHelper.getListFavoriteTvShows();
                 for(TvShowRealmObject tvshow : tvshowResults){
@@ -228,7 +259,6 @@ public class CatalogProvider extends ContentProvider {
                 }
                 break;
             case GENRE_ID:
-                realm = Realm.getDefaultInstance();
                 matrixCursor = matrixGenre;
                 int id = Integer.parseInt(uri.getPathSegments().get(1));
                 GenreRealmObject genreResult = realmHelper.getGenre(id);
@@ -242,11 +272,4 @@ public class CatalogProvider extends ContentProvider {
         return  matrixCursor;
     }
 
-    @Override
-    public int update(@NonNull Uri uri, ContentValues values, String selection,
-                      String[] selectionArgs) {
-        // TODO: Implement this to handle requests to update one or more rows.
-        return  0; //not used
-
-    }
 }

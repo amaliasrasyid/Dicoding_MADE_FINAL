@@ -1,4 +1,4 @@
-package amalia.dev.dicodingmade.provider;
+package amalia.dev.dicodingmade.repository;
 
 import android.database.Cursor;
 
