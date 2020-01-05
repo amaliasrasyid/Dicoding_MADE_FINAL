@@ -25,6 +25,7 @@ import amalia.dev.dicodingmade.model.GenreResult;
 import amalia.dev.dicodingmade.repository.ApiInterface;
 import amalia.dev.dicodingmade.repository.ApiRepository;
 import amalia.dev.dicodingmade.repository.realm.RealmHelper;
+import amalia.dev.dicodingmade.view.movie.MovieFavFragment;
 import io.realm.Realm;
 import io.realm.RealmConfiguration;
 import retrofit2.Call;
@@ -32,7 +33,7 @@ import retrofit2.Callback;
 import retrofit2.Response;
 import retrofit2.Retrofit;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity{
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

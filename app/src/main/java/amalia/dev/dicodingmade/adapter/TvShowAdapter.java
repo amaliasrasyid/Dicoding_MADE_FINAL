@@ -37,6 +37,10 @@ public class TvShowAdapter extends RecyclerView.Adapter<TvShowAdapter.ViewHolder
         notifyDataSetChanged();
     }
 
+    public  ArrayList<TvShowRealmObject> getData(){
+        return data;
+    }
+
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
@@ -63,6 +67,8 @@ public class TvShowAdapter extends RecyclerView.Adapter<TvShowAdapter.ViewHolder
         final TextView overview;
         final TextView popularity;
         final ConstraintLayout containerItem;
+        final ConstraintLayout background;
+
 
         ViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -74,6 +80,8 @@ public class TvShowAdapter extends RecyclerView.Adapter<TvShowAdapter.ViewHolder
             popularity = itemView.findViewById(R.id.tv_item_popularity);
             rating = itemView.findViewById(R.id.rv_item_rating);
             containerItem = itemView.findViewById(R.id.constraintlayout_rvitem_viewforeground);
+            background = itemView.findViewById(R.id.constraintLayout_rvitem_background);
+
 
             //set listener
             containerItem.setOnClickListener(this);
