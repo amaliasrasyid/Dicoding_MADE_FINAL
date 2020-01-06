@@ -132,8 +132,8 @@ public class MovieFavFragment extends Fragment implements MovieFavTouchHelper.Re
                 snackbar.setAction("RESTORE", new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        //restore deleted movie by changing value askedDeletion back to false
                         Uri uri = Uri.parse(MovieColumns.CONTENT_URI + "/false/" + idDeletedMovie);
+                        //restore deleted movie by changing value askedDeletion back to false
                         Objects.requireNonNull(getActivity()).getContentResolver().update(uri, null, null, null);
                         isTmpDeleteFalse = false;
                     }

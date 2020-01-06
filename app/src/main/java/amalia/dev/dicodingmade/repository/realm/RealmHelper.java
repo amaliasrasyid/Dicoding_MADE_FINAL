@@ -64,13 +64,13 @@ public class RealmHelper {
 
     //search data for checking if marked or not (favorite)
     public boolean isMovieExist(int id){
-        RealmResults<MovieRealmObject> movie = realm.where(MovieRealmObject.class).equalTo("id",id).findAll();
-        return (movie.size() != 0);//when there is no data, it will return list with size 0 not null
+        MovieRealmObject movie = realm.where(MovieRealmObject.class).equalTo("id",id).findFirst();
+        return (movie != null);//when there is no data, it will null
     }
 
     public boolean isTvShowExist(int id){
-        RealmResults<TvShowRealmObject> tvShow = realm.where(TvShowRealmObject.class).equalTo("id",id).findAll();
-        return (tvShow.size() != 0);//when there is no data, it will return list with size 0 not null
+        TvShowRealmObject tvShow = realm.where(TvShowRealmObject.class).equalTo("id",id).findFirst();
+        return (tvShow != null);//when there is no data, it will return  null
     }
 
     //delete data fav movie

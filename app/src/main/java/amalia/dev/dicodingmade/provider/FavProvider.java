@@ -17,6 +17,7 @@ import javax.annotation.Nullable;
 import amalia.dev.dicodingmade.model.GenreRealmObject;
 import amalia.dev.dicodingmade.model.MovieRealmObject;
 import amalia.dev.dicodingmade.model.TvShowRealmObject;
+import amalia.dev.dicodingmade.repository.MappingHelper;
 import amalia.dev.dicodingmade.repository.realm.RealmContract;
 import amalia.dev.dicodingmade.repository.realm.RealmHelper;
 import io.realm.Realm;
@@ -147,15 +148,15 @@ public class FavProvider extends ContentProvider {
         // TODO: Implement this to handle requests to insert a new row.
         Uri mUri;
         int id;
-        String genreIdResult;
-        String[] arrayGenreId;
-        Integer[] arrayGenreId2;
-        RealmList<Integer> genreId = new RealmList<>();
+        RealmList<Integer> listGenreId;
+        realm = Realm.getDefaultInstance();
+        realmHelper = new RealmHelper(realm);
         switch (uriMatcher.match(uri)){
             case MOVIE:
                 id =(Integer)values.get(MovieColumns._ID);
-                MovieRealmObject movie = realm.createObject(MovieRealmObject.class,id);
+                MovieRealmObject movie = new MovieRealmObject();
                 //set value object
+                movie.setId(id);
                 movie.setTitle(values.getAsString(MovieColumns.COLUMN_NAME_TITLE));
                 movie.setBackdropPath(values.getAsString(MovieColumns.COLUMN_NAME_BACKDROP_PATH));
                 movie.setPosterPath(values.get(MovieColumns.COLUMN_NAME_POSTER_PATH).toString());
@@ -163,46 +164,33 @@ public class FavProvider extends ContentProvider {
                 movie.setOverview(values.getAsString(MovieColumns.COLUMN_NAME_OVERVIEW));
                 movie.setVoteAverage(values.getAsDouble(MovieColumns.COLUMN_NAME_VOTE_AVERAGE));
                 movie.setReleaseDate(values.getAsString(MovieColumns.COLUMN_NAME_RELEASE_DATE));
-//                //convert string list id value into realmlist<Integer>
-//                genreIdResult = values.getAsString(MovieColumns.COLUMN_NAME_GENRE_ID);
-//                arrayGenreId = genreIdResult.split("");
-//                arrayGenreId2 = new Integer[arrayGenreId.length];
-//                for(int i =0; i<arrayGenreId.length;i++){
-//                    arrayGenreId2[i] =  Integer.parseInt(arrayGenreId[i]);
-//                    genreId.add(arrayGenreId2[i]);
-//                }
-//                movie.setGenreIds(genreId);
-
+                //convert string list id value into realmlist<Integer>
+                listGenreId = stringToRealmList(values.getAsString(MovieColumns.COLUMN_NAME_GENRE_ID));
+                movie.setGenreIds(listGenreId);
                 //execute insert db
                 realmHelper.insertMovie(movie);
                 mUri = ContentUris.withAppendedId(MovieColumns.CONTENT_URI,id);
                 break;
-//            case TVSHOW:
-//                id = values.getAsInteger(TvShowColumns._ID);
-//                TvShowRealmObject tvshow = realm.createObject(TvShowRealmObject.class,id);
-//                //set value object
-//                tvshow.setPopularity(values.getAsDouble(TvShowColumns.COLUMN_NAME_POPULARITY));
-//                tvshow.setBackdropPath(values.getAsString(TvShowColumns.COLUMN_NAME_BACKDROP_PATH));
-//                tvshow.setPosterPath(values.getAsString(TvShowColumns.COLUMN_NAME_POSTER_PATH));
-//                tvshow.setOriginalName(values.getAsString(TvShowColumns.COLUMN_NAME_ORIGINAL_TITLE));
-//                tvshow.setVoteAverage(values.getAsDouble(TvShowColumns.COLUMN_NAME_VOTE_AVERAGE));
-//                tvshow.setOverview(values.getAsString(TvShowColumns.COLUMN_NAME_OVERVIEW));
-//                tvshow.setFirstAirDate(values.getAsString(TvShowColumns.COLUMN_NAME_FIRST_RELEASE_DATE));
-//                //convert string list id value into realmlist<Integer>
-//                genreIdResult = values.getAsString(MovieColumns.COLUMN_NAME_GENRE_ID);
-//                arrayGenreId = genreIdResult.split("");
-//                arrayGenreId2 = new Integer[arrayGenreId.length];
-//                for(int i =0; i<arrayGenreId.length;i++){
-//                    arrayGenreId2[i] =  Integer.parseInt(arrayGenreId[i]);
-//                    genreId.add(arrayGenreId2[i]);
-//                }
-//                tvshow.setGenreIds(genreId);
+            case TVSHOW:
+                id = values.getAsInteger(TvShowColumns._ID);
+                TvShowRealmObject tvshow = realm.createObject(TvShowRealmObject.class,id);
+                //set value object
+                tvshow.setPopularity(values.getAsDouble(TvShowColumns.COLUMN_NAME_POPULARITY));
+                tvshow.setBackdropPath(values.getAsString(TvShowColumns.COLUMN_NAME_BACKDROP_PATH));
+                tvshow.setPosterPath(values.getAsString(TvShowColumns.COLUMN_NAME_POSTER_PATH));
+                tvshow.setOriginalName(values.getAsString(TvShowColumns.COLUMN_NAME_ORIGINAL_TITLE));
+                tvshow.setVoteAverage(values.getAsDouble(TvShowColumns.COLUMN_NAME_VOTE_AVERAGE));
+                tvshow.setOverview(values.getAsString(TvShowColumns.COLUMN_NAME_OVERVIEW));
+                tvshow.setFirstAirDate(values.getAsString(TvShowColumns.COLUMN_NAME_FIRST_RELEASE_DATE));
+                //convert string list id value into realmlist<Integer>
+                 listGenreId= stringToRealmList(values.getAsString(MovieColumns.COLUMN_NAME_GENRE_ID));
+                tvshow.setGenreIds(listGenreId);
 
                 //execute insert db
-//                realmHelper.insertTvShow(tvshow);
-//                mUri = ContentUris.withAppendedId(TvShowColumns.CONTENT_URI,id);
-//
-//                break;
+                realmHelper.insertTvShow(tvshow);
+                mUri = ContentUris.withAppendedId(TvShowColumns.CONTENT_URI,id);
+
+                break;
             case GENRE:
                 id = values.getAsInteger(GenreColumns._ID);
                 GenreRealmObject genre = realm.createObject(GenreRealmObject.class,id);
@@ -262,6 +250,9 @@ public class FavProvider extends ContentProvider {
                     matrixMovie.addRow(rowData);
                 }
                 break;
+            case MOVIE_ID:
+
+                break;
             case TVSHOW:
                 RealmResults<TvShowRealmObject> tvshowResults = realmHelper.getListFavoriteTvShows();
                 for (TvShowRealmObject tvshow : tvshowResults) {
@@ -293,6 +284,18 @@ public class FavProvider extends ContentProvider {
             return matrixTvshow;
         }
 
+    }
+
+     private static  RealmList<Integer> stringToRealmList(String textGenreId){
+        //convert genre id from string into integer List
+
+        String trimResult = textGenreId.substring(14,textGenreId.length()-1);
+        String[] tmpResult = trimResult.split(",");
+        RealmList<Integer> listGenreId = new RealmList<>();
+        for (String s : tmpResult) {
+            listGenreId.add(Integer.parseInt(s));
+        }
+        return  listGenreId;
     }
 
 }

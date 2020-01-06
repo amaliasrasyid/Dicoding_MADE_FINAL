@@ -3,7 +3,10 @@ package amalia.dev.dicodingmade.view.movie;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.ContentResolver;
+import android.content.ContentValues;
 import android.graphics.drawable.Drawable;
+import android.net.Uri;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -29,9 +32,11 @@ import java.util.Locale;
 
 import amalia.dev.dicodingmade.R;
 import amalia.dev.dicodingmade.model.MovieRealmObject;
+import amalia.dev.dicodingmade.repository.MappingHelper;
 import amalia.dev.dicodingmade.repository.realm.RealmHelper;
 import io.realm.Realm;
 import io.realm.RealmConfiguration;
+import static amalia.dev.dicodingmade.repository.realm.RealmContract.MovieColumns;
 
 
 public class MovieDetailActivity extends AppCompatActivity{
@@ -42,6 +47,7 @@ public class MovieDetailActivity extends AppCompatActivity{
     private MovieRealmObject movie = new MovieRealmObject();
     private Realm realm;
     private RealmHelper realmHelper;
+    private ContentResolver contentResolver;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -57,6 +63,7 @@ public class MovieDetailActivity extends AppCompatActivity{
         ImageView backPoster = findViewById(R.id.image_moviedetail_backposter);
         ProgressBar pbBackPoster = findViewById(R.id.progressBar_moviedetail_backposter);
         ProgressBar pbPoster = findViewById(R.id.progressBar_moviedetail_poster);
+        contentResolver = this.getContentResolver();
 
         //database local
         RealmConfiguration realmConfiguration = new RealmConfiguration.Builder().build();
@@ -135,11 +142,15 @@ public class MovieDetailActivity extends AppCompatActivity{
     }
 
     private void deleteFavorite(Integer id) {
-        realmHelper.deleteFavMovies(id);
+        Uri uri = Uri.parse(MovieColumns.CONTENT_URI+"/"+id);
+        contentResolver.delete(uri,null,null);
     }
 
     private void addFavorite(MovieRealmObject movie) {
-        realmHelper.insertMovie(movie);
+        //convert object into ContentValues
+        ContentValues contentValues = MappingHelper.movieToContentValues(movie);
+        //insert  with Uri (content provider)
+        contentResolver.insert(MovieColumns.CONTENT_URI,contentValues);
     }
 
     private boolean isCheckedFav(int id) {
