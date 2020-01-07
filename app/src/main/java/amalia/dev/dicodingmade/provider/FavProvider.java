@@ -17,7 +17,6 @@ import javax.annotation.Nullable;
 import amalia.dev.dicodingmade.model.GenreRealmObject;
 import amalia.dev.dicodingmade.model.MovieRealmObject;
 import amalia.dev.dicodingmade.model.TvShowRealmObject;
-import amalia.dev.dicodingmade.repository.MappingHelper;
 import amalia.dev.dicodingmade.repository.realm.RealmContract;
 import amalia.dev.dicodingmade.repository.realm.RealmHelper;
 import io.realm.Realm;
@@ -44,9 +43,6 @@ public class FavProvider extends ContentProvider {
     private static final int GENRE_ID = 31;
 
 
-    MatrixCursor matrixGenre = new MatrixCursor(new String[]{
-            GenreColumns._ID,GenreColumns.COLUMN_NAME_NAME
-    });
 
     // Creates a UriMatcher object.
     private static final UriMatcher uriMatcher = new UriMatcher(UriMatcher.NO_MATCH);
@@ -69,6 +65,10 @@ public class FavProvider extends ContentProvider {
 
         //create URI content://amalia.dev.dicodingmade/tvshow/{tmpDelete}/{id}
         uriMatcher.addURI(AUTHORITY, TvShowColumns.TABLE_NAME+"/*/#",TVSHOW_TMP_DELETE);
+
+        //create URI content://amalia.dev.dicodingmade/genre/id
+        uriMatcher.addURI(AUTHORITY,GenreColumns.TABLE_NAME+"/#",GENRE_ID);
+
     }
     @Nullable
     @Override
@@ -173,8 +173,9 @@ public class FavProvider extends ContentProvider {
                 break;
             case TVSHOW:
                 id = values.getAsInteger(TvShowColumns._ID);
-                TvShowRealmObject tvshow = realm.createObject(TvShowRealmObject.class,id);
+                TvShowRealmObject tvshow = new TvShowRealmObject();
                 //set value object
+                tvshow.setId(id);
                 tvshow.setPopularity(values.getAsDouble(TvShowColumns.COLUMN_NAME_POPULARITY));
                 tvshow.setBackdropPath(values.getAsString(TvShowColumns.COLUMN_NAME_BACKDROP_PATH));
                 tvshow.setPosterPath(values.getAsString(TvShowColumns.COLUMN_NAME_POSTER_PATH));
@@ -196,7 +197,7 @@ public class FavProvider extends ContentProvider {
                 GenreRealmObject genre = realm.createObject(GenreRealmObject.class,id);
                 //set value object
                 genre.setId(id);
-                genre.setName(values.getAsString(GenreColumns.COLUMN_NAME_NAME));
+                genre.setName(values.getAsString(GenreColumns.COLUMN_NAME_GENRE_NAME));
 
                 //execute insert db
                 realmHelper.insertGenre(genre);
@@ -237,6 +238,9 @@ public class FavProvider extends ContentProvider {
                 RealmContract.TvShowColumns.COLUMN_NAME_GENRE_ID, RealmContract.TvShowColumns.COLUMN_NAME_ORIGINAL_TITLE, RealmContract.TvShowColumns.COLUMN_NAME_OVERVIEW,
                 RealmContract.TvShowColumns.COLUMN_NAME_POPULARITY, RealmContract.TvShowColumns.COLUMN_NAME_POSTER_PATH, RealmContract.TvShowColumns.COLUMN_NAME_VOTE_AVERAGE, RealmContract.TvShowColumns.COLUMN_NAME_TMP_DELETE
         });
+        MatrixCursor matrixGenre = new MatrixCursor(new String[]{
+                GenreColumns._ID,GenreColumns.COLUMN_NAME_GENRE_NAME
+        });
         realm = Realm.getDefaultInstance();
         realmHelper = new RealmHelper(realm);
         switch (uriMatcher.match(uri)){
@@ -251,27 +255,43 @@ public class FavProvider extends ContentProvider {
                 }
                 break;
             case MOVIE_ID:
-
+                int mId = Integer.parseInt(uri.getPathSegments().get(1));
+                MovieRealmObject smovie = realmHelper.getMovie(mId);
+                if(smovie != null ){
+                    Object[] rowData = new Object[]{smovie.getId(),smovie.getOverview(),smovie.getTitle(),smovie.getBackdropPath(),
+                            smovie.getGenreIds(),smovie.getPopularity(),smovie.getVoteAverage(),smovie.getPosterPath(),smovie.getReleaseDate(),smovie.isTmpDelete()};
+                    //insert into cursor
+                    matrixMovie.addRow(rowData);
+                }
                 break;
             case TVSHOW:
                 RealmResults<TvShowRealmObject> tvshowResults = realmHelper.getListFavoriteTvShows();
                 for (TvShowRealmObject tvshow : tvshowResults) {
-                    Object[] rowData = new Object[]{tvshow.getId(), tvshow.getBackdropPath(), tvshow.getFirstAirDate(),
+                    Object[] rowDataTs = new Object[]{tvshow.getId(), tvshow.getBackdropPath(), tvshow.getFirstAirDate(),
                             tvshow.getGenreIds(), tvshow.getOriginalName(), tvshow.getOverview(), tvshow.getPopularity(), tvshow.getPosterPath(),
                             tvshow.getVoteAverage(), tvshow.isTmpDelete()};
                     //insert into cursor
-                    matrixTvshow.addRow(rowData);
+                    matrixTvshow.addRow(rowDataTs);
                 }
                 break;
-//
-//            case GENRE_ID:
-//                matrixCursor = matrixGenre;
-//                int id = Integer.parseInt(uri.getPathSegments().get(1));
-//                GenreRealmObject genreResult = realmHelper.getGenre(id);
-//                matrixCursor.addRow(new Object[]{
-//                        genreResult.getId(),genreResult.getName()
-//                });
-//                break;
+            case TVSHOW_ID:
+                int tsId = Integer.parseInt(uri.getPathSegments().get(1));
+                TvShowRealmObject stvshow = realmHelper.getTvshow(tsId);
+                if(stvshow != null){
+                    Object[] rowDataTs = new Object[]{stvshow.getId(), stvshow.getBackdropPath(), stvshow.getFirstAirDate(),
+                            stvshow.getGenreIds(), stvshow.getOriginalName(), stvshow.getOverview(), stvshow.getPopularity(), stvshow.getPosterPath(),
+                            stvshow.getVoteAverage(), stvshow.isTmpDelete()};
+                    //insert into cursor
+                    matrixTvshow.addRow(rowDataTs);
+                }
+                break;
+            case GENRE_ID:
+                int idGenre = Integer.parseInt(uri.getPathSegments().get(1));
+                GenreRealmObject genreResult = realmHelper.getGenre(idGenre);
+                matrixGenre.addRow(new Object[]{
+                        genreResult.getId(),genreResult.getName()
+                });
+                break;
             default:
                 throw new UnsupportedOperationException("Unknown uri: " + uri);
         }
@@ -279,9 +299,12 @@ public class FavProvider extends ContentProvider {
         if(matrixMovie.getCount() != 0){
             matrixMovie.setNotificationUri(Objects.requireNonNull(getContext()).getContentResolver(),uri);
             return  matrixMovie;
-        }else{
+        }else if(matrixTvshow.getCount() != 0){
             matrixTvshow.setNotificationUri(Objects.requireNonNull(getContext()).getContentResolver(),uri);
             return matrixTvshow;
+        }else{
+            matrixGenre.setNotificationUri(Objects.requireNonNull(getContext()).getContentResolver(),uri);
+            return matrixGenre;
         }
 
     }

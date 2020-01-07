@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.ContentResolver;
 import android.content.ContentValues;
+import android.database.Cursor;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
@@ -32,22 +33,21 @@ import java.util.Locale;
 
 import amalia.dev.dicodingmade.R;
 import amalia.dev.dicodingmade.model.MovieRealmObject;
+import amalia.dev.dicodingmade.repository.LoadGenresNameAsync;
 import amalia.dev.dicodingmade.repository.MappingHelper;
-import amalia.dev.dicodingmade.repository.realm.RealmHelper;
-import io.realm.Realm;
-import io.realm.RealmConfiguration;
+
+
 import static amalia.dev.dicodingmade.repository.realm.RealmContract.MovieColumns;
 
 
-public class MovieDetailActivity extends AppCompatActivity{
-    public static final String EXTRA_MOVIE ="extra movie";
+public class MovieDetailActivity extends AppCompatActivity {
+    public static final String EXTRA_MOVIE = "extra movie";
     private static final String BASE_URL_POSTER = "https://image.tmdb.org/t/p/w154";
     private static final String BASE_URL_BACK_POSTER = "https://image.tmdb.org/t/p/w500";
     private Menu menu;// Global Menu Declaration
     private MovieRealmObject movie = new MovieRealmObject();
-    private Realm realm;
-    private RealmHelper realmHelper;
     private ContentResolver contentResolver;
+    private static ArrayList<String> genresName = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -65,23 +65,16 @@ public class MovieDetailActivity extends AppCompatActivity{
         ProgressBar pbPoster = findViewById(R.id.progressBar_moviedetail_poster);
         contentResolver = this.getContentResolver();
 
-        //database local
-        RealmConfiguration realmConfiguration = new RealmConfiguration.Builder().build();
-        realm = Realm.getInstance(realmConfiguration);
-        realmHelper = new RealmHelper(realm);
 
         //getting data from the objek that clicked in list
-         movie = getIntent().getParcelableExtra(EXTRA_MOVIE);
+        movie = getIntent().getParcelableExtra(EXTRA_MOVIE);
 
         //get genre's name based the id
-        List<Integer> genresId =  movie.getGenreIds();
-        if(genresId != null){
+        List<Integer> genresId = movie.getGenreIds();
+        if (genresId != null) {
             String genresName = getGenresName(genresId);
             genres.setText(genresName);
         }
-
-
-
 
         //binding view & data
 
@@ -91,19 +84,17 @@ public class MovieDetailActivity extends AppCompatActivity{
         title.setText(movie.getTitle());
         releaseDate.setText(convertToDatePattern(movie.getReleaseDate()));
 
-
-
-        Glide.with(this).load(BASE_URL_POSTER +movie.getPosterPath())
+        Glide.with(this).load(BASE_URL_POSTER + movie.getPosterPath())
                 .listener(showLoading(pbPoster))
                 .transform(new RoundedCorners(15))
                 .into(poster);
-        Glide.with(this).load(BASE_URL_BACK_POSTER +movie.getBackdropPath())
+        Glide.with(this).load(BASE_URL_BACK_POSTER + movie.getBackdropPath())
                 .listener(showLoading(pbBackPoster))
                 .into(backPoster);
 
 
         //settin up button
-        if(getSupportActionBar() != null){
+        if (getSupportActionBar() != null) {
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         }
 
@@ -113,8 +104,8 @@ public class MovieDetailActivity extends AppCompatActivity{
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         this.menu = menu;
-        getMenuInflater().inflate(R.menu.menu_favorite,menu);
-        if(isCheckedFav(movie.getId())){
+        getMenuInflater().inflate(R.menu.menu_favorite, menu);
+        if (isCheckedFav(movie.getId())) {
             menu.findItem(R.id.menu_fav_unchecked).setVisible(false);
             menu.findItem(R.id.menu_fav_checked).setVisible(true);
         }
@@ -124,12 +115,12 @@ public class MovieDetailActivity extends AppCompatActivity{
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()){
+        switch (item.getItemId()) {
             case R.id.menu_fav_unchecked:
                 item.setVisible(false);
                 menu.getItem(1).setVisible(true);
                 addFavorite(movie);
-            return true;
+                return true;
             case R.id.menu_fav_checked:
                 item.setVisible(false);
                 menu.getItem(0).setVisible(true);
@@ -142,32 +133,31 @@ public class MovieDetailActivity extends AppCompatActivity{
     }
 
     private void deleteFavorite(Integer id) {
-        Uri uri = Uri.parse(MovieColumns.CONTENT_URI+"/"+id);
-        contentResolver.delete(uri,null,null);
+        Uri uri = Uri.parse(MovieColumns.CONTENT_URI + "/" + id);
+        contentResolver.delete(uri, null, null);
     }
 
     private void addFavorite(MovieRealmObject movie) {
         //convert object into ContentValues
         ContentValues contentValues = MappingHelper.movieToContentValues(movie);
         //insert  with Uri (content provider)
-        contentResolver.insert(MovieColumns.CONTENT_URI,contentValues);
+        contentResolver.insert(MovieColumns.CONTENT_URI, contentValues);
     }
 
     private boolean isCheckedFav(int id) {
-        return  realmHelper.isMovieExist(id);
+        Uri uri = Uri.parse(MovieColumns.CONTENT_URI + "/" + id);
+        Cursor cursor = contentResolver.query(uri, null, null, null, null);
+        return cursor != null && cursor.getCount() > 0;
+
     }
 
     private String getGenresName(List<Integer> genresId) {
-        List<String> genresName = new ArrayList<>();
+        //get list genre's name from query (content provider)
+        new LoadGenresNameAsync(this, genresId, genresName).execute();
 
-        for (int j=0;j<genresId.size();j++){
-            int value = genresId.get(j);
-            //search name genre based the id
-            genresName.add(realmHelper.getGenreName(value));
-        }
         //convert list<String> to string
         StringBuilder sb = new StringBuilder();
-        for(String s:genresName){
+        for (String s : genresName) {
             sb.append(s);
             sb.append("\t\t");
         }
@@ -179,16 +169,16 @@ public class MovieDetailActivity extends AppCompatActivity{
     private String convertToDatePattern(String releaseDate) {
         //create date pattern format
         //Locale.getDefault() get current Language android for format date
-        SimpleDateFormat toDate = new SimpleDateFormat("yyyy-MM-dd",Locale.getDefault());
-        SimpleDateFormat toString = new SimpleDateFormat("dd MMMM, yyyy",Locale.getDefault());
+        SimpleDateFormat toDate = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
+        SimpleDateFormat toString = new SimpleDateFormat("dd MMMM, yyyy", Locale.getDefault());
         Date date;
         String str = "";
         try {
             //parse string to date
             date = toDate.parse(releaseDate);
             //convert date into string with a format pattern
-             str =toString.format(date);
-            return  str;
+            str = toString.format(date);
+            return str;
         } catch (ParseException e) {
             e.printStackTrace();
         }
@@ -212,9 +202,5 @@ public class MovieDetailActivity extends AppCompatActivity{
         };
     }
 
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        realm.close();
-    }
+
 }

@@ -62,17 +62,6 @@ public class RealmHelper {
         return realm.where(TvShowRealmObject.class).equalTo("tmpDelete",false).findAll();
     }
 
-    //search data for checking if marked or not (favorite)
-    public boolean isMovieExist(int id){
-        MovieRealmObject movie = realm.where(MovieRealmObject.class).equalTo("id",id).findFirst();
-        return (movie != null);//when there is no data, it will null
-    }
-
-    public boolean isTvShowExist(int id){
-        TvShowRealmObject tvShow = realm.where(TvShowRealmObject.class).equalTo("id",id).findFirst();
-        return (tvShow != null);//when there is no data, it will return  null
-    }
-
     //delete data fav movie
     public void deleteFavMovies(int id){
         //first, find the movie with the id
@@ -134,22 +123,30 @@ public class RealmHelper {
             @Override
             public void execute(@NonNull Realm realm) {
                 genre.setId(genre.getId());
+                genre.setName(genre.getName());
                 realm.copyToRealm(genre);
             }
         });
     }
 
-    public String getGenreName(int id){
-        GenreRealmObject genre = realm.where(GenreRealmObject.class).equalTo("id",id).findFirst();
-        if(genre != null){
-            return genre.getName();
-        }else{
-            return "";
-        }
+    public MovieRealmObject getMovie(int id){
+        realm.refresh();
+        return realm.where(MovieRealmObject.class).equalTo("id",id).findFirst();
+    }
+
+    public TvShowRealmObject getTvshow(int id){
+        realm.refresh();
+        return realm.where(TvShowRealmObject.class).equalTo("id",id).findFirst();
     }
 
     public GenreRealmObject getGenre(int id){
-        return realm.where(GenreRealmObject.class).equalTo("id",id).findFirst();
+        realm.refresh();
+        GenreRealmObject genre = realm.where(GenreRealmObject.class).equalTo("id",id).findFirst();
+        if(genre != null){
+            return genre;
+        }else{
+            return new GenreRealmObject();
+        }
     }
 
 

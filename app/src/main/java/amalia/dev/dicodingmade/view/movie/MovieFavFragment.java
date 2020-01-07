@@ -47,7 +47,6 @@ import static amalia.dev.dicodingmade.repository.realm.RealmContract.MovieColumn
  * A simple {@link Fragment} subclass.
  */
 public class MovieFavFragment extends Fragment implements MovieFavTouchHelper.RecylerItemTouchHelperListener, LoadMovieFavCallback {
-    private RecyclerView rv;
     private MovieAdapter adapter;
     private ConstraintLayout constraintLayout;
     private ImageView imgNoFav;
@@ -71,7 +70,7 @@ public class MovieFavFragment extends Fragment implements MovieFavTouchHelper.Re
         imgNoFav = view.findViewById(R.id.image_moviefav_nofavorites);
         tvNoFav = view.findViewById(R.id.text_moviefav_nofavorites);
         progressBar = view.findViewById(R.id.progress_circular_favorites);
-        rv = view.findViewById(R.id.recyclerview_moviefav);
+        RecyclerView rv = view.findViewById(R.id.recyclerview_moviefav);
         adapter = new MovieAdapter(getActivity());
 
         rv.setAdapter(adapter);
@@ -173,6 +172,8 @@ public class MovieFavFragment extends Fragment implements MovieFavTouchHelper.Re
     public void postExecute(ArrayList<MovieRealmObject> movie) {
         progressBar.setVisibility(View.INVISIBLE);
         if(movie.size() > 0){
+            tvNoFav.setVisibility(View.INVISIBLE);
+            imgNoFav.setVisibility(View.INVISIBLE);
             adapter.setData(movie);
         }else{
             adapter.setData(new ArrayList<MovieRealmObject>());
