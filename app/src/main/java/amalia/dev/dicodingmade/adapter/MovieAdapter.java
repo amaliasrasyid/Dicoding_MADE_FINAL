@@ -2,7 +2,6 @@ package amalia.dev.dicodingmade.adapter;
 
 import android.content.Context;
 import android.content.Intent;
-import android.database.Cursor;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,11 +17,9 @@ import com.bumptech.glide.load.resource.bitmap.CenterCrop;
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners;
 
 import java.util.ArrayList;
-import java.util.List;
 
 import amalia.dev.dicodingmade.R;
 import amalia.dev.dicodingmade.model.MovieRealmObject;
-import amalia.dev.dicodingmade.repository.MappingHelper;
 import amalia.dev.dicodingmade.view.movie.MovieDetailActivity;
 
 public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.ViewHolder> {
@@ -41,14 +38,6 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.ViewHolder> 
 
     public ArrayList<MovieRealmObject>getData(){
         return data;
-    }
-
-    public void swapCursor(Cursor cursor){
-        if(cursor != null){
-            List<MovieRealmObject> resultCursor = MappingHelper.mapCursorToList(cursor);
-            data.addAll(resultCursor);
-            notifyDataSetChanged();
-        }
     }
 
     @NonNull

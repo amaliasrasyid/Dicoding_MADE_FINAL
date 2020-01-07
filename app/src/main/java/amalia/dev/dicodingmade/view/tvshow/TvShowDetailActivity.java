@@ -5,9 +5,11 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.ContentResolver;
 import android.content.ContentValues;
+import android.content.Context;
 import android.database.Cursor;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -23,6 +25,7 @@ import com.bumptech.glide.load.resource.bitmap.RoundedCorners;
 import com.bumptech.glide.request.RequestListener;
 import com.bumptech.glide.request.target.Target;
 
+import java.lang.ref.WeakReference;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -32,8 +35,8 @@ import java.util.Locale;
 
 import amalia.dev.dicodingmade.R;
 import amalia.dev.dicodingmade.model.TvShowRealmObject;
-import amalia.dev.dicodingmade.repository.LoadGenresNameAsync;
 import amalia.dev.dicodingmade.repository.MappingHelper;
+import amalia.dev.dicodingmade.repository.realm.RealmContract;
 
 import static amalia.dev.dicodingmade.repository.realm.RealmContract.TvShowColumns;
 
@@ -148,7 +151,7 @@ public class TvShowDetailActivity extends AppCompatActivity {
 
     private String getGenresName(List<Integer> genresId) {
         //get list genre's name from query (content provider)
-        new LoadGenresNameAsync(this,genresId,genresName).execute();
+        new LoadGenresNameAsync(this,genresId).execute();
 
         //convert list<String> to string
         StringBuilder sb = new StringBuilder();
@@ -197,6 +200,39 @@ public class TvShowDetailActivity extends AppCompatActivity {
                 return false;
             }
         };
+    }
+
+    static class LoadGenresNameAsync extends AsyncTask<Void, Void, ArrayList<String>> {
+        final WeakReference<Context> weakContext; //using weakreference object to avoid "this field leak context object" warning
+        List<Integer> list;
+
+        LoadGenresNameAsync(Context context, List<Integer> listId) {
+            weakContext = new WeakReference<>(context);
+            this.list = listId;
+        }
+
+        @Override
+        protected final ArrayList<String> doInBackground(Void... voids) {
+            ArrayList<String> resultName = new ArrayList<>();
+            Context context = weakContext.get();
+            for (int j = 0; j < list.size(); j++) {
+                int idValue = list.get(j);
+                Uri uri = Uri.parse(RealmContract.GenreColumns.CONTENT_URI + "/" + idValue);
+                Cursor cursor = context.getContentResolver().query(uri, null, null, null, null);
+                if (cursor != null && cursor.moveToNext()) {
+                    resultName.add(cursor.getString(cursor.getColumnIndexOrThrow(RealmContract.GenreColumns.COLUMN_NAME_GENRE_NAME)));
+                    cursor.close();
+                }
+            }
+            return resultName;
+        }
+
+        @Override
+        protected void onPostExecute(ArrayList<String> result) {
+            super.onPostExecute(result);
+            genresName = result;
+        }
+
     }
 
 }
