@@ -53,9 +53,9 @@ public class RealmContract {
     public static  final class GenreColumns implements BaseColumns{
         public static final String TABLE_NAME = "genre";
         public static final String _ID = "id";
-        public static final String COLUMN_NAME_NAME = "name";
+        public static final String COLUMN_NAME_GENRE_NAME = "name_genre";
 
-        //create URI content://amalia.dev.dicodingmade/tvshow
+        //create URI content://amalia.dev.dicodingmade/genre
         public static final Uri CONTENT_URI = new Uri.Builder().scheme(SCHEMA)
                 .authority(AUTHORITY)
                 .appendPath(TABLE_NAME)

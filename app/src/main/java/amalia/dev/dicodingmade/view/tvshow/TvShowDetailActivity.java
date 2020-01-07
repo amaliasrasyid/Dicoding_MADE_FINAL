@@ -3,7 +3,11 @@ package amalia.dev.dicodingmade.view.tvshow;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.ContentResolver;
+import android.content.ContentValues;
+import android.database.Cursor;
 import android.graphics.drawable.Drawable;
+import android.net.Uri;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -28,17 +32,19 @@ import java.util.Locale;
 
 import amalia.dev.dicodingmade.R;
 import amalia.dev.dicodingmade.model.TvShowRealmObject;
-import amalia.dev.dicodingmade.repository.realm.RealmHelper;
-import io.realm.Realm;
-import io.realm.RealmConfiguration;
+import amalia.dev.dicodingmade.repository.LoadGenresNameAsync;
+import amalia.dev.dicodingmade.repository.MappingHelper;
+
+import static amalia.dev.dicodingmade.repository.realm.RealmContract.TvShowColumns;
+
 
 public class TvShowDetailActivity extends AppCompatActivity {
     public static final String EXTRA_TV_SHOW ="extra tv show";
     private static final String BASE_URL_POSTER = "https://image.tmdb.org/t/p/w154";
     private static final String BASE_URL_BACK_POSTER = "https://image.tmdb.org/t/p/w500";
-    private Realm realm;
-    private RealmHelper realmHelper;
     private TvShowRealmObject tvShow = new TvShowRealmObject();
+    private static ArrayList<String> genresName = new ArrayList<>();
+    private ContentResolver contentResolver;
     private Menu menu;
 
 
@@ -58,11 +64,7 @@ public class TvShowDetailActivity extends AppCompatActivity {
         ImageView backPoster = findViewById(R.id.image_tvdetail_backposter);
         ProgressBar pbBackPoster = findViewById(R.id.progressBar_tvdetail_backposter);
         ProgressBar pbPoster = findViewById(R.id.progressBar_tvdetail_poster);
-
-        //Realm configuratio
-        RealmConfiguration configuration = new RealmConfiguration.Builder().build();
-        realm = Realm.getInstance(configuration);
-        realmHelper = new RealmHelper(realm);
+        contentResolver = this.getContentResolver();
 
         //getting data from the objek that clicked in list
         tvShow = getIntent().getParcelableExtra(EXTRA_TV_SHOW);
@@ -73,7 +75,6 @@ public class TvShowDetailActivity extends AppCompatActivity {
             String genresName = getGenresName(genresId);
             genres.setText(genresName);
         }
-
 
         //binding view & data
         popularity.setText(String.valueOf(tvShow.getPopularity()));
@@ -127,26 +128,28 @@ public class TvShowDetailActivity extends AppCompatActivity {
     }
 
     private void deleteFavorite(int id) {
-        realmHelper.deleteFavTvShow(id);
+        Uri uri = Uri.parse(TvShowColumns.CONTENT_URI+"/"+id);
+        contentResolver.delete(uri,null,null);
     }
 
     private void addFavorite(TvShowRealmObject tvShow) {
-        realmHelper.insertTvShow(tvShow);
+        //convert object into ContentValuse
+        ContentValues contentValues = MappingHelper.tvshowToContentValues(tvShow);
+        //insert with Uri (content provider)
+        contentResolver.insert(TvShowColumns.CONTENT_URI,contentValues);
     }
 
     private boolean isCheckedFav(int id) {
-        return  realmHelper.isTvShowExist(id);
+        Uri uri = Uri.parse(TvShowColumns.CONTENT_URI+"/"+id);
+        Cursor cursor = contentResolver.query(uri,null,null,null,null);
+        return  cursor != null && cursor.getCount() > 0;
     }
 
 
     private String getGenresName(List<Integer> genresId) {
-        List<String> genresName = new ArrayList<>();
+        //get list genre's name from query (content provider)
+        new LoadGenresNameAsync(this,genresId,genresName).execute();
 
-        for (int j=0;j<genresId.size();j++){
-            int value = genresId.get(j);
-            //search value that same
-            genresName.add(realmHelper.getGenreName(value));
-        }
         //convert list<String> to string
         StringBuilder sb = new StringBuilder();
         for(String s:genresName){
@@ -156,6 +159,7 @@ public class TvShowDetailActivity extends AppCompatActivity {
 
         return sb.toString();
     }
+
 
 
     private String convertToDatePattern(String releaseDate) {
@@ -195,9 +199,4 @@ public class TvShowDetailActivity extends AppCompatActivity {
         };
     }
 
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        realm.close();
-    }
 }

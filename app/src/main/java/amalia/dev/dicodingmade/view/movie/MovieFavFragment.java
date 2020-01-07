@@ -1,16 +1,17 @@
 package amalia.dev.dicodingmade.view.movie;
 
 
+import android.content.Context;
+import android.database.ContentObserver;
 import android.database.Cursor;
 import android.graphics.Color;
+import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.fragment.app.Fragment;
-import androidx.loader.app.LoaderManager;
-import androidx.loader.content.Loader;
 import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.ItemTouchHelper;
@@ -23,11 +24,13 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.material.snackbar.Snackbar;
 
+import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 import java.util.Objects;
 
@@ -35,35 +38,23 @@ import amalia.dev.dicodingmade.R;
 import amalia.dev.dicodingmade.adapter.MovieAdapter;
 import amalia.dev.dicodingmade.adapter.MovieFavTouchHelper;
 import amalia.dev.dicodingmade.model.MovieRealmObject;
-import amalia.dev.dicodingmade.repository.CatalogCursorLoader;
+import amalia.dev.dicodingmade.repository.MappingHelper;
 import amalia.dev.dicodingmade.repository.realm.RealmContract;
-import amalia.dev.dicodingmade.repository.realm.RealmHelper;
-import io.realm.Realm;
-import io.realm.RealmChangeListener;
+
+import static amalia.dev.dicodingmade.repository.realm.RealmContract.MovieColumns;
 
 /**
  * A simple {@link Fragment} subclass.
  */
-public class MovieFavFragment extends Fragment implements LoaderManager.LoaderCallbacks<Cursor>,MovieFavTouchHelper.RecylerItemTouchHelperListener {
-    private static final String EXTRA_STATE = "EXTRA_STATE";
-    private static final int LOADER_ID = 7;
-    private ArrayList<MovieRealmObject> dataLocal = new ArrayList<>();
+public class MovieFavFragment extends Fragment implements MovieFavTouchHelper.RecylerItemTouchHelperListener, LoadMovieFavCallback {
     private MovieAdapter adapter;
-
     private ConstraintLayout constraintLayout;
-    private RecyclerView rv;
     private ImageView imgNoFav;
     private TextView tvNoFav;
-
-    private Realm realm;
-    private RealmHelper realmHelper;
-    private RealmChangeListener<Realm> realmChangeListener;
-
-    private LoaderManager loaderManager;
-    private LoaderManager.LoaderCallbacks<Cursor> callback;
-    private Loader<Cursor> asyncMovieFavLoader;
-
-
+    private ProgressBar progressBar;
+    private static final String EXTRA_STATE = "EXTRA_STATE";
+    private boolean isTmpDeleteFalse;
+    private DataObserver dataObserver;
 
 
     public MovieFavFragment() {
@@ -78,10 +69,11 @@ public class MovieFavFragment extends Fragment implements LoaderManager.LoaderCa
         constraintLayout = view.findViewById(R.id.constraintLayout_movie_fav_fragment_container);
         imgNoFav = view.findViewById(R.id.image_moviefav_nofavorites);
         tvNoFav = view.findViewById(R.id.text_moviefav_nofavorites);
-        rv = view.findViewById(R.id.recyclerview_moviefav);
+        progressBar = view.findViewById(R.id.progress_circular_favorites);
+        RecyclerView rv = view.findViewById(R.id.recyclerview_moviefav);
         adapter = new MovieAdapter(getActivity());
 
-
+        rv.setAdapter(adapter);
         rv.setLayoutManager(new LinearLayoutManager(getActivity()));
         rv.setHasFixedSize(true);
         rv.setItemAnimator(new DefaultItemAnimator());
@@ -91,173 +83,169 @@ public class MovieFavFragment extends Fragment implements LoaderManager.LoaderCa
         ItemTouchHelper.SimpleCallback listener = new MovieFavTouchHelper(0, ItemTouchHelper.LEFT, this);
         new ItemTouchHelper(listener).attachToRecyclerView(rv);
 
-        //load content from provider using CursorLoad (running async in background)
-        callback = this;
+        //get data from local db (provider)
+        HandlerThread handlerThread = new HandlerThread("DataObserver");
+        handlerThread.start();
+        Handler handler = new Handler(handlerThread.getLooper());
 
-        loaderManager = LoaderManager.getInstance(this);
-        asyncMovieFavLoader = loaderManager.getLoader(LOADER_ID);
-        if(asyncMovieFavLoader == null){
-            adapter.swapCursor(null);
-            loaderManager.initLoader(LOADER_ID,new Bundle(),callback);
-        }else{
-            adapter.swapCursor(null);
-            loaderManager.restartLoader(LOADER_ID,new Bundle(),callback);
+        dataObserver = new DataObserver(handler, getActivity(), this);
+        getActivity().getContentResolver().registerContentObserver(RealmContract.MovieColumns.CONTENT_URI, true, dataObserver);
+
+        //pass value that saved when rotated (ensure data persisted when device rotating)
+        if (savedInstanceState == null) {
+            new LoadMovieFavAsync(getActivity(), this).execute();
+        } else {
+            ArrayList<MovieRealmObject> list = savedInstanceState.getParcelableArrayList(EXTRA_STATE);
+            if (list != null) {
+                adapter.setData(list);
+            }
         }
 
-        rv.setAdapter(adapter);
-//        refresh();
         return view;
     }
 
-//    @Override
-//    public void onSaveInstanceState(@NonNull Bundle outState) {
-//        super.onSaveInstanceState(outState);
-//        outState.putParcelableArrayList(EXTRA_STATE,adapter.getData());
-//    }
-
-
-    @NonNull
+    //making data persisted when device rotated
     @Override
-    public Loader<Cursor> onCreateLoader(int id, @Nullable Bundle args) {
-        CatalogCursorLoader cursorLoader =  new CatalogCursorLoader(Objects.requireNonNull(getActivity()), RealmContract.MovieColumns.CONTENT_URI);
-        return cursorLoader;
+    public void onSaveInstanceState(@NonNull Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putParcelableArrayList(EXTRA_STATE, adapter.getData());
     }
-
-    @Override
-    public void onLoadFinished(@NonNull Loader<Cursor> loader, Cursor data) {
-        // The swapCursor() method assigns the new Cursor to the adapter
-        //passing result load data provider into adapter
-        adapter.swapCursor(data);
-    }
-
-    @Override
-    public void onLoaderReset(@NonNull Loader<Cursor> loader) {
-//    // Clear the Cursor we were using with another call to the swapCursor()
-//        adapter.swapCursor(null);
-    }
-
 
     @Override
     public void onSwiped(RecyclerView.ViewHolder viewHolder, int direction, final int position) {
         //pastikan viewholder-nya miliki MovieFavAdapter
+
         if (viewHolder instanceof MovieAdapter.ViewHolder) {
             //get title movie to show in snacbar when removing
-
-            String name = Objects.requireNonNull(dataLocal.get(viewHolder.getAdapterPosition())).getTitle();
-            final MovieRealmObject deletedMovie = dataLocal.get(position);
-            //remove favorite movie temporary by set true val tmpDelete
-            if (deletedMovie != null) {
-                realmHelper.updateTmpDeleteM(deletedMovie.getId(), true);
-            }
+            String name = adapter.getData().get(position).getTitle();
+            final int idDeletedMovie = adapter.getData().get(position).getId();
+            //remove favorite movie temporary by set true val tmpDelete(content provider)
+            Uri uriUpdate = Uri.parse(MovieColumns.CONTENT_URI + "/true/" + idDeletedMovie);
+           final int rowUpdated = Objects.requireNonNull(getActivity()).getContentResolver().update(uriUpdate, null, null, null);
 
 
             //showing snackbar with undo option for restoring deleted movie fav
-            Snackbar snackbar = Snackbar.make(constraintLayout, name + " deleted from favorites!", Snackbar.LENGTH_SHORT);
-            snackbar.setAction("RESTORE", new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    //restore deleted movie by changing value askedDeletion back to false
-                    if (deletedMovie != null) {
-                        realmHelper.updateTmpDeleteM(deletedMovie.getId(), false);
+            if(rowUpdated > 0){
+                isTmpDeleteFalse = true;
+                Snackbar snackbar = Snackbar.make(constraintLayout, name + " deleted from favorites!", Snackbar.LENGTH_SHORT);
+                snackbar.setAction("RESTORE", new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        Uri uri = Uri.parse(MovieColumns.CONTENT_URI + "/false/" + idDeletedMovie);
+                        //restore deleted movie by changing value askedDeletion back to false
+                        Objects.requireNonNull(getActivity()).getContentResolver().update(uri, null, null, null);
+                        isTmpDeleteFalse = false;
                     }
+                });
+                snackbar.setActionTextColor(Color.YELLOW);
+                snackbar.addCallback(new Snackbar.Callback() {
+                    @Override
+                    public void onDismissed(Snackbar transientBottomBar, int event) {
+                        super.onDismissed(transientBottomBar, event);
+                        //when snackbar closed, delete permanently
+                        if (isTmpDeleteFalse) {//because the change will caught by Observer, i use another variable for determining value of tmpDelete
+                            Uri uri = Uri.parse(MovieColumns.CONTENT_URI + "/"+idDeletedMovie);
+                            Objects.requireNonNull(getActivity()).getContentResolver().delete(uri,null,null);
+                        }
+                    }
+                });
+                snackbar.show();
+            }else{
+                notifyMessage("gagal update tmpDelete");
+            }
 
-                }
-            });
-            snackbar.setActionTextColor(Color.YELLOW);
-            snackbar.addCallback(new Snackbar.Callback() {
-                @Override
-                public void onDismissed(Snackbar transientBottomBar, int event) {
-                    super.onDismissed(transientBottomBar, event);
-                    //when snackbar closed, delete permanently
-                    if (deletedMovie != null && deletedMovie.isTmpDelete()) {
-                        realmHelper.deleteFavMovies(deletedMovie.getId());
-                    }
-                }
-            });
-            snackbar.show();
+
         }
     }
 
-//    //when there's change on data, do refresh
-//    private void refresh() {
-//        realmChangeListener= new RealmChangeListener<Realm>() {
-//            @Override
-//            public void onChange(@NonNull Realm realm) {
-//                // ... do something with the updates (UI, etc.) ...
-//                adapter = new MovieAdapter(getActivity());
-//                adapter.setData(dataLocal);
-//                rv.setAdapter(adapter);
-//            }
-//        };
-//        realm.addChangeListener(realmChangeListener);
-//    }
-//
-//
-//
-//    @Override
-//    public void preExecute() {
-//
-//    }
-//
-//    @Override
-//    public void postExecute(List<MovieRealmObject> movie) {
-//        if(movie.size() > 0){
-//            dataLocal.addAll(movie);
-//            adapter.setData(dataLocal);
-//        }else{
-//            notifyMessage("Data tidak ada");
-//            tvNoFav.setVisibility(View.VISIBLE);
-//            imgNoFav.setVisibility(View.VISIBLE);
-//        }
-//    }
+    @Override
+    public void preExecute() {
+        Objects.requireNonNull(getActivity()).runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                progressBar.setVisibility(View.VISIBLE);
+            }
+        });
+    }
 
-//    private static class LoadMovieFavAsync extends AsyncTask<Void,Void,List<MovieRealmObject>>{
-//        private final WeakReference<Context> weakContext;
-//        private final WeakReference<LoadMovieFavCallback> weakCallback;
-//
-//
-//        LoadMovieFavAsync(Context context, LoadMovieFavCallback callback) {
-//            this.weakContext = new WeakReference<>(context);
-//            this.weakCallback = new WeakReference<>(callback);
-//        }
-//
-//        @Override
-//        protected List<MovieRealmObject> doInBackground(Void... voids) {
-//            Context context = weakContext.get();
-//            Cursor dataCursor = context.getContentResolver().query(MovieColumns.CONTENT_URI,null,null,null,null);
-//            return MappingHelper.mapCursorToList(dataCursor);
-//        }
-//
-//        @Override
-//        protected void onPreExecute() {
-//            super.onPreExecute();
-//            weakCallback.get().preExecute();
-//        }
-//
-//        @Override
-//        protected void onPostExecute(List<MovieRealmObject> movieRealmObjects) {
-//            super.onPostExecute(movieRealmObjects);
-//            weakCallback.get().postExecute(movieRealmObjects);
-//        }
-//    }
-//
-//    public static class DataObserver extends ContentObserver{
-//        final Context context;
-//
-//        public DataObserver(Handler handler,Context context) {
-//            super(handler);
-//            this.context = context;
-//        }
-//
-//        @Override
-//        public void onChange(boolean selfChange) {
-//            super.onChange(selfChange);
-//            new LoadMovieFavAsync(context, (LoadMovieFavCallback) context).execute();
-//        }
-//    }
+    @Override
+    public void postExecute(ArrayList<MovieRealmObject> movie) {
+        progressBar.setVisibility(View.INVISIBLE);
+        if(movie.size() > 0){
+            tvNoFav.setVisibility(View.INVISIBLE);
+            imgNoFav.setVisibility(View.INVISIBLE);
+            adapter.setData(movie);
+        }else{
+            adapter.setData(new ArrayList<MovieRealmObject>());
+            tvNoFav.setVisibility(View.VISIBLE);
+            imgNoFav.setVisibility(View.VISIBLE);
+        }
+    }
 
-    public void notifyMessage(String msg){
-        Toast.makeText(getActivity(),msg, Toast.LENGTH_SHORT).show();
+    static class LoadMovieFavAsync extends AsyncTask<Void, Void, ArrayList<MovieRealmObject>> {
+        private final WeakReference<Context> weakContext;
+        private final WeakReference<LoadMovieFavCallback> weakCallback;
+
+        LoadMovieFavAsync(Context context, LoadMovieFavCallback callback) {
+            this.weakContext = new WeakReference<>(context);
+            this.weakCallback = new WeakReference<>(callback);
+        }
+
+        @Override
+        protected ArrayList<MovieRealmObject> doInBackground(Void... voids) {
+            Context context = weakContext.get();
+            Cursor dataCursor = context.getContentResolver().query(RealmContract.MovieColumns.CONTENT_URI, null, null, null, null);
+            if (dataCursor != null) {
+                return MappingHelper.mCursorToArrayList(dataCursor);
+            } else {
+                return new ArrayList<MovieRealmObject>();
+            }
+        }
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+            weakCallback.get().preExecute();
+        }
+
+        @Override
+        protected void onPostExecute(ArrayList<MovieRealmObject> movieRealmObjects) {
+            super.onPostExecute(movieRealmObjects);
+            weakCallback.get().postExecute(movieRealmObjects);
+        }
+    }
+
+   public static class DataObserver extends ContentObserver {
+        final Context context;
+        LoadMovieFavCallback callback;
+
+        DataObserver(Handler handler, Context context, LoadMovieFavCallback callback) {
+            super(handler);
+            this.context = context;
+            this.callback = callback;
+        }
+
+        @Override
+        public void onChange(boolean selfChange) {
+            super.onChange(selfChange);
+            new LoadMovieFavAsync(context, callback).execute();
+        }
+    }
+
+    private void notifyMessage(String msg) {
+        Toast.makeText(getActivity(), msg, Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void onPause() {
+        //avoiding memory leak
+        Objects.requireNonNull(getActivity()).getContentResolver().unregisterContentObserver(dataObserver);
+        super.onPause();
     }
 }
 
+
+interface LoadMovieFavCallback {
+    void preExecute();
+    void postExecute(ArrayList<MovieRealmObject> movie);
+}

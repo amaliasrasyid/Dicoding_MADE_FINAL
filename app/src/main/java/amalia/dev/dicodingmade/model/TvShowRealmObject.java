@@ -54,6 +54,17 @@ public class TvShowRealmObject extends RealmObject implements Parcelable {
     private boolean tmpDelete = false;
 
     public TvShowRealmObject(){}
+    public TvShowRealmObject (int id,double popularity,String backdropPath,String posterPath,String title,double voteAverage,String overview,String releaseDate,RealmList<Integer>genreIds){
+        this.id = id;
+        this.popularity = popularity;
+        this.backdropPath = backdropPath;
+        this.posterPath = posterPath;
+        this.originalName = title;
+        this.voteAverage = voteAverage;
+        this.overview = overview;
+        this.firstAirDate = releaseDate;
+        this.genreIds = genreIds;
+    }
 
     private TvShowRealmObject(Parcel in) {
         originalName = in.readString();

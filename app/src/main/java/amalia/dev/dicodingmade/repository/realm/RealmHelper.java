@@ -1,9 +1,9 @@
 package amalia.dev.dicodingmade.repository.realm;
 
-import android.util.Log;
+
 
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
+
 
 import amalia.dev.dicodingmade.model.GenreRealmObject;
 import amalia.dev.dicodingmade.model.MovieRealmObject;
@@ -52,23 +52,14 @@ public class RealmHelper {
 
     //get list movie from local db
     public RealmResults<MovieRealmObject> getListFavoriteMovies(){
+        realm.refresh();//untuk menghindari data tertimpa dg data lain jika realm dijalankan secara async (khusus kasus my content provider). more information (https://github.com/realm/realm-java/issues/3932)
         return realm.where(MovieRealmObject.class).equalTo("tmpDelete",false).findAll();
     }
 
     //get list tvshow from local db
     public RealmResults<TvShowRealmObject> getListFavoriteTvShows(){
+        realm.refresh();
         return realm.where(TvShowRealmObject.class).equalTo("tmpDelete",false).findAll();
-    }
-
-    //search data for checking if marked or not (favorite)
-    public boolean isMovieExist(int id){
-        RealmResults<MovieRealmObject> movie = realm.where(MovieRealmObject.class).equalTo("id",id).findAll();
-        return (movie.size() != 0);//when there is no data, it will return list with size 0 not null
-    }
-
-    public boolean isTvShowExist(int id){
-        RealmResults<TvShowRealmObject> tvShow = realm.where(TvShowRealmObject.class).equalTo("id",id).findAll();
-        return (tvShow.size() != 0);//when there is no data, it will return list with size 0 not null
     }
 
     //delete data fav movie
@@ -97,27 +88,14 @@ public class RealmHelper {
 
     //update tmpDelete status movie
     public void updateTmpDeleteM(final int id, final boolean tmpDeleteStatus){
-        // Asynchronously update objects on a background thread
-        realm.executeTransactionAsync(new Realm.Transaction() {
+        //update objects on a background thread
+        realm.executeTransaction(new Realm.Transaction() {
             @Override
-            public void execute(@NonNull  Realm realm) {
+            public void execute(@NonNull Realm realm) {
                 MovieRealmObject mMovie = realm.where(MovieRealmObject.class).equalTo("id",id).findFirst();
                 if(mMovie != null){
                     mMovie.setTmpDelete(tmpDeleteStatus);
                     realm.insertOrUpdate(mMovie);
-                }
-            }
-        },new Realm.Transaction.OnSuccess() {
-            @Override
-            public void onSuccess() {
-                // Original queries and Realm objects are automatically updated.
-                Log.d("Realm Helper","succes update status");
-            }
-        },new Realm.Transaction.OnError() {
-            @Override
-            public void onError(@Nullable  Throwable error) {
-                if(error != null){
-                    error.printStackTrace();
                 }
             }
         });
@@ -125,30 +103,18 @@ public class RealmHelper {
 
     //update tmpDelete status tvshow
     public void updateTmpDeleteTS(final int id, final boolean tmpDeleteStatus){
-        // Asynchronously update objects on a background thread
-        realm.executeTransactionAsync(new Realm.Transaction() {
+        //update objects on a background thread
+        realm.executeTransaction(new Realm.Transaction() {
             @Override
-            public void execute(@NonNull Realm realm) {
-                TvShowRealmObject tvShow = realm.where(TvShowRealmObject.class).equalTo("id",id).findFirst();
-                if(tvShow != null){
-                    tvShow.setTmpDelete(tmpDeleteStatus);
-                    realm.insertOrUpdate(tvShow);
-                }
-            }
-        },new Realm.Transaction.OnSuccess() {
-            @Override
-            public void onSuccess() {
-                // Original queries and Realm objects are automatically updated.
-                Log.d("Realm Helper","succes update status");
-            }
-        },new Realm.Transaction.OnError() {
-            @Override
-            public void onError(@Nullable Throwable error) {
-                if(error != null){
-                    error.printStackTrace();
+            public void execute(Realm realm) {
+                TvShowRealmObject mTvshow = realm.where(TvShowRealmObject.class).equalTo("id",id).findFirst();
+                if(mTvshow != null){
+                    mTvshow.setTmpDelete(tmpDeleteStatus);
+                    realm.insertOrUpdate(mTvshow);
                 }
             }
         });
+
     }
 
     //load genre data from json (API)
@@ -157,22 +123,30 @@ public class RealmHelper {
             @Override
             public void execute(@NonNull Realm realm) {
                 genre.setId(genre.getId());
+                genre.setName(genre.getName());
                 realm.copyToRealm(genre);
             }
         });
     }
 
-    public String getGenreName(int id){
-        GenreRealmObject genre = realm.where(GenreRealmObject.class).equalTo("id",id).findFirst();
-        if(genre != null){
-            return genre.getName();
-        }else{
-            return "";
-        }
+    public MovieRealmObject getMovie(int id){
+        realm.refresh();
+        return realm.where(MovieRealmObject.class).equalTo("id",id).findFirst();
+    }
+
+    public TvShowRealmObject getTvshow(int id){
+        realm.refresh();
+        return realm.where(TvShowRealmObject.class).equalTo("id",id).findFirst();
     }
 
     public GenreRealmObject getGenre(int id){
-        return realm.where(GenreRealmObject.class).equalTo("id",id).findFirst();
+        realm.refresh();
+        GenreRealmObject genre = realm.where(GenreRealmObject.class).equalTo("id",id).findFirst();
+        if(genre != null){
+            return genre;
+        }else{
+            return new GenreRealmObject();
+        }
     }
 
 
