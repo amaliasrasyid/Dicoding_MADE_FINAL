@@ -96,7 +96,7 @@ public class MappingHelper {
     private static RealmList<Integer> stringToRealmList(String textGenreId) {
         //convert genre id from string into integer List
 
-        String trimResult = textGenreId.substring(30, textGenreId.length() - 1);
+        String trimResult = textGenreId.substring(14, textGenreId.length() - 1);
         String[] tmpResult = trimResult.split(",");
         RealmList<Integer> listGenreId = new RealmList<>();
         for (String s : tmpResult) {

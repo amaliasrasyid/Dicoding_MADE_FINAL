@@ -10,6 +10,7 @@ import android.net.Uri;
 
 import androidx.annotation.NonNull;
 
+import java.util.List;
 import java.util.Objects;
 
 import javax.annotation.Nullable;
@@ -22,12 +23,11 @@ import amalia.dev.dicodingmade.repository.realm.RealmHelper;
 import io.realm.Realm;
 import io.realm.RealmConfiguration;
 import io.realm.RealmList;
-import io.realm.RealmResults;
 
 import static amalia.dev.dicodingmade.repository.realm.RealmContract.AUTHORITY;
+import static amalia.dev.dicodingmade.repository.realm.RealmContract.GenreColumns;
 import static amalia.dev.dicodingmade.repository.realm.RealmContract.MovieColumns;
 import static amalia.dev.dicodingmade.repository.realm.RealmContract.TvShowColumns;
-import static amalia.dev.dicodingmade.repository.realm.RealmContract.GenreColumns;
 
 public class FavProvider extends ContentProvider {
     private Realm realm;
@@ -87,21 +87,26 @@ public class FavProvider extends ContentProvider {
         boolean tmpDelete;
         realm =Realm.getDefaultInstance();
         realmHelper = new RealmHelper(realm);
-        switch (uriMatcher.match(uri)) {
-            case MOVIE_TMP_DELETE:
-                idUpdate = Integer.parseInt(uri.getPathSegments().get(2));//id movie
-                tmpDelete = Boolean.parseBoolean(uri.getPathSegments().get(1));//false-true value
-                realmHelper.updateTmpDeleteM(idUpdate, tmpDelete);
-                count++;
-            break;
-            case TVSHOW_TMP_DELETE:
-                idUpdate = Integer.parseInt(uri.getPathSegments().get(2));//id tvshow
-                tmpDelete = Boolean.parseBoolean(uri.getPathSegments().get(1));//false-true value
-                realmHelper.updateTmpDeleteTS(idUpdate, tmpDelete);
-                count++;
-            break;
+        try {
+            switch (uriMatcher.match(uri)) {
+                case MOVIE_TMP_DELETE:
+                    idUpdate = Integer.parseInt(uri.getPathSegments().get(2));//id movie
+                    tmpDelete = Boolean.parseBoolean(uri.getPathSegments().get(1));//false-true value
+                    realmHelper.updateTmpDeleteM(idUpdate, tmpDelete);
+                    count++;
+                    break;
+                case TVSHOW_TMP_DELETE:
+                    idUpdate = Integer.parseInt(uri.getPathSegments().get(2));//id tvshow
+                    tmpDelete = Boolean.parseBoolean(uri.getPathSegments().get(1));//false-true value
+                    realmHelper.updateTmpDeleteTS(idUpdate, tmpDelete);
+                    count++;
+                    break;
 
+            }
+        }finally {
+            realm.close();
         }
+
         if(count > 0){
             Objects.requireNonNull(getContext()).getContentResolver().notifyChange(uri,null);
         }
@@ -117,19 +122,23 @@ public class FavProvider extends ContentProvider {
         //instance realm
         realm = Realm.getDefaultInstance();
         realmHelper = new RealmHelper(realm);
-        switch (uriMatcher.match(uri)) {
-            case MOVIE_ID:
-                idDeleted = Integer.parseInt(uri.getPathSegments().get(1));
-                realmHelper.deleteFavMovies(idDeleted);
-            count++;
-            break;
-            case TVSHOW_ID:
-                idDeleted = Integer.parseInt(uri.getPathSegments().get(1));
-                realmHelper.deleteFavTvShow(idDeleted);
-                count++;
-            break;
-            default:
-            throw new UnsupportedOperationException("Not yet implemented");
+        try {
+            switch (uriMatcher.match(uri)) {
+                case MOVIE_ID:
+                    idDeleted = Integer.parseInt(uri.getPathSegments().get(1));
+                    realmHelper.deleteFavMovies(idDeleted);
+                    count++;
+                    break;
+                case TVSHOW_ID:
+                    idDeleted = Integer.parseInt(uri.getPathSegments().get(1));
+                    realmHelper.deleteFavTvShow(idDeleted);
+                    count++;
+                    break;
+                default:
+                    throw new UnsupportedOperationException("Not yet implemented");
+            }
+        }finally {
+            realm.close();
         }
         if(count > 0){
             Objects.requireNonNull(getContext()).getContentResolver().notifyChange(uri,null);
@@ -151,62 +160,66 @@ public class FavProvider extends ContentProvider {
         RealmList<Integer> listGenreId;
         realm = Realm.getDefaultInstance();
         realmHelper = new RealmHelper(realm);
-        switch (uriMatcher.match(uri)){
-            case MOVIE:
-                id =(Integer)values.get(MovieColumns._ID);
-                MovieRealmObject movie = new MovieRealmObject();
-                //set value object
-                movie.setId(id);
-                movie.setTitle(values.getAsString(MovieColumns.COLUMN_NAME_TITLE));
-                movie.setBackdropPath(values.getAsString(MovieColumns.COLUMN_NAME_BACKDROP_PATH));
-                movie.setPosterPath(values.get(MovieColumns.COLUMN_NAME_POSTER_PATH).toString());
-                movie.setPopularity(values.getAsDouble(MovieColumns.COLUMN_NAME_POPULARITY));
-                movie.setOverview(values.getAsString(MovieColumns.COLUMN_NAME_OVERVIEW));
-                movie.setVoteAverage(values.getAsDouble(MovieColumns.COLUMN_NAME_VOTE_AVERAGE));
-                movie.setReleaseDate(values.getAsString(MovieColumns.COLUMN_NAME_RELEASE_DATE));
-                //convert string list id value into realmlist<Integer>
-                listGenreId = stringToRealmList(values.getAsString(MovieColumns.COLUMN_NAME_GENRE_ID));
-                movie.setGenreIds(listGenreId);
-                //execute insert db
-                realmHelper.insertMovie(movie);
-                mUri = ContentUris.withAppendedId(MovieColumns.CONTENT_URI,id);
-                break;
-            case TVSHOW:
-                id = values.getAsInteger(TvShowColumns._ID);
-                TvShowRealmObject tvshow = new TvShowRealmObject();
-                //set value object
-                tvshow.setId(id);
-                tvshow.setPopularity(values.getAsDouble(TvShowColumns.COLUMN_NAME_POPULARITY));
-                tvshow.setBackdropPath(values.getAsString(TvShowColumns.COLUMN_NAME_BACKDROP_PATH));
-                tvshow.setPosterPath(values.getAsString(TvShowColumns.COLUMN_NAME_POSTER_PATH));
-                tvshow.setOriginalName(values.getAsString(TvShowColumns.COLUMN_NAME_ORIGINAL_TITLE));
-                tvshow.setVoteAverage(values.getAsDouble(TvShowColumns.COLUMN_NAME_VOTE_AVERAGE));
-                tvshow.setOverview(values.getAsString(TvShowColumns.COLUMN_NAME_OVERVIEW));
-                tvshow.setFirstAirDate(values.getAsString(TvShowColumns.COLUMN_NAME_FIRST_RELEASE_DATE));
-                //convert string list id value into realmlist<Integer>
-                 listGenreId= stringToRealmList(values.getAsString(MovieColumns.COLUMN_NAME_GENRE_ID));
-                tvshow.setGenreIds(listGenreId);
+        try {
+            switch (uriMatcher.match(uri)){
+                case MOVIE:
+                    id =(Integer)values.get(MovieColumns._ID);
+                    MovieRealmObject movie = new MovieRealmObject();
+                    //set value object
+                    movie.setId(id);
+                    movie.setTitle(values.getAsString(MovieColumns.COLUMN_NAME_TITLE));
+                    movie.setBackdropPath(values.getAsString(MovieColumns.COLUMN_NAME_BACKDROP_PATH));
+                    movie.setPosterPath(values.get(MovieColumns.COLUMN_NAME_POSTER_PATH).toString());
+                    movie.setPopularity(values.getAsDouble(MovieColumns.COLUMN_NAME_POPULARITY));
+                    movie.setOverview(values.getAsString(MovieColumns.COLUMN_NAME_OVERVIEW));
+                    movie.setVoteAverage(values.getAsDouble(MovieColumns.COLUMN_NAME_VOTE_AVERAGE));
+                    movie.setReleaseDate(values.getAsString(MovieColumns.COLUMN_NAME_RELEASE_DATE));
+                    //convert string list id value into realmlist<Integer>
+                    listGenreId = stringToRealmList(values.getAsString(MovieColumns.COLUMN_NAME_GENRE_ID));
+                    movie.setGenreIds(listGenreId);
+                    //execute insert db
+                    realmHelper.insertMovie(movie);
+                    mUri = ContentUris.withAppendedId(MovieColumns.CONTENT_URI,id);
+                    break;
+                case TVSHOW:
+                    id = values.getAsInteger(TvShowColumns._ID);
+                    TvShowRealmObject tvshow = new TvShowRealmObject();
+                    //set value object
+                    tvshow.setId(id);
+                    tvshow.setPopularity(values.getAsDouble(TvShowColumns.COLUMN_NAME_POPULARITY));
+                    tvshow.setBackdropPath(values.getAsString(TvShowColumns.COLUMN_NAME_BACKDROP_PATH));
+                    tvshow.setPosterPath(values.getAsString(TvShowColumns.COLUMN_NAME_POSTER_PATH));
+                    tvshow.setOriginalName(values.getAsString(TvShowColumns.COLUMN_NAME_ORIGINAL_TITLE));
+                    tvshow.setVoteAverage(values.getAsDouble(TvShowColumns.COLUMN_NAME_VOTE_AVERAGE));
+                    tvshow.setOverview(values.getAsString(TvShowColumns.COLUMN_NAME_OVERVIEW));
+                    tvshow.setFirstAirDate(values.getAsString(TvShowColumns.COLUMN_NAME_FIRST_RELEASE_DATE));
+                    //convert string list id value into realmlist<Integer>
+                    listGenreId= stringToRealmList(values.getAsString(MovieColumns.COLUMN_NAME_GENRE_ID));
+                    tvshow.setGenreIds(listGenreId);
 
-                //execute insert db
-                realmHelper.insertTvShow(tvshow);
-                mUri = ContentUris.withAppendedId(TvShowColumns.CONTENT_URI,id);
+                    //execute insert db
+                    realmHelper.insertTvShow(tvshow);
+                    mUri = ContentUris.withAppendedId(TvShowColumns.CONTENT_URI,id);
 
-                break;
-            case GENRE:
-                id = values.getAsInteger(GenreColumns._ID);
-                GenreRealmObject genre = realm.createObject(GenreRealmObject.class,id);
-                //set value object
-                genre.setId(id);
-                genre.setName(values.getAsString(GenreColumns.COLUMN_NAME_GENRE_NAME));
+                    break;
+                case GENRE:
+                    id = values.getAsInteger(GenreColumns._ID);
+                    GenreRealmObject genre = realm.createObject(GenreRealmObject.class,id);
+                    //set value object
+                    genre.setId(id);
+                    genre.setName(values.getAsString(GenreColumns.COLUMN_NAME_GENRE_NAME));
 
-                //execute insert db
-                realmHelper.insertGenre(genre);
-                mUri = ContentUris.withAppendedId(GenreColumns.CONTENT_URI,id);
-                break;
-            default:
-                throw new UnsupportedOperationException("Not yet implemented");
+                    //execute insert db
+                    realmHelper.insertGenre(genre);
+                    mUri = ContentUris.withAppendedId(GenreColumns.CONTENT_URI,id);
+                    break;
+                default:
+                    throw new UnsupportedOperationException("Not yet implemented");
+            }
+            Objects.requireNonNull(getContext()).getContentResolver().notifyChange(uri,null);
+        }finally {
+            realm.close();
         }
-        Objects.requireNonNull(getContext()).getContentResolver().notifyChange(uri,null);
         return mUri;
     }
 
@@ -246,7 +259,9 @@ public class FavProvider extends ContentProvider {
         try {
             switch (uriMatcher.match(uri)){
                 case MOVIE:
-                    RealmResults<MovieRealmObject> movieResults = realmHelper.getListFavoriteMovies();
+                    //when using copyFromRealm, we get data and it will disconnected from db, so when there is change the data will not updated (read more copyFromRealm())
+                    //but the main reason i using it because RealmList,
+                    List<MovieRealmObject> movieResults = realm.copyFromRealm(realmHelper.getListFavoriteMovies());
                     //convert data realmresult
                     for(MovieRealmObject movie : movieResults){
                         Object[] rowData = new Object[]{movie.getId(),movie.getOverview(),movie.getTitle(),movie.getBackdropPath(),
@@ -257,8 +272,13 @@ public class FavProvider extends ContentProvider {
                     break;
                 case MOVIE_ID:
                     int mId = Integer.parseInt(uri.getPathSegments().get(1));
+                    //because null object cannot copy from realm, ensure object not null
                     MovieRealmObject smovie = realmHelper.getMovie(mId);
-                    if(smovie != null ){
+                    MovieRealmObject finMovie = null;
+                    if(smovie != null){
+                        finMovie = realm.copyFromRealm(smovie);
+                    }
+                    if(finMovie!= null ){
                         Object[] rowData = new Object[]{smovie.getId(),smovie.getOverview(),smovie.getTitle(),smovie.getBackdropPath(),
                                 smovie.getGenreIds(),smovie.getPopularity(),smovie.getVoteAverage(),smovie.getPosterPath(),smovie.getReleaseDate(),smovie.isTmpDelete()};
                         //insert into cursor
@@ -266,7 +286,7 @@ public class FavProvider extends ContentProvider {
                     }
                     break;
                 case TVSHOW:
-                    RealmResults<TvShowRealmObject> tvshowResults = realmHelper.getListFavoriteTvShows();
+                    List<TvShowRealmObject> tvshowResults = realm.copyFromRealm(realmHelper.getListFavoriteTvShows());
                     for (TvShowRealmObject tvshow : tvshowResults) {
                         Object[] rowDataTs = new Object[]{tvshow.getId(), tvshow.getBackdropPath(), tvshow.getFirstAirDate(),
                                 tvshow.getGenreIds(), tvshow.getOriginalName(), tvshow.getOverview(), tvshow.getPopularity(), tvshow.getPosterPath(),
@@ -277,8 +297,13 @@ public class FavProvider extends ContentProvider {
                     break;
                 case TVSHOW_ID:
                     int tsId = Integer.parseInt(uri.getPathSegments().get(1));
+                    //because null object cannot copy from realm, ensure object not null
                     TvShowRealmObject stvshow = realmHelper.getTvshow(tsId);
-                    if(stvshow != null){
+                    TvShowRealmObject finTvshow = null;
+                    if (stvshow != null){
+                        finTvshow = realm.copyFromRealm(stvshow);
+                    }
+                    if(finTvshow != null){
                         Object[] rowDataTs = new Object[]{stvshow.getId(), stvshow.getBackdropPath(), stvshow.getFirstAirDate(),
                                 stvshow.getGenreIds(), stvshow.getOriginalName(), stvshow.getOverview(), stvshow.getPopularity(), stvshow.getPosterPath(),
                                 stvshow.getVoteAverage(), stvshow.isTmpDelete()};
@@ -308,7 +333,7 @@ public class FavProvider extends ContentProvider {
                 return matrixGenre;
             }
         }finally {
-            realm.close();
+            realm.close();//MUST CLOSING IT, because if not closing there is error "realm incorrect access thread" when open app consumer
         }
 
 
