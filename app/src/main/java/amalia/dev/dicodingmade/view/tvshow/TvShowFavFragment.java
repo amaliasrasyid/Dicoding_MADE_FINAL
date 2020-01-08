@@ -2,6 +2,7 @@ package amalia.dev.dicodingmade.view.tvshow;
 
 
 import android.content.ContentResolver;
+import android.content.ContentValues;
 import android.content.Context;
 import android.database.ContentObserver;
 import android.database.Cursor;
@@ -9,6 +10,14 @@ import android.graphics.Color;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.HandlerThread;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.ImageView;
+import android.widget.ProgressBar;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.constraintlayout.widget.ConstraintLayout;
@@ -19,21 +28,11 @@ import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.os.Handler;
-import android.os.HandlerThread;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.ImageView;
-import android.widget.ProgressBar;
-import android.widget.TextView;
-
 import com.google.android.material.snackbar.Snackbar;
 
 import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 import java.util.Objects;
-
 
 import amalia.dev.dicodingmade.R;
 import amalia.dev.dicodingmade.adapter.TvShowAdapter;
@@ -41,6 +40,7 @@ import amalia.dev.dicodingmade.adapter.TvShowFavTouchHelper;
 import amalia.dev.dicodingmade.model.TvShowRealmObject;
 import amalia.dev.dicodingmade.repository.MappingHelper;
 import amalia.dev.dicodingmade.repository.realm.RealmContract;
+
 import static amalia.dev.dicodingmade.repository.realm.RealmContract.TvShowColumns;
 
 /**
@@ -111,13 +111,15 @@ public class TvShowFavFragment extends Fragment implements TvShowFavTouchHelper.
     @Override
     public void onSwiped(RecyclerView.ViewHolder viewHolder, int direction, int position) {
         //pastikan viewholder-nya miliki MovieFavAdapter
+        final ContentValues cv = new ContentValues();
         if (viewHolder instanceof TvShowAdapter.ViewHolder) {
             //get title tvshow to show in snackbar when removing
             String name = adapter.getData().get(position).getOriginalName();
             final int idDeletedTvshow = adapter.getData().get(position).getId();
             //remove favorite movie temporary by set true val tmpDelete
-            Uri uriUpdate = Uri.parse(TvShowColumns.CONTENT_URI+"/true/"+idDeletedTvshow);
-            final  int rowUpdated = contentResolver.update(uriUpdate,null,null,null);
+            Uri uriUpdate = Uri.parse(TvShowColumns.CONTENT_URI+"/"+idDeletedTvshow);
+            cv.put(TvShowColumns.COLUMN_NAME_TMP_DELETE,true);
+            final  int rowUpdated = contentResolver.update(uriUpdate,cv,null,null);
 
 
 
@@ -129,8 +131,9 @@ public class TvShowFavFragment extends Fragment implements TvShowFavTouchHelper.
                     @Override
                     public void onClick(View v) {
                         //restore deleted movie by changing value askedDeletion back to false
-                        Uri uri = Uri.parse(TvShowColumns.CONTENT_URI+"/false/"+idDeletedTvshow);
-                        contentResolver.update(uri,null,null,null);
+                        Uri uri = Uri.parse(TvShowColumns.CONTENT_URI+"/"+idDeletedTvshow);
+                        cv.put(TvShowColumns.COLUMN_NAME_TMP_DELETE,false);
+                        contentResolver.update(uri,cv,null,null);
                         isTmpDeleteFalse = false;
 
                     }

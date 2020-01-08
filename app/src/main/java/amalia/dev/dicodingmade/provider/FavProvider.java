@@ -54,8 +54,8 @@ public class FavProvider extends ContentProvider {
         //create URI content://amalia.dev.dicodingmade/movie/id
         uriMatcher.addURI(AUTHORITY,MovieColumns.TABLE_NAME+"/#",MOVIE_ID);
 
-        //create URI content://amalia.dev.dicodingmade/movie/{tmpDelete}/{id}
-        uriMatcher.addURI(AUTHORITY,MovieColumns.TABLE_NAME+"/*/#",MOVIE_TMP_DELETE);
+//        //create URI content://amalia.dev.dicodingmade/movie/{tmpDelete}/{id}
+//        uriMatcher.addURI(AUTHORITY,MovieColumns.TABLE_NAME+"/*/#",MOVIE_TMP_DELETE);
 
         //create URI content://amalia.dev.dicodingmade/tvshow
         uriMatcher.addURI(AUTHORITY, TvShowColumns.TABLE_NAME,TVSHOW);
@@ -63,8 +63,8 @@ public class FavProvider extends ContentProvider {
         //create URI content://amalia.dev.dicodingmade/tvshow/id
         uriMatcher.addURI(AUTHORITY, TvShowColumns.TABLE_NAME+"/#",TVSHOW_ID);
 
-        //create URI content://amalia.dev.dicodingmade/tvshow/{tmpDelete}/{id}
-        uriMatcher.addURI(AUTHORITY, TvShowColumns.TABLE_NAME+"/*/#",TVSHOW_TMP_DELETE);
+//        //create URI content://amalia.dev.dicodingmade/tvshow/{tmpDelete}/{id}
+//        uriMatcher.addURI(AUTHORITY, TvShowColumns.TABLE_NAME+"/*/#",TVSHOW_TMP_DELETE);
 
         //create URI content://amalia.dev.dicodingmade/genre/id
         uriMatcher.addURI(AUTHORITY,GenreColumns.TABLE_NAME+"/#",GENRE_ID);
@@ -79,9 +79,10 @@ public class FavProvider extends ContentProvider {
     public FavProvider() {  }
 
     @Override
-    public int update(@NonNull Uri uri, ContentValues values, String selection,
+    public int update(@NonNull Uri uri, @NonNull ContentValues values, String selection,
                       String[] selectionArgs) {
         // TODO: Implement this to handle requests to update one or more rows.
+        //ContentValues musn't null because it needed
         int count = 0;
         int idUpdate;
         boolean tmpDelete;
@@ -89,19 +90,22 @@ public class FavProvider extends ContentProvider {
         realmHelper = new RealmHelper(realm);
         try {
             switch (uriMatcher.match(uri)) {
-                case MOVIE_TMP_DELETE:
-                    idUpdate = Integer.parseInt(uri.getPathSegments().get(2));//id movie
-                    tmpDelete = Boolean.parseBoolean(uri.getPathSegments().get(1));//false-true value
+                case MOVIE_ID:
+//                    idUpdate = Integer.parseInt(uri.getPathSegments().get(2));//id movie
+//                    tmpDelete = Boolean.parseBoolean(uri.getPathSegments().get(1));//false-true value
+                    idUpdate = Integer.parseInt(uri.getPathSegments().get(1));
+                    tmpDelete = values.getAsBoolean(MovieColumns.COLUMN_NAME_TMP_DELETE);
                     realmHelper.updateTmpDeleteM(idUpdate, tmpDelete);
                     count++;
                     break;
-                case TVSHOW_TMP_DELETE:
-                    idUpdate = Integer.parseInt(uri.getPathSegments().get(2));//id tvshow
-                    tmpDelete = Boolean.parseBoolean(uri.getPathSegments().get(1));//false-true value
+                case TVSHOW_ID:
+                    idUpdate = Integer.parseInt(uri.getPathSegments().get(1));
+                    tmpDelete = values.getAsBoolean(TvShowColumns.COLUMN_NAME_TMP_DELETE);
+//                    idUpdate = Integer.parseInt(uri.getPathSegments().get(2));//id tvshow
+//                    tmpDelete = Boolean.parseBoolean(uri.getPathSegments().get(1));//false-true value
                     realmHelper.updateTmpDeleteTS(idUpdate, tmpDelete);
                     count++;
                     break;
-
             }
         }finally {
             realm.close();

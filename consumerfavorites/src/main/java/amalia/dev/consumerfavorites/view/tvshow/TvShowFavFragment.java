@@ -2,6 +2,7 @@ package amalia.dev.consumerfavorites.view.tvshow;
 
 
 import android.content.ContentResolver;
+import android.content.ContentValues;
 import android.content.Context;
 import android.database.ContentObserver;
 import android.database.Cursor;
@@ -110,13 +111,15 @@ public class TvShowFavFragment extends Fragment implements TvShowFavTouchHelper.
     @Override
     public void onSwiped(RecyclerView.ViewHolder viewHolder, int direction, int position) {
         //pastikan viewholder-nya miliki MovieFavAdapter
+        final ContentValues cv = new ContentValues();
         if (viewHolder instanceof TvShowAdapter.ViewHolder) {
             //get title tvshow to show in snackbar when removing
             String name = adapter.getData().get(position).getOriginalName();
             final int idDeletedTvshow = adapter.getData().get(position).getId();
             //remove favorite movie temporary by set true val tmpDelete
-            Uri uriUpdate = Uri.parse(TvShowColumns.CONTENT_URI+"/true/"+idDeletedTvshow);
-            final  int rowUpdated = contentResolver.update(uriUpdate,null,null,null);
+            Uri uriUpdate = Uri.parse(TvShowColumns.CONTENT_URI+"/"+idDeletedTvshow);
+            cv.put(TvShowColumns.COLUMN_NAME_TMP_DELETE,true);
+            final  int rowUpdated = contentResolver.update(uriUpdate,cv,null,null);
 
 
 
@@ -128,8 +131,9 @@ public class TvShowFavFragment extends Fragment implements TvShowFavTouchHelper.
                     @Override
                     public void onClick(View v) {
                         //restore deleted movie by changing value askedDeletion back to false
-                        Uri uri = Uri.parse(TvShowColumns.CONTENT_URI+"/false/"+idDeletedTvshow);
-                        contentResolver.update(uri,null,null,null);
+                        Uri uri = Uri.parse(TvShowColumns.CONTENT_URI+"/"+idDeletedTvshow);
+                        cv.put(TvShowColumns.COLUMN_NAME_TMP_DELETE,true);
+                        contentResolver.update(uri,cv,null,null);
                         isTmpDeleteFalse = false;
 
                     }

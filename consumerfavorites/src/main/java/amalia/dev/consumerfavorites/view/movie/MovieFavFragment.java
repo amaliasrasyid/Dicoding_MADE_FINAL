@@ -1,6 +1,7 @@
 package amalia.dev.consumerfavorites.view.movie;
 
 
+import android.content.ContentValues;
 import android.content.Context;
 import android.database.ContentObserver;
 import android.database.Cursor;
@@ -113,14 +114,15 @@ public class MovieFavFragment extends Fragment implements MovieFavTouchHelper.Re
     @Override
     public void onSwiped(RecyclerView.ViewHolder viewHolder, int direction, final int position) {
         //pastikan viewholder-nya miliki MovieFavAdapter
-
+        final ContentValues cv = new ContentValues();
         if (viewHolder instanceof MovieAdapter.ViewHolder) {
             //get title movie to show in snacbar when removing
             String name = adapter.getData().get(position).getTitle();
             final int idDeletedMovie = adapter.getData().get(position).getId();
             //remove favorite movie temporary by set true val tmpDelete(content provider)
-            Uri uriUpdate = Uri.parse(MovieColumns.CONTENT_URI + "/true/" + idDeletedMovie);
-           final int rowUpdated = Objects.requireNonNull(getActivity()).getContentResolver().update(uriUpdate, null, null, null);
+            Uri uriUpdate = Uri.parse(MovieColumns.CONTENT_URI + "/" + idDeletedMovie);
+            cv.put(MovieColumns.COLUMN_NAME_TMP_DELETE,true);
+           final int rowUpdated = Objects.requireNonNull(getActivity()).getContentResolver().update(uriUpdate, cv, null, null);
 
 
             //showing snackbar with undo option for restoring deleted movie fav
@@ -130,9 +132,12 @@ public class MovieFavFragment extends Fragment implements MovieFavTouchHelper.Re
                 snackbar.setAction("RESTORE", new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        Uri uri = Uri.parse(MovieColumns.CONTENT_URI + "/false/" + idDeletedMovie);
+                        Uri uri = Uri.parse(MovieColumns.CONTENT_URI + "/" + idDeletedMovie);
+                        cv.put(MovieColumns.COLUMN_NAME_TMP_DELETE,false);
+                        ContentValues contentValues = new ContentValues();
+
                         //restore deleted movie by changing value askedDeletion back to false
-                        Objects.requireNonNull(getActivity()).getContentResolver().update(uri, null, null, null);
+                        Objects.requireNonNull(getActivity()).getContentResolver().update(uri, cv, null, null);
                         isTmpDeleteFalse = false;
                     }
                 });
