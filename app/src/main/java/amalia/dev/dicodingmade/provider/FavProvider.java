@@ -243,69 +243,74 @@ public class FavProvider extends ContentProvider {
         });
         realm = Realm.getDefaultInstance();
         realmHelper = new RealmHelper(realm);
-        switch (uriMatcher.match(uri)){
-            case MOVIE:
-                RealmResults<MovieRealmObject> movieResults = realmHelper.getListFavoriteMovies();
-                //convert data realmresult
-                for(MovieRealmObject movie : movieResults){
-                    Object[] rowData = new Object[]{movie.getId(),movie.getOverview(),movie.getTitle(),movie.getBackdropPath(),
-                            movie.getGenreIds(),movie.getPopularity(),movie.getVoteAverage(),movie.getPosterPath(),movie.getReleaseDate(),movie.isTmpDelete()};
-                    //insert into cursor
-                    matrixMovie.addRow(rowData);
-                }
-                break;
-            case MOVIE_ID:
-                int mId = Integer.parseInt(uri.getPathSegments().get(1));
-                MovieRealmObject smovie = realmHelper.getMovie(mId);
-                if(smovie != null ){
-                    Object[] rowData = new Object[]{smovie.getId(),smovie.getOverview(),smovie.getTitle(),smovie.getBackdropPath(),
-                            smovie.getGenreIds(),smovie.getPopularity(),smovie.getVoteAverage(),smovie.getPosterPath(),smovie.getReleaseDate(),smovie.isTmpDelete()};
-                    //insert into cursor
-                    matrixMovie.addRow(rowData);
-                }
-                break;
-            case TVSHOW:
-                RealmResults<TvShowRealmObject> tvshowResults = realmHelper.getListFavoriteTvShows();
-                for (TvShowRealmObject tvshow : tvshowResults) {
-                    Object[] rowDataTs = new Object[]{tvshow.getId(), tvshow.getBackdropPath(), tvshow.getFirstAirDate(),
-                            tvshow.getGenreIds(), tvshow.getOriginalName(), tvshow.getOverview(), tvshow.getPopularity(), tvshow.getPosterPath(),
-                            tvshow.getVoteAverage(), tvshow.isTmpDelete()};
-                    //insert into cursor
-                    matrixTvshow.addRow(rowDataTs);
-                }
-                break;
-            case TVSHOW_ID:
-                int tsId = Integer.parseInt(uri.getPathSegments().get(1));
-                TvShowRealmObject stvshow = realmHelper.getTvshow(tsId);
-                if(stvshow != null){
-                    Object[] rowDataTs = new Object[]{stvshow.getId(), stvshow.getBackdropPath(), stvshow.getFirstAirDate(),
-                            stvshow.getGenreIds(), stvshow.getOriginalName(), stvshow.getOverview(), stvshow.getPopularity(), stvshow.getPosterPath(),
-                            stvshow.getVoteAverage(), stvshow.isTmpDelete()};
-                    //insert into cursor
-                    matrixTvshow.addRow(rowDataTs);
-                }
-                break;
-            case GENRE_ID:
-                int idGenre = Integer.parseInt(uri.getPathSegments().get(1));
-                GenreRealmObject genreResult = realmHelper.getGenre(idGenre);
-                matrixGenre.addRow(new Object[]{
-                        genreResult.getId(),genreResult.getName()
-                });
-                break;
-            default:
-                throw new UnsupportedOperationException("Unknown uri: " + uri);
+        try {
+            switch (uriMatcher.match(uri)){
+                case MOVIE:
+                    RealmResults<MovieRealmObject> movieResults = realmHelper.getListFavoriteMovies();
+                    //convert data realmresult
+                    for(MovieRealmObject movie : movieResults){
+                        Object[] rowData = new Object[]{movie.getId(),movie.getOverview(),movie.getTitle(),movie.getBackdropPath(),
+                                movie.getGenreIds(),movie.getPopularity(),movie.getVoteAverage(),movie.getPosterPath(),movie.getReleaseDate(),movie.isTmpDelete()};
+                        //insert into cursor
+                        matrixMovie.addRow(rowData);
+                    }
+                    break;
+                case MOVIE_ID:
+                    int mId = Integer.parseInt(uri.getPathSegments().get(1));
+                    MovieRealmObject smovie = realmHelper.getMovie(mId);
+                    if(smovie != null ){
+                        Object[] rowData = new Object[]{smovie.getId(),smovie.getOverview(),smovie.getTitle(),smovie.getBackdropPath(),
+                                smovie.getGenreIds(),smovie.getPopularity(),smovie.getVoteAverage(),smovie.getPosterPath(),smovie.getReleaseDate(),smovie.isTmpDelete()};
+                        //insert into cursor
+                        matrixMovie.addRow(rowData);
+                    }
+                    break;
+                case TVSHOW:
+                    RealmResults<TvShowRealmObject> tvshowResults = realmHelper.getListFavoriteTvShows();
+                    for (TvShowRealmObject tvshow : tvshowResults) {
+                        Object[] rowDataTs = new Object[]{tvshow.getId(), tvshow.getBackdropPath(), tvshow.getFirstAirDate(),
+                                tvshow.getGenreIds(), tvshow.getOriginalName(), tvshow.getOverview(), tvshow.getPopularity(), tvshow.getPosterPath(),
+                                tvshow.getVoteAverage(), tvshow.isTmpDelete()};
+                        //insert into cursor
+                        matrixTvshow.addRow(rowDataTs);
+                    }
+                    break;
+                case TVSHOW_ID:
+                    int tsId = Integer.parseInt(uri.getPathSegments().get(1));
+                    TvShowRealmObject stvshow = realmHelper.getTvshow(tsId);
+                    if(stvshow != null){
+                        Object[] rowDataTs = new Object[]{stvshow.getId(), stvshow.getBackdropPath(), stvshow.getFirstAirDate(),
+                                stvshow.getGenreIds(), stvshow.getOriginalName(), stvshow.getOverview(), stvshow.getPopularity(), stvshow.getPosterPath(),
+                                stvshow.getVoteAverage(), stvshow.isTmpDelete()};
+                        //insert into cursor
+                        matrixTvshow.addRow(rowDataTs);
+                    }
+                    break;
+                case GENRE_ID:
+                    int idGenre = Integer.parseInt(uri.getPathSegments().get(1));
+                    GenreRealmObject genreResult = realmHelper.getGenre(idGenre);
+                    matrixGenre.addRow(new Object[]{
+                            genreResult.getId(),genreResult.getName()
+                    });
+                    break;
+                default:
+                    throw new UnsupportedOperationException("Unknown uri: " + uri);
+            }
+            //This line will let CursorLoader know about any data change on "uri" , So that data will be reloaded to CursorLoader(or at least that was said)
+            if(matrixMovie.getCount() != 0){
+                matrixMovie.setNotificationUri(Objects.requireNonNull(getContext()).getContentResolver(),uri);
+                return  matrixMovie;
+            }else if(matrixTvshow.getCount() != 0){
+                matrixTvshow.setNotificationUri(Objects.requireNonNull(getContext()).getContentResolver(),uri);
+                return matrixTvshow;
+            }else{
+                matrixGenre.setNotificationUri(Objects.requireNonNull(getContext()).getContentResolver(),uri);
+                return matrixGenre;
+            }
+        }finally {
+            realm.close();
         }
-        //This line will let CursorLoader know about any data change on "uri" , So that data will be reloaded to CursorLoader(or at least that was said)
-        if(matrixMovie.getCount() != 0){
-            matrixMovie.setNotificationUri(Objects.requireNonNull(getContext()).getContentResolver(),uri);
-            return  matrixMovie;
-        }else if(matrixTvshow.getCount() != 0){
-            matrixTvshow.setNotificationUri(Objects.requireNonNull(getContext()).getContentResolver(),uri);
-            return matrixTvshow;
-        }else{
-            matrixGenre.setNotificationUri(Objects.requireNonNull(getContext()).getContentResolver(),uri);
-            return matrixGenre;
-        }
+
 
     }
 

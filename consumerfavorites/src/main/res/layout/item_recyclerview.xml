@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginTop="35dp"
+    android:layout_marginStart="21dp"
+    android:layout_marginEnd="21dp">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/constraintLayout_rvitem_background"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@drawable/bg_rounded_shape_foreground">
+
+        <ImageView
+            android:id="@+id/imageView3"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_marginEnd="21dp"
+            android:src="@drawable/ic_trash_50px"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            android:contentDescription="@string/action_icon_delete"/>
+
+        <TextView
+            android:id="@+id/textView4"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/action_delete"
+            android:textColor="#ffffff"
+            android:textSize="16sp"
+            android:textAllCaps="true"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/imageView3"
+            app:layout_constraintTop_toTopOf="parent" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/constraintlayout_rvitem_viewforeground"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/bg_rounded_shape">
+
+        <ImageView
+            android:id="@+id/img_item_poster"
+            style="@style/ImagePosterStyle"
+            android:layout_marginStart="9dp"
+            android:layout_marginTop="9dp"
+            android:layout_marginBottom="9dp"
+            android:contentDescription="@string/msg_poster_film"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:src="@drawable/example_poster" />
+
+        <TextView
+            android:id="@+id/rv_item_title"
+            style="@style/TextContent.Title"
+            android:layout_width="0dp"
+            android:layout_marginStart="@dimen/margin_left_content_list"
+            android:layout_marginEnd="12dp"
+            android:layout_marginBottom="3dp"
+            android:maxLines="1"
+            android:textAlignment="viewStart"
+            app:layout_constraintBottom_toTopOf="@+id/tv_item_popularity"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/img_item_poster"
+            tools:text="How To Train Your Dragon" />
+
+        <ImageView
+            android:id="@+id/imageView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/margin_left_content_list"
+            android:layout_marginBottom="15dp"
+            android:contentDescription="@string/msg_icon_popularity"
+            android:src="@drawable/ic_popularity"
+            app:layout_constraintBottom_toTopOf="@+id/rv_item_overview"
+            app:layout_constraintStart_toEndOf="@+id/img_item_poster" />
+
+        <TextView
+            android:id="@+id/tv_item_popularity"
+            style="@style/TextContent.SmallText"
+            android:layout_marginStart="8dp"
+            android:layout_marginBottom="15dp"
+            android:alpha="0.5"
+            android:background="@android:color/transparent"
+            app:layout_constraintBottom_toTopOf="@+id/rv_item_overview"
+            app:layout_constraintStart_toEndOf="@+id/imageView"
+            tools:text="204.321" />
+
+        <TextView
+            android:id="@+id/rv_item_overview"
+            style="@style/TextContent.Overview"
+            android:layout_width="0dp"
+            android:layout_marginStart="@dimen/margin_left_content_list"
+            android:layout_marginEnd="12dp"
+            android:layout_marginBottom="24dp"
+            android:ellipsize="end"
+            android:maxLines="3"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toEndOf="@+id/img_item_poster"
+            tools:text="Many thousands of years in the future, Earth ’s cities roam the globe on huge wheels, devouring each other in a struggle for ever diminishing resources. On one of these massive traction cities, the old London, Tom Natsworthy has an unexpected encounter with a mysterious young woman from the wastelands who will change the course of his life forever." />
+
+        <TextView
+            android:id="@+id/rv_item_rating"
+            style="@style/TextContent.RatingSmall"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:text="8.4" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+</FrameLayout>

@@ -3,7 +3,6 @@ package amalia.dev.dicodingmade.repository.realm;
 import android.net.Uri;
 import android.provider.BaseColumns;
 
-import java.net.URI;
 
 public class RealmContract {
     public static final String AUTHORITY = "amalia.dev.dicodingmade";
