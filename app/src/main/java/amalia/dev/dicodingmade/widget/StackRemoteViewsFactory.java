@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.Bitmap;
+import android.os.Binder;
 import android.os.Bundle;
 import android.widget.RemoteViews;
 import android.widget.RemoteViewsService;
@@ -40,16 +41,12 @@ public class StackRemoteViewsFactory implements RemoteViewsService.RemoteViewsFa
     public void onDataSetChanged() {
         //based the guide on developer.android.com, this method always called after onCreate()
         //load data from content provider
-        //todo:mCursor is null
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
-                mCursor = mContext.getContentResolver().query(RealmContract.MovieColumns.CONTENT_URI, null, null, null, null);
-            }
-        }).start();
+        final long identityToken = Binder.clearCallingIdentity();
+        mCursor = mContext.getContentResolver().query(RealmContract.MovieColumns.CONTENT_URI, null, null, null, null);
         if (mCursor != null) {
             widgetItem = MappingHelper.mCursorToArrayList(mCursor);
         }
+        Binder.restoreCallingIdentity(identityToken);
 
     }
 
