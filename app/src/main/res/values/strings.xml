@@ -22,6 +22,8 @@
     <string name="msg_favorite">Favorite</string>
     <string name="msg_no_favorites">No Favorites</string>
     <string name="msg_image_no_favorites">image no favorites</string>
+    <string name="app_widget_text">My Favorites</string>
+    <string name="empty_text">No Data</string>
 
 
 </resources>

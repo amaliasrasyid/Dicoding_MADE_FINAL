@@ -5,8 +5,13 @@
 
     <!-- Internet Permission -->
     <uses-permission android:name="android.permission.INTERNET" />
-    <permission android:name="amalia.dev.dicodingmade.READ_DATABASE" android:protectionLevel="normal"/>
-    <permission android:name="amalia.dev.dicodingmade.WRITE_DATABASE" android:protectionLevel="normal"/>
+
+    <permission
+        android:name="amalia.dev.dicodingmade.READ_DATABASE"
+        android:protectionLevel="normal" />
+    <permission
+        android:name="amalia.dev.dicodingmade.WRITE_DATABASE"
+        android:protectionLevel="normal" />
 
     <application
         android:name=".repository.realm.RealmApplication"
@@ -18,12 +23,24 @@
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true"
         tools:targetApi="m">
+        <receiver android:name=".widget.ImgFavoritesWidget">
+            <intent-filter>
+                <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
+            </intent-filter>
+
+            <meta-data
+                android:name="android.appwidget.provider"
+                android:resource="@xml/img_favorites_widget_info" />
+        </receiver>
+        <service android:name=".widget.StackWidgetService"
+            android:permission="android.permission.BIND_REMOTEVIEWS"/>
+
         <provider
             android:name=".provider.FavProvider"
             android:authorities="amalia.dev.dicodingmade"
             android:exported="true"
             android:readPermission="amalia.dev.dicodingmade.READ_DATABASE"
-            android:writePermission="amalia.dev.dicodingmade.WRITE_DATABASE"/>
+            android:writePermission="amalia.dev.dicodingmade.WRITE_DATABASE" />
 
         <activity
             android:name=".view.tvshow.TvShowDetailActivity"
