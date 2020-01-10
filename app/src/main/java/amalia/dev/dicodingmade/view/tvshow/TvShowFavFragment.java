@@ -4,6 +4,7 @@ package amalia.dev.dicodingmade.view.tvshow;
 import android.content.ContentResolver;
 import android.content.ContentValues;
 import android.content.Context;
+import android.content.Intent;
 import android.database.ContentObserver;
 import android.database.Cursor;
 import android.graphics.Color;
@@ -40,6 +41,7 @@ import amalia.dev.dicodingmade.adapter.TvShowFavTouchHelper;
 import amalia.dev.dicodingmade.model.TvShowRealmObject;
 import amalia.dev.dicodingmade.repository.MappingHelper;
 import amalia.dev.dicodingmade.repository.realm.RealmContract;
+import amalia.dev.dicodingmade.widget.ImgFavWidgetProvider;
 
 import static amalia.dev.dicodingmade.repository.realm.RealmContract.TvShowColumns;
 
@@ -151,6 +153,7 @@ public class TvShowFavFragment extends Fragment implements TvShowFavTouchHelper.
                     }
                 });
                 snackbar.show();
+                broadcasting();
             }
 
         }
@@ -160,6 +163,12 @@ public class TvShowFavFragment extends Fragment implements TvShowFavTouchHelper.
     public void onSaveInstanceState(@NonNull Bundle outState) {
         super.onSaveInstanceState(outState);
         outState.putParcelableArrayList(EXTRA_STATE,adapter.getData());
+    }
+
+    private void broadcasting(){
+        Intent intent = new Intent(getActivity(), ImgFavWidgetProvider.class);
+        intent.setAction(ImgFavWidgetProvider.UPDATE_WIDGET);
+        Objects.requireNonNull(getActivity()).sendBroadcast(intent);
     }
 
     @Override

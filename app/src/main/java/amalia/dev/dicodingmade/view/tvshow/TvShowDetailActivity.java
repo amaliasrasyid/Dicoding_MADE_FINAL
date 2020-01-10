@@ -1,11 +1,9 @@
 package amalia.dev.dicodingmade.view.tvshow;
 
-import androidx.annotation.Nullable;
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.content.ContentResolver;
 import android.content.ContentValues;
 import android.content.Context;
+import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
@@ -17,6 +15,9 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.DataSource;
@@ -37,6 +38,7 @@ import amalia.dev.dicodingmade.R;
 import amalia.dev.dicodingmade.model.TvShowRealmObject;
 import amalia.dev.dicodingmade.repository.MappingHelper;
 import amalia.dev.dicodingmade.repository.realm.RealmContract;
+import amalia.dev.dicodingmade.widget.ImgFavWidgetProvider;
 
 import static amalia.dev.dicodingmade.repository.realm.RealmContract.TvShowColumns;
 
@@ -133,6 +135,7 @@ public class TvShowDetailActivity extends AppCompatActivity {
     private void deleteFavorite(int id) {
         Uri uri = Uri.parse(TvShowColumns.CONTENT_URI+"/"+id);
         contentResolver.delete(uri,null,null);
+        broadcasting();
     }
 
     private void addFavorite(TvShowRealmObject tvShow) {
@@ -140,6 +143,14 @@ public class TvShowDetailActivity extends AppCompatActivity {
         ContentValues contentValues = MappingHelper.tvshowToContentValues(tvShow);
         //insert with Uri (content provider)
         contentResolver.insert(TvShowColumns.CONTENT_URI,contentValues);
+        broadcasting();
+    }
+
+    private void broadcasting(){
+        //send broadcast to widget
+        Intent intent = new Intent(this, ImgFavWidgetProvider.class);
+        intent.setAction(ImgFavWidgetProvider.UPDATE_WIDGET);
+        this.sendBroadcast(intent);
     }
 
     private boolean isCheckedFav(int id) {

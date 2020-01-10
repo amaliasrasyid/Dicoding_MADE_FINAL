@@ -1,11 +1,9 @@
 package amalia.dev.dicodingmade.view.movie;
 
-import androidx.annotation.Nullable;
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.content.ContentResolver;
 import android.content.ContentValues;
 import android.content.Context;
+import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
@@ -18,6 +16,9 @@ import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
+
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.DataSource;
 import com.bumptech.glide.load.engine.GlideException;
@@ -28,7 +29,6 @@ import com.bumptech.glide.request.target.Target;
 import java.lang.ref.WeakReference;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -38,7 +38,7 @@ import amalia.dev.dicodingmade.R;
 import amalia.dev.dicodingmade.model.MovieRealmObject;
 import amalia.dev.dicodingmade.repository.MappingHelper;
 import amalia.dev.dicodingmade.repository.realm.RealmContract;
-
+import amalia.dev.dicodingmade.widget.ImgFavWidgetProvider;
 
 import static amalia.dev.dicodingmade.repository.realm.RealmContract.MovieColumns;
 
@@ -101,7 +101,6 @@ public class MovieDetailActivity extends AppCompatActivity {
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         }
 
-
     }
 
     @Override
@@ -138,6 +137,7 @@ public class MovieDetailActivity extends AppCompatActivity {
     private void deleteFavorite(Integer id) {
         Uri uri = Uri.parse(MovieColumns.CONTENT_URI + "/" + id);
         contentResolver.delete(uri, null, null);
+        broadcasting();
     }
 
     private void addFavorite(MovieRealmObject movie) {
@@ -145,13 +145,20 @@ public class MovieDetailActivity extends AppCompatActivity {
         ContentValues contentValues = MappingHelper.movieToContentValues(movie);
         //insert  with Uri (content provider)
         contentResolver.insert(MovieColumns.CONTENT_URI, contentValues);
+        broadcasting();
     }
 
     private boolean isCheckedFav(int id) {
         Uri uri = Uri.parse(MovieColumns.CONTENT_URI + "/" + id);
         Cursor cursor = contentResolver.query(uri, null, null, null, null);
         return cursor != null && cursor.getCount() > 0;
+    }
 
+    private void broadcasting(){
+        //send broadcast to widget
+        Intent intent = new Intent(this, ImgFavWidgetProvider.class);
+        intent.setAction(ImgFavWidgetProvider.UPDATE_WIDGET);
+        this.sendBroadcast(intent);
     }
 
     private String getGenresName(List<Integer> genresId) {

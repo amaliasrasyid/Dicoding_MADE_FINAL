@@ -3,6 +3,7 @@ package amalia.dev.dicodingmade.view.movie;
 
 import android.content.ContentValues;
 import android.content.Context;
+import android.content.Intent;
 import android.database.ContentObserver;
 import android.database.Cursor;
 import android.graphics.Color;
@@ -40,6 +41,7 @@ import amalia.dev.dicodingmade.adapter.MovieFavTouchHelper;
 import amalia.dev.dicodingmade.model.MovieRealmObject;
 import amalia.dev.dicodingmade.repository.MappingHelper;
 import amalia.dev.dicodingmade.repository.realm.RealmContract;
+import amalia.dev.dicodingmade.widget.ImgFavWidgetProvider;
 
 import static amalia.dev.dicodingmade.repository.realm.RealmContract.MovieColumns;
 
@@ -111,6 +113,12 @@ public class MovieFavFragment extends Fragment implements MovieFavTouchHelper.Re
         outState.putParcelableArrayList(EXTRA_STATE, adapter.getData());
     }
 
+    private void broadcasting(){
+        Intent intent = new Intent(getActivity(), ImgFavWidgetProvider.class);
+        intent.setAction(ImgFavWidgetProvider.UPDATE_WIDGET);
+        Objects.requireNonNull(getActivity()).sendBroadcast(intent);
+    }
+
     @Override
     public void onSwiped(RecyclerView.ViewHolder viewHolder, int direction, final int position) {
         //pastikan viewholder-nya miliki MovieFavAdapter
@@ -152,11 +160,8 @@ public class MovieFavFragment extends Fragment implements MovieFavTouchHelper.Re
                     }
                 });
                 snackbar.show();
-            }else{
-                notifyMessage("gagal update tmpDelete");
+                broadcasting();
             }
-
-
         }
     }
 

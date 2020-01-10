@@ -40,6 +40,7 @@ public class StackRemoteViewsFactory implements RemoteViewsService.RemoteViewsFa
     @Override
     public void onDataSetChanged() {
         //based the guide on developer.android.com, this method always called after onCreate()
+        //if proccess take more than 20s than ANR(Application Not Responding) will happening
         //load data from content provider
         final long identityToken = Binder.clearCallingIdentity();
         mCursor = mContext.getContentResolver().query(RealmContract.MovieColumns.CONTENT_URI, null, null, null, null);
@@ -69,7 +70,7 @@ public class StackRemoteViewsFactory implements RemoteViewsService.RemoteViewsFa
         }
 
         Bundle extras = new Bundle();
-        extras.putInt(ImgFavoritesWidget.EXTRA_ITEM,position);
+        extras.putInt(ImgFavWidgetProvider.EXTRA_ITEM,position);
         Intent fillInIntent = new Intent();
         fillInIntent.putExtras(extras);
 
