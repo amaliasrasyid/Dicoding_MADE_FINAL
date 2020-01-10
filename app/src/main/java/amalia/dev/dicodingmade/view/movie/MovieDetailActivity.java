@@ -154,7 +154,7 @@ public class MovieDetailActivity extends AppCompatActivity {
     private void broadcasting(){
         //send broadcast to widget
         Intent intent = new Intent(this, MovieFavWidget.class);
-        intent.setAction(MovieFavWidget.UPDATE_WIDGET);
+        intent.setAction(MovieFavWidget.UPDATE_WIDGET_MOVIE);
         this.sendBroadcast(intent);
     }
 

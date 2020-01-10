@@ -45,6 +45,10 @@
         <service
             android:name=".widget.movieFav_widget.MovieFavWidgetService"
             android:permission="android.permission.BIND_REMOTEVIEWS" />
+        <service
+            android:name=".widget.tvshowFav_widget.TvshowFavWidgetService"
+            android:permission="android.permission.BIND_REMOTEVIEWS"/>
+
 
         <provider
             android:name=".provider.FavProvider"

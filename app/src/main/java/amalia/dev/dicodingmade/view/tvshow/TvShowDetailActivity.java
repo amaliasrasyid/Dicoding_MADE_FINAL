@@ -38,7 +38,7 @@ import amalia.dev.dicodingmade.R;
 import amalia.dev.dicodingmade.model.TvShowRealmObject;
 import amalia.dev.dicodingmade.repository.MappingHelper;
 import amalia.dev.dicodingmade.repository.realm.RealmContract;
-import amalia.dev.dicodingmade.widget.movieFav_widget.MovieFavWidget;
+import amalia.dev.dicodingmade.widget.tvshowFav_widget.TvshowFavWidget;
 
 import static amalia.dev.dicodingmade.repository.realm.RealmContract.TvShowColumns;
 
@@ -148,8 +148,8 @@ public class TvShowDetailActivity extends AppCompatActivity {
 
     private void broadcasting(){
         //send broadcast to widget
-        Intent intent = new Intent(this, MovieFavWidget.class);
-        intent.setAction(MovieFavWidget.UPDATE_WIDGET);
+        Intent intent = new Intent(this, TvshowFavWidget.class);
+        intent.setAction(TvshowFavWidget.UPDATE_WIDGET_TV);
         this.sendBroadcast(intent);
     }
 
@@ -160,10 +160,20 @@ public class TvShowDetailActivity extends AppCompatActivity {
     }
 
 
-    private String getGenresName(List<Integer> genresId) {
+    private String getGenresName(List<Integer> listGenresId) {
         //get list genre's name from query (content provider)
-        new LoadGenresNameAsync(this,genresId).execute();
+//        new LoadGenresNameAsync(this,genresId).execute();
+        ArrayList<String> genresName = new ArrayList<>();
 
+        for (int j = 0; j < listGenresId.size(); j++) {
+            int idValue = listGenresId.get(j);
+            Uri uri = Uri.parse(RealmContract.GenreColumns.CONTENT_URI + "/" + idValue);
+            Cursor cursor = this.getContentResolver().query(uri, null, null, null, null);
+            if (cursor != null && cursor.moveToNext()) {
+                genresName.add(cursor.getString(cursor.getColumnIndexOrThrow(RealmContract.GenreColumns.COLUMN_NAME_GENRE_NAME)));
+                cursor.close();
+            }
+        }
         //convert list<String> to string
         StringBuilder sb = new StringBuilder();
         for(String s:genresName){

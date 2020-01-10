@@ -1,4 +1,4 @@
-package amalia.dev.dicodingmade.widget.movieFav_widget;
+package amalia.dev.dicodingmade.widget.tvshowFav_widget;
 
 import android.content.Context;
 import android.content.Intent;
@@ -15,25 +15,22 @@ import com.bumptech.glide.request.target.Target;
 import java.util.ArrayList;
 
 import amalia.dev.dicodingmade.R;
-import amalia.dev.dicodingmade.model.MovieRealmObject;
+import amalia.dev.dicodingmade.model.TvShowRealmObject;
 import amalia.dev.dicodingmade.repository.MappingHelper;
 import amalia.dev.dicodingmade.repository.realm.RealmContract;
 
-//THIS CLASS WORK LIKE ADAPTER FOR LISTVIEW/RECYCLERVIEW
-public class MovieFavRemoteViewsFactory implements RemoteViewsService.RemoteViewsFactory {
+public class TvshowFavRemoteViewsFactory implements RemoteViewsService.RemoteViewsFactory {
     private static final String BASE_URL_IMG = "https://image.tmdb.org/t/p/w185";
-    private ArrayList<MovieRealmObject> widgetItem = new ArrayList<>();
+    private ArrayList<TvShowRealmObject> widgetItem = new ArrayList<>();
     private Context mContext;
 
-    MovieFavRemoteViewsFactory(Context mContext) {
-        this.mContext = mContext;
+    TvshowFavRemoteViewsFactory(Context context) {
+        this.mContext = context;
     }
 
     @Override
     public void onCreate() {
-        // In onCreate() you setup any connections / cursors to your data source. Heavy lifting,
-        // for example downloading or creating content etc, should be deferred to onDataSetChanged()
-        // or getViewAt(). Taking more than 20 seconds in this call will result in an ANR.
+
     }
 
     @Override
@@ -42,20 +39,19 @@ public class MovieFavRemoteViewsFactory implements RemoteViewsService.RemoteView
         //if proccess take more than 20s than ANR(Application Not Responding) will happening
         //load data from content provider
         final long identityToken = Binder.clearCallingIdentity();
-        Cursor mCursor = mContext.getContentResolver().query(RealmContract.MovieColumns.CONTENT_URI, null, null, null, null);
-        if (mCursor != null) {
-            widgetItem = MappingHelper.mCursorToArrayList(mCursor);
+        Cursor mCursor = mContext.getContentResolver().query(RealmContract.TvShowColumns.CONTENT_URI,null,null,null,null);
+        if(mCursor != null){
+            widgetItem = MappingHelper.tsCursorToArrayList(mCursor);
         }
         Binder.restoreCallingIdentity(identityToken);
-
     }
 
     @Override
     public RemoteViews getViewAt(int position) {
         // Construct a remote views item based on the app widget item XML file,
         // and set the image based on the position.
-        RemoteViews remoteViews = new RemoteViews(mContext.getPackageName(), R.layout.widget_item);//layout item widget
-        //load image fav movie using Glide
+        RemoteViews remoteViews = new RemoteViews(mContext.getPackageName(), R.layout.widget_item);
+        //load image uri using glide and save in Bitmap object
         try {
             Bitmap bitmap = Glide.with(mContext)
                     .asBitmap()
@@ -68,21 +64,26 @@ public class MovieFavRemoteViewsFactory implements RemoteViewsService.RemoteView
             e.printStackTrace();
         }
 
-        Bundle extras = new Bundle();
-        extras.putInt(MovieFavWidget.EXTRA_POSITION_ITEM_MOVIE,position);
+        Bundle mBundle = new Bundle();
+        mBundle.putInt(TvshowFavWidget.EXTRA_POSITION_ITEM_TV,position);
         Intent fillInIntent = new Intent();
-        fillInIntent.putExtras(extras);
+        fillInIntent.putExtras(mBundle);
 
         remoteViews.setOnClickFillInIntent(R.id.img_widgetitem,fillInIntent);
 
         return remoteViews;
     }
 
+    @Override
+    public void onDestroy() {
+
+    }
 
     @Override
     public int getCount() {
         return widgetItem.size();
     }
+
 
 
     @Override
@@ -103,10 +104,5 @@ public class MovieFavRemoteViewsFactory implements RemoteViewsService.RemoteView
     @Override
     public boolean hasStableIds() {
         return false;
-    }
-
-    @Override
-    public void onDestroy() {
-
     }
 }

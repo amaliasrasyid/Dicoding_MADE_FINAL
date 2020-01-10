@@ -41,7 +41,7 @@ import amalia.dev.dicodingmade.adapter.TvShowFavTouchHelper;
 import amalia.dev.dicodingmade.model.TvShowRealmObject;
 import amalia.dev.dicodingmade.repository.MappingHelper;
 import amalia.dev.dicodingmade.repository.realm.RealmContract;
-import amalia.dev.dicodingmade.widget.movieFav_widget.MovieFavWidget;
+import amalia.dev.dicodingmade.widget.tvshowFav_widget.TvshowFavWidget;
 
 import static amalia.dev.dicodingmade.repository.realm.RealmContract.TvShowColumns;
 
@@ -166,19 +166,21 @@ public class TvShowFavFragment extends Fragment implements TvShowFavTouchHelper.
     }
 
     private void broadcasting(){
-        Intent intent = new Intent(getActivity(), MovieFavWidget.class);
-        intent.setAction(MovieFavWidget.UPDATE_WIDGET);
+        Intent intent = new Intent(getActivity(), TvshowFavWidget.class);
+        intent.setAction(TvshowFavWidget.UPDATE_WIDGET_TV);
         Objects.requireNonNull(getActivity()).sendBroadcast(intent);
     }
 
     @Override
     public void preExecute() {
-        Objects.requireNonNull(getActivity()).runOnUiThread(new Runnable() {
-            @Override
-            public void run() {
-                progressBar.setVisibility(View.VISIBLE);
-            }
-        });
+        if(getActivity() != null){
+            getActivity().runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    progressBar.setVisibility(View.VISIBLE);
+                }
+            });
+        }
     }
 
     @Override

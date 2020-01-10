@@ -115,7 +115,7 @@ public class MovieFavFragment extends Fragment implements MovieFavTouchHelper.Re
 
     private void broadcasting(){
         Intent intent = new Intent(getActivity(), MovieFavWidget.class);
-        intent.setAction(MovieFavWidget.UPDATE_WIDGET);
+        intent.setAction(MovieFavWidget.UPDATE_WIDGET_MOVIE);
         Objects.requireNonNull(getActivity()).sendBroadcast(intent);
     }
 

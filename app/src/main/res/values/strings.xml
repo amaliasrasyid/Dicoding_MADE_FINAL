@@ -22,10 +22,9 @@
     <string name="msg_favorite">Favorite</string>
     <string name="msg_no_favorites">No Favorites</string>
     <string name="msg_image_no_favorites">image no favorites</string>
-    <string name="app_widget_text">My Favorites</string>
+    <string name="app_widget_movie_text">My Favorites Movies</string>
+    <string name="app_widget_tvshow_text">My Favorites Tv Shows</string>
     <string name="empty_text">No Data</string>
-    <string name="appwidget_text">EXAMPLE</string>
-    <string name="add_widget">Add widget</string>
 
 
 </resources>
