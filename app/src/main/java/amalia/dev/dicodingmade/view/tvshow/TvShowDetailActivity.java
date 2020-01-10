@@ -38,7 +38,7 @@ import amalia.dev.dicodingmade.R;
 import amalia.dev.dicodingmade.model.TvShowRealmObject;
 import amalia.dev.dicodingmade.repository.MappingHelper;
 import amalia.dev.dicodingmade.repository.realm.RealmContract;
-import amalia.dev.dicodingmade.widget.ImgFavWidgetProvider;
+import amalia.dev.dicodingmade.widget.movieFav_widget.MovieFavWidget;
 
 import static amalia.dev.dicodingmade.repository.realm.RealmContract.TvShowColumns;
 
@@ -148,8 +148,8 @@ public class TvShowDetailActivity extends AppCompatActivity {
 
     private void broadcasting(){
         //send broadcast to widget
-        Intent intent = new Intent(this, ImgFavWidgetProvider.class);
-        intent.setAction(ImgFavWidgetProvider.UPDATE_WIDGET);
+        Intent intent = new Intent(this, MovieFavWidget.class);
+        intent.setAction(MovieFavWidget.UPDATE_WIDGET);
         this.sendBroadcast(intent);
     }
 

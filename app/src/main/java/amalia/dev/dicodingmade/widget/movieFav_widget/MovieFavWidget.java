@@ -1,4 +1,4 @@
-package amalia.dev.dicodingmade.widget;
+package amalia.dev.dicodingmade.widget.movieFav_widget;
 
 import android.appwidget.AppWidgetManager;
 import android.appwidget.AppWidgetProvider;
@@ -13,14 +13,14 @@ import amalia.dev.dicodingmade.R;
 /**
  * Implementation of App Widget functionality.
  */
-public class ImgFavWidgetProvider extends AppWidgetProvider {
+public class MovieFavWidget extends AppWidgetProvider {
     private static final String TOAST_ACTION = "amalia.dev.dicodingmade.TOAST_ACTION";
     public static final String EXTRA_ITEM = "amalia.dev.dicodingmade.EXTRA_ITEM";
     public static final String UPDATE_WIDGET = "amalia.dev.dicodingmade.UPDATE_WIDGET";
 
     static void updateAppWidget(Context context, AppWidgetManager appWidgetManager,
                                 int appWidgetId) {
-        Intent intent = new Intent(context, StackWidgetService.class);
+        Intent intent = new Intent(context, MovieFavWidgetService.class);
         intent.putExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, appWidgetId);
         intent.setData(Uri.parse(intent.toUri(Intent.URI_INTENT_SCHEME)));
         CharSequence widgetText = context.getString(R.string.app_widget_text);
@@ -43,13 +43,13 @@ public class ImgFavWidgetProvider extends AppWidgetProvider {
         }
     }
 
-    @Override
+    @Override //this method implements onReceive in BroadcastReceiver, so there is no need to create class BroadcastReceiver
     public void onReceive(Context context, Intent intent) {
         if (intent.getAction() != null) {
             if (intent.getAction().equals(UPDATE_WIDGET)) {
                 //notify if data change for auto update (?)
                 AppWidgetManager appWidgetManager = AppWidgetManager.getInstance(context);
-                ComponentName thisWidget = new ComponentName(context, ImgFavWidgetProvider.class);
+                ComponentName thisWidget = new ComponentName(context, MovieFavWidget.class);
                 int[] widgetIds = appWidgetManager.getAppWidgetIds(thisWidget);
                 appWidgetManager.notifyAppWidgetViewDataChanged(widgetIds, R.id.stackview_imgfavoriteswidget);
             }

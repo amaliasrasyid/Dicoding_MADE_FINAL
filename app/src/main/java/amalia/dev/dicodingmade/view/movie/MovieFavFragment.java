@@ -41,7 +41,7 @@ import amalia.dev.dicodingmade.adapter.MovieFavTouchHelper;
 import amalia.dev.dicodingmade.model.MovieRealmObject;
 import amalia.dev.dicodingmade.repository.MappingHelper;
 import amalia.dev.dicodingmade.repository.realm.RealmContract;
-import amalia.dev.dicodingmade.widget.ImgFavWidgetProvider;
+import amalia.dev.dicodingmade.widget.movieFav_widget.MovieFavWidget;
 
 import static amalia.dev.dicodingmade.repository.realm.RealmContract.MovieColumns;
 
@@ -114,8 +114,8 @@ public class MovieFavFragment extends Fragment implements MovieFavTouchHelper.Re
     }
 
     private void broadcasting(){
-        Intent intent = new Intent(getActivity(), ImgFavWidgetProvider.class);
-        intent.setAction(ImgFavWidgetProvider.UPDATE_WIDGET);
+        Intent intent = new Intent(getActivity(), MovieFavWidget.class);
+        intent.setAction(MovieFavWidget.UPDATE_WIDGET);
         Objects.requireNonNull(getActivity()).sendBroadcast(intent);
     }
 

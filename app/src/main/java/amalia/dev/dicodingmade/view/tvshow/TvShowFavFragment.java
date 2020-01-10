@@ -41,7 +41,7 @@ import amalia.dev.dicodingmade.adapter.TvShowFavTouchHelper;
 import amalia.dev.dicodingmade.model.TvShowRealmObject;
 import amalia.dev.dicodingmade.repository.MappingHelper;
 import amalia.dev.dicodingmade.repository.realm.RealmContract;
-import amalia.dev.dicodingmade.widget.ImgFavWidgetProvider;
+import amalia.dev.dicodingmade.widget.movieFav_widget.MovieFavWidget;
 
 import static amalia.dev.dicodingmade.repository.realm.RealmContract.TvShowColumns;
 
@@ -166,8 +166,8 @@ public class TvShowFavFragment extends Fragment implements TvShowFavTouchHelper.
     }
 
     private void broadcasting(){
-        Intent intent = new Intent(getActivity(), ImgFavWidgetProvider.class);
-        intent.setAction(ImgFavWidgetProvider.UPDATE_WIDGET);
+        Intent intent = new Intent(getActivity(), MovieFavWidget.class);
+        intent.setAction(MovieFavWidget.UPDATE_WIDGET);
         Objects.requireNonNull(getActivity()).sendBroadcast(intent);
     }
 

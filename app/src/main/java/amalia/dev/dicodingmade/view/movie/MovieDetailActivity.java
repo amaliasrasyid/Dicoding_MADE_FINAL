@@ -2,12 +2,10 @@ package amalia.dev.dicodingmade.view.movie;
 
 import android.content.ContentResolver;
 import android.content.ContentValues;
-import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -26,7 +24,6 @@ import com.bumptech.glide.load.resource.bitmap.RoundedCorners;
 import com.bumptech.glide.request.RequestListener;
 import com.bumptech.glide.request.target.Target;
 
-import java.lang.ref.WeakReference;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -38,7 +35,7 @@ import amalia.dev.dicodingmade.R;
 import amalia.dev.dicodingmade.model.MovieRealmObject;
 import amalia.dev.dicodingmade.repository.MappingHelper;
 import amalia.dev.dicodingmade.repository.realm.RealmContract;
-import amalia.dev.dicodingmade.widget.ImgFavWidgetProvider;
+import amalia.dev.dicodingmade.widget.movieFav_widget.MovieFavWidget;
 
 import static amalia.dev.dicodingmade.repository.realm.RealmContract.MovieColumns;
 
@@ -50,7 +47,6 @@ public class MovieDetailActivity extends AppCompatActivity {
     private Menu menu;// Global Menu Declaration
     private MovieRealmObject movie = new MovieRealmObject();
     private ContentResolver contentResolver;
-    private static ArrayList<String> genresName = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -151,19 +147,31 @@ public class MovieDetailActivity extends AppCompatActivity {
     private boolean isCheckedFav(int id) {
         Uri uri = Uri.parse(MovieColumns.CONTENT_URI + "/" + id);
         Cursor cursor = contentResolver.query(uri, null, null, null, null);
-        return cursor != null && cursor.getCount() > 0;
+        cursor.close();
+        return cursor.getCount() > 0;
     }
 
     private void broadcasting(){
         //send broadcast to widget
-        Intent intent = new Intent(this, ImgFavWidgetProvider.class);
-        intent.setAction(ImgFavWidgetProvider.UPDATE_WIDGET);
+        Intent intent = new Intent(this, MovieFavWidget.class);
+        intent.setAction(MovieFavWidget.UPDATE_WIDGET);
         this.sendBroadcast(intent);
     }
 
-    private String getGenresName(List<Integer> genresId) {
+    private String getGenresName(List<Integer> listGenresId) {
         //get list genre's name from query (content provider)
-       new LoadGenresNameAsync(this,genresId).execute();
+//       new LoadGenresNameAsync(this,genresId).execute();
+        ArrayList<String> genresName = new ArrayList<>();
+
+        for (int j = 0; j < listGenresId.size(); j++) {
+            int idValue = listGenresId.get(j);
+            Uri uri = Uri.parse(RealmContract.GenreColumns.CONTENT_URI + "/" + idValue);
+            Cursor cursor = this.getContentResolver().query(uri, null, null, null, null);
+            if (cursor != null && cursor.moveToNext()) {
+                genresName.add(cursor.getString(cursor.getColumnIndexOrThrow(RealmContract.GenreColumns.COLUMN_NAME_GENRE_NAME)));
+                cursor.close();
+            }
+        }
 
         //convert list<String> to string
         StringBuilder sb = new StringBuilder();
@@ -211,38 +219,5 @@ public class MovieDetailActivity extends AppCompatActivity {
             }
         };
     }
-    static class LoadGenresNameAsync extends AsyncTask<Void, Void, ArrayList<String>> {
-        final WeakReference<Context> weakContext; //using weakreference object to avoid "this field leak context object" warning
-        List<Integer> list;
-
-        LoadGenresNameAsync(Context context, List<Integer> listId) {
-            weakContext = new WeakReference<>(context);
-            this.list = listId;
-        }
-
-        @Override
-        protected final ArrayList<String> doInBackground(Void... voids) {
-            ArrayList<String> resultName = new ArrayList<>();
-            Context context = weakContext.get();
-            for (int j = 0; j < list.size(); j++) {
-                int idValue = list.get(j);
-                Uri uri = Uri.parse(RealmContract.GenreColumns.CONTENT_URI + "/" + idValue);
-                Cursor cursor = context.getContentResolver().query(uri, null, null, null, null);
-                if (cursor != null && cursor.moveToNext()) {
-                    resultName.add(cursor.getString(cursor.getColumnIndexOrThrow(RealmContract.GenreColumns.COLUMN_NAME_GENRE_NAME)));
-                    cursor.close();
-                }
-            }
-            return resultName;
-        }
-
-        @Override
-        protected void onPostExecute(ArrayList<String> result) {
-            super.onPostExecute(result);
-            genresName = result;
-        }
-
-    }
-
 
 }

@@ -23,7 +23,16 @@
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true"
         tools:targetApi="m">
-        <receiver android:name=".widget.ImgFavWidgetProvider">
+        <receiver android:name=".widget.tvshowFav_widget.TvshowFavWidget">
+            <intent-filter>
+                <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
+            </intent-filter>
+
+            <meta-data
+                android:name="android.appwidget.provider"
+                android:resource="@xml/tvshow_fav_widget_info" />
+        </receiver>
+        <receiver android:name=".widget.movieFav_widget.MovieFavWidget">
             <intent-filter>
                 <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
             </intent-filter>
@@ -32,8 +41,10 @@
                 android:name="android.appwidget.provider"
                 android:resource="@xml/img_favorites_widget_info" />
         </receiver>
-        <service android:name=".widget.StackWidgetService"
-            android:permission="android.permission.BIND_REMOTEVIEWS"/>
+
+        <service
+            android:name=".widget.movieFav_widget.MovieFavWidgetService"
+            android:permission="android.permission.BIND_REMOTEVIEWS" />
 
         <provider
             android:name=".provider.FavProvider"

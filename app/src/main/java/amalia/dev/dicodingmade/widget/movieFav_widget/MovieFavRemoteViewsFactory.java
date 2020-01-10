@@ -1,4 +1,4 @@
-package amalia.dev.dicodingmade.widget;
+package amalia.dev.dicodingmade.widget.movieFav_widget;
 
 import android.content.Context;
 import android.content.Intent;
@@ -20,13 +20,13 @@ import amalia.dev.dicodingmade.repository.MappingHelper;
 import amalia.dev.dicodingmade.repository.realm.RealmContract;
 
 //THIS CLASS WORK LIKE ADAPTER FOR LISTVIEW/RECYCLERVIEW
-public class StackRemoteViewsFactory implements RemoteViewsService.RemoteViewsFactory {
+public class MovieFavRemoteViewsFactory implements RemoteViewsService.RemoteViewsFactory {
     private static final String BASE_URL_IMG = "https://image.tmdb.org/t/p/w185";
     private ArrayList<MovieRealmObject> widgetItem = new ArrayList<>();
     private Context mContext;
     private Cursor mCursor;
 
-    public StackRemoteViewsFactory(Context mContext) {
+    public MovieFavRemoteViewsFactory(Context mContext) {
         this.mContext = mContext;
     }
 
@@ -70,7 +70,7 @@ public class StackRemoteViewsFactory implements RemoteViewsService.RemoteViewsFa
         }
 
         Bundle extras = new Bundle();
-        extras.putInt(ImgFavWidgetProvider.EXTRA_ITEM,position);
+        extras.putInt(MovieFavWidget.EXTRA_ITEM,position);
         Intent fillInIntent = new Intent();
         fillInIntent.putExtras(extras);
 
