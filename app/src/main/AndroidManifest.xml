@@ -2,7 +2,6 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     package="amalia.dev.dicodingmade">
-
     <!-- Internet Permission -->
     <uses-permission android:name="android.permission.INTERNET" />
 
@@ -23,6 +22,15 @@
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true"
         tools:targetApi="m">
+        <activity
+            android:name=".view.settings.SettingsActivity"
+            android:label="@string/title_activity_settings"
+            android:parentActivityName=".view.MainActivity">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="amalia.dev.dicodingmade.view.MainActivity" />
+        </activity>
+
         <receiver android:name=".widget.tvshowFav_widget.TvshowFavWidget">
             <intent-filter>
                 <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
@@ -41,14 +49,15 @@
                 android:name="android.appwidget.provider"
                 android:resource="@xml/img_favorites_widget_info" />
         </receiver>
+        <receiver android:name=".reminder.daily.ReminderReceiver"
+            android:enabled="true"/>
 
         <service
             android:name=".widget.movieFav_widget.MovieFavWidgetService"
             android:permission="android.permission.BIND_REMOTEVIEWS" />
         <service
             android:name=".widget.tvshowFav_widget.TvshowFavWidgetService"
-            android:permission="android.permission.BIND_REMOTEVIEWS"/>
-
+            android:permission="android.permission.BIND_REMOTEVIEWS" />
 
         <provider
             android:name=".provider.FavProvider"

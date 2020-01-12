@@ -2,12 +2,10 @@ package amalia.dev.dicodingmade.view.tvshow;
 
 import android.content.ContentResolver;
 import android.content.ContentValues;
-import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -26,7 +24,6 @@ import com.bumptech.glide.load.resource.bitmap.RoundedCorners;
 import com.bumptech.glide.request.RequestListener;
 import com.bumptech.glide.request.target.Target;
 
-import java.lang.ref.WeakReference;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -223,37 +220,5 @@ public class TvShowDetailActivity extends AppCompatActivity {
         };
     }
 
-    static class LoadGenresNameAsync extends AsyncTask<Void, Void, ArrayList<String>> {
-        final WeakReference<Context> weakContext; //using weakreference object to avoid "this field leak context object" warning
-        List<Integer> list;
-
-        LoadGenresNameAsync(Context context, List<Integer> listId) {
-            weakContext = new WeakReference<>(context);
-            this.list = listId;
-        }
-
-        @Override
-        protected final ArrayList<String> doInBackground(Void... voids) {
-            ArrayList<String> resultName = new ArrayList<>();
-            Context context = weakContext.get();
-            for (int j = 0; j < list.size(); j++) {
-                int idValue = list.get(j);
-                Uri uri = Uri.parse(RealmContract.GenreColumns.CONTENT_URI + "/" + idValue);
-                Cursor cursor = context.getContentResolver().query(uri, null, null, null, null);
-                if (cursor != null && cursor.moveToNext()) {
-                    resultName.add(cursor.getString(cursor.getColumnIndexOrThrow(RealmContract.GenreColumns.COLUMN_NAME_GENRE_NAME)));
-                    cursor.close();
-                }
-            }
-            return resultName;
-        }
-
-        @Override
-        protected void onPostExecute(ArrayList<String> result) {
-            super.onPostExecute(result);
-            genresName = result;
-        }
-
-    }
 
 }

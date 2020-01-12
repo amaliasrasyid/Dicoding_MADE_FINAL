@@ -25,6 +25,11 @@
     <string name="app_widget_movie_text">My Favorites Movies</string>
     <string name="app_widget_tvshow_text">My Favorites Tv Shows</string>
     <string name="empty_text">No Data</string>
+    <string name="title_activity_settings">Settings</string>
+
+    <string name="key_noification_release_today" translatable="false">noification_release_today</string>
+    <string name="key_notification_daily_reminder" translatable="false">notification_daily_reminder</string>
+    <string name="key_languange_change" translatable="false">languange_change</string>
 
 
 </resources>

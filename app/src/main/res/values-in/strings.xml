@@ -23,6 +23,7 @@
     <string name="app_widget_movie_text">Film Favoritku</string>
     <string name="app_widget_tvshow_text">Acara Tv Favoritku</string>
     <string name="empty_text">Tidak Ada Data</string>
+    <string name="title_activity_settings">Pengaturan</string>
 
 
 

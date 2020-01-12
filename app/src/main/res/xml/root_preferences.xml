@@ -1,0 +1,29 @@
+<PreferenceScreen xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+    <PreferenceCategory
+        app:title="Notification"
+        android:key="notification_category">
+        <SwitchPreference
+            app:defaultValue="false"
+            app:key = "@string/key_noification_release_today"
+            app:title="Reminder Release Today"
+            app:summary="Reminder showing the movie that released today"/>
+
+        <SwitchPreference
+            app:defaultValue="false"
+            app:key = "@string/key_notification_daily_reminder"
+            app:title="Daily Reminder"
+            app:summary="Reminder for return to app"/>
+    </PreferenceCategory>
+    <PreferenceCategory
+        app:title="Language"
+        android:key="language_category">
+    <Preference
+        app:key="@string/key_languange_change"
+        app:title="Change Language"
+        app:summary="English,Indonesian">
+    </Preference>
+    </PreferenceCategory>
+
+
+</PreferenceScreen>

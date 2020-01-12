@@ -1,6 +1,13 @@
 package amalia.dev.dicodingmade.view;
 
 
+import android.content.Intent;
+import android.content.SharedPreferences;
+import android.os.Bundle;
+import android.preference.PreferenceManager;
+import android.view.Menu;
+import android.view.MenuItem;
+
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.navigation.NavController;
@@ -8,13 +15,6 @@ import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
 
-import android.content.Intent;
-import android.content.SharedPreferences;
-import android.os.Bundle;
-import android.preference.PreferenceManager;
-import android.provider.Settings;
-import android.view.Menu;
-import android.view.MenuItem;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 import java.util.Objects;
@@ -25,7 +25,7 @@ import amalia.dev.dicodingmade.model.GenreResult;
 import amalia.dev.dicodingmade.repository.ApiInterface;
 import amalia.dev.dicodingmade.repository.ApiRepository;
 import amalia.dev.dicodingmade.repository.realm.RealmHelper;
-import amalia.dev.dicodingmade.view.movie.MovieFavFragment;
+import amalia.dev.dicodingmade.view.settings.SettingsActivity;
 import io.realm.Realm;
 import io.realm.RealmConfiguration;
 import retrofit2.Call;
@@ -56,7 +56,6 @@ public class MainActivity extends AppCompatActivity{
             editor.putBoolean("JustOnce", true);
             editor.apply();
         }
-
     }
 
     private void loadGenre() {
@@ -76,6 +75,7 @@ public class MainActivity extends AppCompatActivity{
                             Realm realm = Realm.getInstance(realmConfiguration);
                             RealmHelper realmHelper = new RealmHelper(realm);
                             realmHelper.insertGenre(result.getGenres().get(i));
+                            realm.close();
                         }
                     }
                 }
@@ -98,7 +98,7 @@ public class MainActivity extends AppCompatActivity{
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         if (item.getItemId() == R.id.menu_setting) {
-            Intent mIntent = new Intent(Settings.ACTION_LOCALE_SETTINGS);
+            Intent mIntent = new Intent(this, SettingsActivity.class);
             startActivity(mIntent);
         }
         return super.onOptionsItemSelected(item);
