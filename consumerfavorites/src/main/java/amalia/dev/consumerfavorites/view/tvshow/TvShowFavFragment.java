@@ -132,7 +132,7 @@ public class TvShowFavFragment extends Fragment implements TvShowFavTouchHelper.
                     public void onClick(View v) {
                         //restore deleted movie by changing value askedDeletion back to false
                         Uri uri = Uri.parse(TvShowColumns.CONTENT_URI+"/"+idDeletedTvshow);
-                        cv.put(TvShowColumns.COLUMN_NAME_TMP_DELETE,true);
+                        cv.put(TvShowColumns.COLUMN_NAME_TMP_DELETE,false);
                         contentResolver.update(uri,cv,null,null);
                         isTmpDeleteFalse = false;
 
@@ -200,9 +200,11 @@ public class TvShowFavFragment extends Fragment implements TvShowFavTouchHelper.
             if(dataCursor != null){
                 return MappingHelper.tsCursorToArrayList(dataCursor);
             }else {
-                return new ArrayList<TvShowRealmObject>();
+                return new ArrayList<>();
             }
         }
+
+
 
         @Override
         protected void onPreExecute() {

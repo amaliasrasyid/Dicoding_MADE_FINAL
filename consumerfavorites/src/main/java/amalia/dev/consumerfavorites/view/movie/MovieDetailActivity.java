@@ -148,6 +148,9 @@ public class MovieDetailActivity extends AppCompatActivity {
     private boolean isCheckedFav(int id) {
         Uri uri = Uri.parse(MovieColumns.CONTENT_URI + "/" + id);
         Cursor cursor = contentResolver.query(uri, null, null, null, null);
+        if(cursor != null){
+            cursor.close();
+        }
         return cursor != null && cursor.getCount() > 0;
 
     }

@@ -145,7 +145,10 @@ public class TvShowDetailActivity extends AppCompatActivity {
     private boolean isCheckedFav(int id) {
         Uri uri = Uri.parse(TvShowColumns.CONTENT_URI+"/"+id);
         Cursor cursor = contentResolver.query(uri,null,null,null,null);
-        return  cursor != null && cursor.getCount() > 0;
+        if (cursor != null){
+            cursor.close();
+        }
+        return cursor != null && cursor.getCount() > 0;
     }
 
 

@@ -39,7 +39,6 @@ import amalia.dev.consumerfavorites.adapter.MovieAdapter;
 import amalia.dev.consumerfavorites.adapter.MovieFavTouchHelper;
 import amalia.dev.consumerfavorites.model.MovieRealmObject;
 import amalia.dev.consumerfavorites.repository.MappingHelper;
-import io.realm.RealmList;
 
 import static amalia.dev.consumerfavorites.repository.RealmContract.MovieColumns;
 
@@ -134,7 +133,6 @@ public class MovieFavFragment extends Fragment implements MovieFavTouchHelper.Re
                     public void onClick(View v) {
                         Uri uri = Uri.parse(MovieColumns.CONTENT_URI + "/" + idDeletedMovie);
                         cv.put(MovieColumns.COLUMN_NAME_TMP_DELETE,false);
-                        ContentValues contentValues = new ContentValues();
 
                         //restore deleted movie by changing value askedDeletion back to false
                         Objects.requireNonNull(getActivity()).getContentResolver().update(uri, cv, null, null);
@@ -198,14 +196,13 @@ public class MovieFavFragment extends Fragment implements MovieFavTouchHelper.Re
         @Override
         protected ArrayList<MovieRealmObject> doInBackground(Void... voids) {
             Context context = weakContext.get();
-            //todo:hasil query tidak ada malah dapat BulkCursor
-            RealmList<Integer> list;
+
 
             Cursor dataCursor = context.getContentResolver().query(MovieColumns.CONTENT_URI, null, null, null, null);
             if (dataCursor != null) {
                 return MappingHelper.mCursorToArrayList(dataCursor);
             } else {
-                return new ArrayList<MovieRealmObject>();
+                return new ArrayList<>();
             }
         }
 

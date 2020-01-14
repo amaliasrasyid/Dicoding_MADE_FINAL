@@ -188,6 +188,8 @@ public class TvShowFavFragment extends Fragment implements TvShowFavTouchHelper.
         progressBar.setVisibility(View.INVISIBLE);
         if(tvshow.size() > 0){
             adapter.setData(tvshow);
+            tvNoFav.setVisibility(View.INVISIBLE);
+            imgNoFav.setVisibility(View.INVISIBLE);
         }else{
             adapter.setData(new ArrayList<TvShowRealmObject>());
             tvNoFav.setVisibility(View.VISIBLE);

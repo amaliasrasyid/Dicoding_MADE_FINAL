@@ -17,8 +17,6 @@ import amalia.dev.dicodingmade.R;
 import amalia.dev.dicodingmade.reminder.daily.ReminderReceiver;
 
 public class SettingsActivity extends AppCompatActivity {
-    public static String PREF_SWITCH_DAILY = "dailyReminder";
-    public static String PREF_SWITCH_RELEASE_TODAY  = "releaseTodayReminder";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,9 +33,9 @@ public class SettingsActivity extends AppCompatActivity {
     }
 
     public static class SettingsFragment extends PreferenceFragmentCompat implements Preference.OnPreferenceChangeListener {
+
         private ReminderReceiver reminderReceiver = new ReminderReceiver();
-        private SwitchPreference dailyReminderPref,releaseTodayReminderPref;
-        private Preference changeLanguagePref;
+        private SwitchPreference dailyReminderPref, releaseTodayReminderPref;
         private Context context;
 
         @Override
@@ -45,14 +43,14 @@ public class SettingsActivity extends AppCompatActivity {
             setPreferencesFromResource(R.xml.root_preferences, rootKey);
             context = getActivity();
 
-             dailyReminderPref = findPreference(getString(R.string.key_notification_daily_reminder));
-             releaseTodayReminderPref = findPreference(getString(R.string.key_noification_release_today));
-             changeLanguagePref = findPreference(getString(R.string.key_languange_change));
+            dailyReminderPref = findPreference(getString(R.string.key_notification_daily_reminder));
+            releaseTodayReminderPref = findPreference(getString(R.string.key_noification_release_today));
+            Preference changeLanguagePref = findPreference(getString(R.string.key_languange_change));
 
             //set listener
             dailyReminderPref.setOnPreferenceChangeListener(this);
             releaseTodayReminderPref.setOnPreferenceChangeListener(this);
-            changeLanguagePref.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
+            Objects.requireNonNull(changeLanguagePref).setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
                 @Override
                 public boolean onPreferenceClick(Preference preference) {
                     context.startActivity(new Intent(Settings.ACTION_LOCALE_SETTINGS));
@@ -62,23 +60,21 @@ public class SettingsActivity extends AppCompatActivity {
         }
 
 
-
-        private void startReminderToday() {
-            String message = "Catalogue Movie Missing You!";
-            reminderReceiver.setRepeatingReminder(Objects.requireNonNull(getActivity()),message);
-        }
-
         @Override
         public boolean onPreferenceChange(Preference preference, Object newValue) {
-           if(preference.getKey().equals(getString(R.string.key_noification_release_today))){
-               if(releaseTodayReminderPref.isChecked()){
-                   reminderReceiver.cancelReminder(Objects.requireNonNull(getActivity()));
-               }else{
-                   startReminderToday();
-               }
-           }else if(preference.getKey().equals(getString(R.string.key_notification_daily_reminder))){
-
-           }
+            if (preference.getKey().equals(getString(R.string.key_noification_release_today))) {
+                if (releaseTodayReminderPref.isChecked()) {
+                    reminderReceiver.cancelReminder(Objects.requireNonNull(getActivity()),ReminderReceiver.NOTIF_ID_RELEASE_TODAY);
+                } else {
+                    reminderReceiver.setReleaseToday(Objects.requireNonNull(getActivity()));
+                }
+            } else if (preference.getKey().equals(getString(R.string.key_notification_daily_reminder))) {
+                if (dailyReminderPref.isChecked()) {
+                    reminderReceiver.cancelReminder(Objects.requireNonNull(getActivity()),ReminderReceiver.NOTIF_ID_DAILY);
+                } else {
+                    reminderReceiver.setRepeatingDaily(Objects.requireNonNull(getActivity()));
+                }
+            }
             return true;
         }
     }
