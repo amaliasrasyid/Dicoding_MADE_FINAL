@@ -31,4 +31,16 @@ public interface  ApiInterface {
             @Query("primary_release_date.gte") String todayDate,
             @Query("primary_release_date.lte") String todayDate2
     );
+
+    @GET("search/movie")
+    Call<MovieResult> searchMovies(
+            @Query("api_key") String apikey,
+            @Query("query") String query
+    );
+
+    @GET("search/tv")
+    Call<TvShowResult> searchTvshows(
+            @Query("api_key")String apiKey,
+            @Query("query") String query
+    );
 }

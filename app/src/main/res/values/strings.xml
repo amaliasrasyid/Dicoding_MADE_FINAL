@@ -30,6 +30,7 @@
     <string name="key_noification_release_today" translatable="false">noification_release_today</string>
     <string name="key_notification_daily_reminder" translatable="false">notification_daily_reminder</string>
     <string name="key_languange_change" translatable="false">languange_change</string>
+    <string name="text_search">Search</string>
 
 
 </resources>

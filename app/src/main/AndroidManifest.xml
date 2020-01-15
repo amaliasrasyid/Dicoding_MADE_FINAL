@@ -4,6 +4,8 @@
     package="amalia.dev.dicodingmade">
     <!-- Internet Permission -->
     <uses-permission android:name="android.permission.INTERNET" />
+    <!--vibrate Permission-->
+    <uses-permission android:name="android.permission.VIBRATE"/>
 
     <permission
         android:name="amalia.dev.dicodingmade.READ_DATABASE"
@@ -49,7 +51,7 @@
                 android:name="android.appwidget.provider"
                 android:resource="@xml/img_favorites_widget_info" />
         </receiver>
-        <receiver android:name=".reminder.daily.ReminderReceiver"
+        <receiver android:name=".reminder.ReminderReceiver"
             android:enabled="true"/>
 
         <service

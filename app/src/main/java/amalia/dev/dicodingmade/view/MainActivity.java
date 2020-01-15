@@ -1,12 +1,17 @@
 package amalia.dev.dicodingmade.view;
 
 
+import android.app.SearchManager;
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.text.InputType;
 import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.widget.SearchView;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
@@ -91,7 +96,16 @@ public class MainActivity extends AppCompatActivity{
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.menu_change_language, menu);
+        //inflate menu top
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.menu_menutop, menu);
+
+        //get the SearchView
+        SearchManager searchManager = (SearchManager)getSystemService(Context.SEARCH_SERVICE);
+        SearchView searchView = (SearchView)menu.findItem(R.id.menu_search).getActionView();
+        searchView.setQueryHint("Search Here");
+        searchView.setInputType(InputType.TYPE_CLASS_TEXT);
+        searchView.setIconified(false);//make icon search dissapear when clicked or field search expandling
         return super.onCreateOptionsMenu(menu);
     }
 

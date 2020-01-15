@@ -14,7 +14,7 @@ import androidx.preference.SwitchPreference;
 import java.util.Objects;
 
 import amalia.dev.dicodingmade.R;
-import amalia.dev.dicodingmade.reminder.daily.ReminderReceiver;
+import amalia.dev.dicodingmade.reminder.ReminderReceiver;
 
 public class SettingsActivity extends AppCompatActivity {
 

@@ -2,9 +2,15 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
     <item
+        android:id="@+id/menu_search"
+        android:title="@string/text_search"
+        android:icon="@drawable/ic_search_24dp"
+        app:actionViewClass="android.widget.SearchView"
+        app:showAsAction="always"/>
+
+    <item
         android:id="@+id/menu_setting"
         android:title="@string/action_change_language_settings"
         app:showAsAction="always"
         android:icon="@drawable/ic_settings"/>
-
 </menu>
