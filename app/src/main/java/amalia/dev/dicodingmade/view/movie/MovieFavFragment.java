@@ -18,7 +18,6 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.constraintlayout.widget.ConstraintLayout;
@@ -121,7 +120,6 @@ public class MovieFavFragment extends Fragment implements MovieFavTouchHelper.Re
 
     @Override
     public void onSwiped(RecyclerView.ViewHolder viewHolder, int direction, final int position) {
-        //pastikan viewholder-nya miliki MovieFavAdapter
         final ContentValues cv = new ContentValues();
         if (viewHolder instanceof MovieAdapter.ViewHolder) {
             //get title movie to show in snacbar when removing
@@ -205,7 +203,7 @@ public class MovieFavFragment extends Fragment implements MovieFavTouchHelper.Re
             if (dataCursor != null) {
                 return MappingHelper.mCursorToArrayList(dataCursor);
             } else {
-                return new ArrayList<MovieRealmObject>();
+                return new ArrayList<>();
             }
         }
 
@@ -239,9 +237,9 @@ public class MovieFavFragment extends Fragment implements MovieFavTouchHelper.Re
         }
     }
 
-    private void notifyMessage(String msg) {
-        Toast.makeText(getActivity(), msg, Toast.LENGTH_SHORT).show();
-    }
+//    private void notifyMessage(String msg) {
+//        Toast.makeText(getActivity(), msg, Toast.LENGTH_SHORT).show();
+//    }
 
     @Override
     public void onPause() {

@@ -1,8 +1,17 @@
 package amalia.dev.dicodingmade.view.movie;
 
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.ProgressBar;
+import android.widget.SearchView;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
@@ -10,18 +19,17 @@ import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.ProgressBar;
-
 import java.util.ArrayList;
 
-import amalia.dev.dicodingmade.adapter.MovieAdapter;
 import amalia.dev.dicodingmade.R;
+import amalia.dev.dicodingmade.adapter.MovieAdapter;
 import amalia.dev.dicodingmade.model.MovieRealmObject;
 import amalia.dev.dicodingmade.model.MovieResult;
+import amalia.dev.dicodingmade.view.search.SearchResultsActivity;
 import amalia.dev.dicodingmade.viewmodel.MovieViewModel;
+
+import static amalia.dev.dicodingmade.view.search.SearchResultsActivity.EXTRA_SEARCH_RESULTS;
+import static amalia.dev.dicodingmade.view.search.SearchResultsActivity.TYPE;
 
 
 /**
@@ -48,6 +56,7 @@ public class MovieFragment extends Fragment {
         return view;
     }
 
+
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -71,7 +80,35 @@ public class MovieFragment extends Fragment {
 
             }
         });
+        setHasOptionsMenu(true);
 
+    }
+
+    @Override
+    public void onCreateOptionsMenu(@NonNull Menu menu, @NonNull MenuInflater inflater) {
+        //inflate menu search
+        inflater.inflate(R.menu.menu_search, menu);
+
+        SearchView searchView = (SearchView) menu.findItem(R.id.menu_search).getActionView();
+        // perform set on query text listener event
+        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                //pass query to results activity
+                Intent intent  = new Intent(getActivity(), SearchResultsActivity.class);
+                intent.putExtra(EXTRA_SEARCH_RESULTS,query);
+                intent.putExtra(TYPE,"movie");
+                startActivity(intent);
+                return true;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                return false;
+            }
+        });
+
+        super.onCreateOptionsMenu(menu, inflater);
     }
 
     private void showLoading(Boolean state) {

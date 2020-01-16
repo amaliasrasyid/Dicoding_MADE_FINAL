@@ -3,9 +3,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     package="amalia.dev.dicodingmade">
     <!-- Internet Permission -->
-    <uses-permission android:name="android.permission.INTERNET" />
-    <!--vibrate Permission-->
-    <uses-permission android:name="android.permission.VIBRATE"/>
+    <uses-permission android:name="android.permission.INTERNET" /> <!-- vibrate Permission -->
+    <uses-permission android:name="android.permission.VIBRATE" />
 
     <permission
         android:name="amalia.dev.dicodingmade.READ_DATABASE"
@@ -24,6 +23,7 @@
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true"
         tools:targetApi="m">
+        <activity android:name=".view.search.SearchResultsActivity"></activity>
         <activity
             android:name=".view.settings.SettingsActivity"
             android:label="@string/title_activity_settings"
@@ -51,8 +51,9 @@
                 android:name="android.appwidget.provider"
                 android:resource="@xml/img_favorites_widget_info" />
         </receiver>
-        <receiver android:name=".reminder.ReminderReceiver"
-            android:enabled="true"/>
+        <receiver
+            android:name=".reminder.ReminderReceiver"
+            android:enabled="true" />
 
         <service
             android:name=".widget.movieFav_widget.MovieFavWidgetService"
@@ -81,6 +82,10 @@
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+
+            <meta-data
+                android:name="android.app.searhable"
+                android:resource="@xml/searchable" />
         </activity>
     </application>
 

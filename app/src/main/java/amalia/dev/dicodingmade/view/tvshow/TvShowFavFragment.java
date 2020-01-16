@@ -112,7 +112,6 @@ public class TvShowFavFragment extends Fragment implements TvShowFavTouchHelper.
 
     @Override
     public void onSwiped(RecyclerView.ViewHolder viewHolder, int direction, int position) {
-        //pastikan viewholder-nya miliki MovieFavAdapter
         final ContentValues cv = new ContentValues();
         if (viewHolder instanceof TvShowAdapter.ViewHolder) {
             //get title tvshow to show in snackbar when removing

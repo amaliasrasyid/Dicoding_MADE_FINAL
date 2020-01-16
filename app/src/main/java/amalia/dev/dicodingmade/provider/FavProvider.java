@@ -35,10 +35,10 @@ public class FavProvider extends ContentProvider {
     //id code for uri matcher
     private static final int MOVIE = 10;
     private static final int MOVIE_ID =11;
-    private static final int MOVIE_TMP_DELETE = 12;
+
     private static final int TVSHOW = 20;
     private static final int TVSHOW_ID = 21;
-    private static final int TVSHOW_TMP_DELETE = 22;
+
     private static final int GENRE = 30;
     private static final int GENRE_ID = 31;
 
