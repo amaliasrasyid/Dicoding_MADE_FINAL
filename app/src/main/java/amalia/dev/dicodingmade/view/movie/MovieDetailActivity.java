@@ -16,6 +16,7 @@ import android.widget.TextView;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.FragmentManager;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.DataSource;
@@ -41,7 +42,7 @@ import amalia.dev.dicodingmade.widget.movieFav_widget.MovieFavWidget;
 import static amalia.dev.dicodingmade.repository.realm.RealmContract.MovieColumns;
 
 
-public class MovieDetailActivity extends AppCompatActivity {
+public class MovieDetailActivity extends AppCompatActivity implements FragmentManager.OnBackStackChangedListener {
     public static final String EXTRA_MOVIE = "extra movie";
     private static final String BASE_URL_POSTER = "https://image.tmdb.org/t/p/w154";
     private static final String BASE_URL_BACK_POSTER = "https://image.tmdb.org/t/p/w500";
@@ -82,7 +83,6 @@ public class MovieDetailActivity extends AppCompatActivity {
         }
 
         //binding view & data
-
         popularity.setText(String.valueOf(movie.getPopularity()));
         rating.setText(String.valueOf(movie.getVoteAverage()));
         overview.setText(movie.getOverview());
@@ -96,13 +96,27 @@ public class MovieDetailActivity extends AppCompatActivity {
         Glide.with(this).load(BASE_URL_BACK_POSTER + movie.getBackdropPath())
                 .listener(showLoading(pbBackPoster))
                 .into(backPoster);
-
+        //listen for change in the back stack
+        getSupportFragmentManager().addOnBackStackChangedListener(this);
 
         //settin up button
         if (getSupportActionBar() != null) {
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         }
 
+    }
+    @Override
+    public void onBackStackChanged() {
+        if(getSupportActionBar() != null){
+            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        }
+    }
+
+    @Override
+    public boolean onSupportNavigateUp() {
+        //This method is called when the up button is pressed. just finish the actiivity
+        finish();
+        return true;
     }
 
     @Override

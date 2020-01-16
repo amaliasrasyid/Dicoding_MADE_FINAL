@@ -23,7 +23,7 @@
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true"
         tools:targetApi="m">
-        <activity android:name=".view.search.SearchResultsActivity"></activity>
+        <activity android:name=".view.search.SearchResultsActivity"/>
         <activity
             android:name=".view.settings.SettingsActivity"
             android:label="@string/title_activity_settings"
@@ -70,8 +70,7 @@
             android:writePermission="amalia.dev.dicodingmade.WRITE_DATABASE" />
 
         <activity
-            android:name=".view.tvshow.TvShowDetailActivity"
-            android:parentActivityName=".view.MainActivity" />
+            android:name=".view.tvshow.TvShowDetailActivity" />
         <activity
             android:name=".view.movie.MovieDetailActivity"
             android:parentActivityName=".view.MainActivity" />

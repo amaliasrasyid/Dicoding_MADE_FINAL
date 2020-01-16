@@ -10,6 +10,7 @@ import android.widget.TextView;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.FragmentManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -30,7 +31,7 @@ import retrofit2.Callback;
 import retrofit2.Response;
 import retrofit2.Retrofit;
 
-public class SearchResultsActivity extends AppCompatActivity {
+public class SearchResultsActivity extends AppCompatActivity implements FragmentManager.OnBackStackChangedListener {
     public static final String EXTRA_SEARCH_RESULTS = "searchResults";
     public static final String TYPE = "type";
     ProgressBar progressBar;
@@ -69,7 +70,28 @@ public class SearchResultsActivity extends AppCompatActivity {
             loadQuerySearch(intent.getStringExtra(EXTRA_SEARCH_RESULTS),type);
         }
 
+        //listen for change in the back stack
+        getSupportFragmentManager().addOnBackStackChangedListener(this);
 
+        //settin up button
+        if (getSupportActionBar() != null) {
+            getSupportActionBar().setDisplayHomeAsUpEnabled(true);//change name in toolbar
+            getSupportActionBar().setTitle("Results");
+        }
+    }
+
+    @Override
+    public void onBackStackChanged() {
+        if(getSupportActionBar() != null){
+            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        }
+    }
+
+    @Override
+    public boolean onSupportNavigateUp() {
+        //This method is called when the up button is pressed. just finish the actiivity
+        finish();
+        return true;
     }
 
     private void loadQuerySearch(final String query, String type) {

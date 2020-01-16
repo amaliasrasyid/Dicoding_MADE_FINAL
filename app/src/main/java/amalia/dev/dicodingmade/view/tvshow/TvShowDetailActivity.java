@@ -16,6 +16,7 @@ import android.widget.TextView;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.FragmentManager;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.DataSource;
@@ -40,7 +41,7 @@ import amalia.dev.dicodingmade.widget.tvshowFav_widget.TvshowFavWidget;
 import static amalia.dev.dicodingmade.repository.realm.RealmContract.TvShowColumns;
 
 
-public class TvShowDetailActivity extends AppCompatActivity {
+public class TvShowDetailActivity extends AppCompatActivity implements FragmentManager.OnBackStackChangedListener {
     public static final String EXTRA_TV_SHOW ="extra tv show";
     private static final String BASE_URL_POSTER = "https://image.tmdb.org/t/p/w154";
     private static final String BASE_URL_BACK_POSTER = "https://image.tmdb.org/t/p/w500";
@@ -93,11 +94,26 @@ public class TvShowDetailActivity extends AppCompatActivity {
                 .listener(showLoading(pbBackPoster))
                 .into(backPoster);
 
+        //listen for change in the back stack
+        getSupportFragmentManager().addOnBackStackChangedListener(this);
 
         //settin up button
+        if (getSupportActionBar() != null) {
+            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        }
+    }
+    @Override
+    public void onBackStackChanged() {
         if(getSupportActionBar() != null){
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         }
+    }
+
+    @Override
+    public boolean onSupportNavigateUp() {
+        //This method is called when the up button is pressed. just finish the actiivity
+        finish();
+        return true;
     }
 
     @Override
