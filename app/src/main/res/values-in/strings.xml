@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">Dicoding MADE</string>
+    <string name="app_name">Catalogue Movie</string>
     <string name="msg_poster_film">Poster Film</string>
     <string name="title_overview">Kilasan Singkat</string>
     <string name="action_change_language_settings">Ubah Pengaturan Bahasa</string>

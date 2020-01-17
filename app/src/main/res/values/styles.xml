@@ -83,6 +83,9 @@
         <item name="android:background">#CC2E3D52</item>
     </style>
 
-
-
+    <style name="SplashStyle" parent="Theme.AppCompat.Light.NoActionBar">
+        <item name="android:windowBackground">@drawable/bg_splash</item>
+        <item name="android:windowNoTitle">true</item>
+        <item name="android:windowFullscreen">true</item>
+    </style>
 </resources>
