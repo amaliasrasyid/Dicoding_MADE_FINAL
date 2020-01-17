@@ -4,7 +4,6 @@
 
     <string name="title_tab1">Movies</string>
     <string name="title_tab2">Tv Shows</string>
-    <string name="action_change_language_settings">Change Language Settings</string>
     <string name="msg_poster_film">Poster Movie</string>
     <string name="msg_icon_popularity">icon popularity</string>
     <string name="msg_poster_tv_show">poster tv show</string>
@@ -13,9 +12,6 @@
     <string name="msg_overlay_grey_image">overlay grey image</string>
     <string name="msg_image_back_poster">image background poster</string>
     <string name="text_genre">Genre</string>
-    <string name="title_movies">Movies</string>
-    <string name="title_tv_shows">Tv Shows</string>
-    <string name="title_favorites">Favorites</string>
     <string name="action_delete">Delete</string>
     <string name="action_icon_delete">icon delete</string>
     <string name="action_unfavorite">UnFavorite</string>
