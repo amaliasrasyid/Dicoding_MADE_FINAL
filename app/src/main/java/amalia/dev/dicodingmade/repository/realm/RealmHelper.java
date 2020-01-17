@@ -106,7 +106,7 @@ public class RealmHelper {
         //update objects on a background thread
         realm.executeTransaction(new Realm.Transaction() {
             @Override
-            public void execute(Realm realm) {
+            public void execute(@NonNull Realm realm) {
                 TvShowRealmObject mTvshow = realm.where(TvShowRealmObject.class).equalTo("id",id).findFirst();
                 if(mTvshow != null){
                     mTvshow.setTmpDelete(tmpDeleteStatus);

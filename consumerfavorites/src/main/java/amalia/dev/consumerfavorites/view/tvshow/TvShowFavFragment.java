@@ -48,7 +48,6 @@ import static amalia.dev.consumerfavorites.repository.RealmContract.TvShowColumn
  */
 public class TvShowFavFragment extends Fragment implements TvShowFavTouchHelper.RecylerItemTouchHelperListener,LoadTvShowFavCallback {
     private static  final String EXTRA_STATE = "EXTRA_STATE";
-    private RecyclerView rv;
     private ConstraintLayout constraintLayout;
     private TextView tvNoFav;
     private ImageView imgNoFav;
@@ -69,7 +68,7 @@ public class TvShowFavFragment extends Fragment implements TvShowFavTouchHelper.
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_tv_show_fav, container, false);
-        rv = view.findViewById(R.id.recyclerview_tvshowfav);
+        RecyclerView rv = view.findViewById(R.id.recyclerview_tvshowfav);
         progressBar = view.findViewById(R.id.progress_circular_favorites_tvshow);
         constraintLayout = view.findViewById(R.id.constraintLayout_tv_show_fragment_container);
         tvNoFav = view.findViewById(R.id.text_tvshowfav_nofavorites);
@@ -221,8 +220,9 @@ public class TvShowFavFragment extends Fragment implements TvShowFavTouchHelper.
 
     static  class DataObserver extends ContentObserver{
         final  Context context;
-        LoadTvShowFavCallback callback;
-        public DataObserver(Handler handler, Context context, LoadTvShowFavCallback callback) {
+        final LoadTvShowFavCallback callback;
+
+        DataObserver(Handler handler, Context context, LoadTvShowFavCallback callback) {
             super(handler);
             this.callback = callback;
             this.context = context;

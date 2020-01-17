@@ -34,7 +34,7 @@ public class SettingsActivity extends AppCompatActivity {
 
     public static class SettingsFragment extends PreferenceFragmentCompat implements Preference.OnPreferenceChangeListener {
 
-        private ReminderReceiver reminderReceiver = new ReminderReceiver();
+        private final ReminderReceiver reminderReceiver = new ReminderReceiver();
         private SwitchPreference dailyReminderPref, releaseTodayReminderPref;
         private Context context;
 

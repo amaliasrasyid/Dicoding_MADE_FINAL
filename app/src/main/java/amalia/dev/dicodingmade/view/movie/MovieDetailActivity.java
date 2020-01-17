@@ -31,6 +31,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
+import java.util.Objects;
 
 import amalia.dev.dicodingmade.R;
 import amalia.dev.dicodingmade.model.MovieRealmObject;
@@ -49,6 +50,7 @@ public class MovieDetailActivity extends AppCompatActivity implements FragmentMa
     private Menu menu;// Global Menu Declaration
     private MovieRealmObject movie = new MovieRealmObject();
     private ContentResolver contentResolver;
+    private Cursor cursor;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -76,7 +78,7 @@ public class MovieDetailActivity extends AppCompatActivity implements FragmentMa
 
 
         //get genre's name based the id
-        List<Integer> genresId = movie.getGenreIds();
+        List<Integer> genresId = Objects.requireNonNull(movie).getGenreIds();
         if (genresId != null) {
             String genresName = getGenresName(genresId);
             genres.setText(genresName);
@@ -166,8 +168,9 @@ public class MovieDetailActivity extends AppCompatActivity implements FragmentMa
 
     private boolean isCheckedFav(int id) {
         Uri uri = Uri.parse(MovieColumns.CONTENT_URI + "/" + id);
-        Cursor cursor = contentResolver.query(uri, null, null, null, null);
+        cursor = contentResolver.query(uri, null, null, null, null);
         return  cursor != null && cursor.getCount() > 0;
+
     }
 
     private void broadcasting(){
@@ -214,6 +217,7 @@ public class MovieDetailActivity extends AppCompatActivity implements FragmentMa
             //parse string to date
             date = toDate.parse(releaseDate);
             //convert date into string with a format pattern
+            assert date != null;
             str = toString.format(date);
             return str;
         } catch (ParseException e) {
@@ -239,4 +243,11 @@ public class MovieDetailActivity extends AppCompatActivity implements FragmentMa
         };
     }
 
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        if(cursor != null){
+            cursor.close();
+        }
+    }
 }

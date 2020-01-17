@@ -108,7 +108,7 @@ public class SearchResultsActivity extends AppCompatActivity implements Fragment
                 @Override
                 public void onResponse(@Nullable Call<MovieResult> call, @Nullable Response<MovieResult> response) {
                     if (response != null && response.isSuccessful()) {
-                        showLoading(false);
+                        showLoading();
                         result = response.body();
                         if (result != null) {
                             resultMovie.addAll(result.getMoviesResults());
@@ -137,7 +137,7 @@ public class SearchResultsActivity extends AppCompatActivity implements Fragment
                 @Override
                 public void onResponse(@Nullable Call<TvShowResult> call, @Nullable Response<TvShowResult> response) {
                     if(response != null && response.isSuccessful()){
-                        showLoading(false);
+                        showLoading();
                         result = response.body();
                         if (result != null) {
                             resultTvshow.addAll(result.getTvShowsResults());
@@ -162,11 +162,7 @@ public class SearchResultsActivity extends AppCompatActivity implements Fragment
 
     }
 
-    private void showLoading(Boolean state) {
-        if (state) {
-            progressBar.setVisibility(View.VISIBLE);
-        } else {
-            progressBar.setVisibility(View.GONE);
-        }
+    private void showLoading() {
+        progressBar.setVisibility(View.GONE);
     }
 }

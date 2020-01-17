@@ -2,14 +2,14 @@ apply plugin: 'com.android.application'
 apply plugin: 'realm-android'
 
 android {
-    compileSdkVersion 28
+    compileSdkVersion 29
     buildToolsVersion "29.0.2"
 
 
     defaultConfig {
         applicationId "amalia.dev.consumerfavorites"
         minSdkVersion 22
-        targetSdkVersion 28
+        targetSdkVersion 29
         versionCode 1
         versionName "1.0"
 
@@ -37,7 +37,7 @@ dependencies {
 
 
     //recyclerview
-    implementation 'com.android.support:recyclerview-v7:28.0.0'
+    implementation 'com.android.support:recyclerview-v7:29.0.0'
 
     //lib material design
     implementation 'com.google.android.material:material:1.0.0'

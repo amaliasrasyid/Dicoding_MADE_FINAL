@@ -79,10 +79,9 @@ public class FavProvider extends ContentProvider {
     public FavProvider() {  }
 
     @Override
-    public int update(@NonNull Uri uri, @NonNull ContentValues values, String selection,
+    public int update(@NonNull Uri uri, ContentValues values, String selection,
                       String[] selectionArgs) {
         // TODO: Implement this to handle requests to update one or more rows.
-        //ContentValues musn't null because it needed
         int count = 0;
         int idUpdate;
         boolean tmpDelete;
@@ -154,10 +153,10 @@ public class FavProvider extends ContentProvider {
 
     @Override
     public Uri insert(@NonNull Uri uri, ContentValues values) {
-        /**1.first create RealmObject. the data from ContentValues (parameter)
+        /*1.first create RealmObject. the data from ContentValues (parameter)
             2. execute insert with the object that have been created
             3. return in uri form
-         * */
+         */
         // TODO: Implement this to handle requests to insert a new row.
         Uri mUri;
         int id;

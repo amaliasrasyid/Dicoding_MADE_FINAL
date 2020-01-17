@@ -29,4 +29,7 @@
 
     <string name="title_tab1">Film</string>
     <string name="title_tab2">Acara TV</string>
+    <string name="text_search">Pencarian</string>
+    <string name="msg_not_found">Tidak Ditemukan</string>
+    <string name="msg_poster_favorite">Poster Kesukaan</string>
 </resources>

@@ -32,6 +32,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
+import java.util.Objects;
 
 import amalia.dev.consumerfavorites.R;
 import amalia.dev.consumerfavorites.model.MovieRealmObject;
@@ -71,7 +72,7 @@ public class MovieDetailActivity extends AppCompatActivity {
         movie = getIntent().getParcelableExtra(EXTRA_MOVIE);
 
         //get genre's name based the id
-        List<Integer> genresId = movie.getGenreIds();
+        List<Integer> genresId = Objects.requireNonNull(movie).getGenreIds();
         if (genresId != null) {
             String genresName = getGenresName(genresId);
             genres.setText(genresName);
@@ -181,6 +182,7 @@ public class MovieDetailActivity extends AppCompatActivity {
             //parse string to date
             date = toDate.parse(releaseDate);
             //convert date into string with a format pattern
+            assert date != null;
             str = toString.format(date);
             return str;
         } catch (ParseException e) {
@@ -207,7 +209,7 @@ public class MovieDetailActivity extends AppCompatActivity {
     }
     static class LoadGenresNameAsync extends AsyncTask<Void, Void, ArrayList<String>> {
         final WeakReference<Context> weakContext; //using weakreference object to avoid "this field leak context object" warning
-        List<Integer> list;
+        final List<Integer> list;
 
         LoadGenresNameAsync(Context context, List<Integer> listId) {
             weakContext = new WeakReference<>(context);

@@ -222,7 +222,7 @@ public class MovieFavFragment extends Fragment implements MovieFavTouchHelper.Re
 
    public static class DataObserver extends ContentObserver {
         final Context context;
-        LoadMovieFavCallback callback;
+        final LoadMovieFavCallback callback;
 
         DataObserver(Handler handler, Context context, LoadMovieFavCallback callback) {
             super(handler);

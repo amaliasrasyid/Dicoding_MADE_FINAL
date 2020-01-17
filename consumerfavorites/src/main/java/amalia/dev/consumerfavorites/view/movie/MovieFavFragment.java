@@ -11,13 +11,13 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.HandlerThread;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.constraintlayout.widget.ConstraintLayout;
@@ -153,7 +153,7 @@ public class MovieFavFragment extends Fragment implements MovieFavTouchHelper.Re
                 });
                 snackbar.show();
             }else{
-                notifyMessage("gagal update tmpDelete");
+                Log.e("delete Movie Fav","gagal update tmpDelete");
             }
 
 
@@ -221,7 +221,7 @@ public class MovieFavFragment extends Fragment implements MovieFavTouchHelper.Re
 
    public static class DataObserver extends ContentObserver {
         final Context context;
-        LoadMovieFavCallback callback;
+        final LoadMovieFavCallback callback;
 
         DataObserver(Handler handler, Context context, LoadMovieFavCallback callback) {
             super(handler);
@@ -236,9 +236,9 @@ public class MovieFavFragment extends Fragment implements MovieFavTouchHelper.Re
         }
     }
 
-    private void notifyMessage(String msg) {
-        Toast.makeText(getActivity(), msg, Toast.LENGTH_SHORT).show();
-    }
+//    private void notifyMessage(String msg) {
+//        Toast.makeText(getActivity(), msg, Toast.LENGTH_SHORT).show();
+//    }
 
     @Override
     public void onPause() {

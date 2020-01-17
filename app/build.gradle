@@ -51,7 +51,7 @@ dependencies {
     //navigation component
     implementation 'androidx.navigation:navigation-fragment:2.1.0'
     implementation 'androidx.navigation:navigation-ui:2.1.0'
-    implementation "androidx.fragment:fragment:1.2.0-rc04"
+    implementation "androidx.fragment:fragment:1.2.0-rc05"
 
     //adapter for rv realm
     implementation 'io.realm:android-adapters:2.1.1'

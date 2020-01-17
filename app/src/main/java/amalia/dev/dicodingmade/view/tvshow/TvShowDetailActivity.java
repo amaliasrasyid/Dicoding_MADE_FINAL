@@ -31,6 +31,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
+import java.util.Objects;
 
 import amalia.dev.dicodingmade.R;
 import amalia.dev.dicodingmade.model.TvShowRealmObject;
@@ -46,8 +47,8 @@ public class TvShowDetailActivity extends AppCompatActivity implements FragmentM
     private static final String BASE_URL_POSTER = "https://image.tmdb.org/t/p/w154";
     private static final String BASE_URL_BACK_POSTER = "https://image.tmdb.org/t/p/w500";
     private TvShowRealmObject tvShow = new TvShowRealmObject();
-    private static ArrayList<String> genresName = new ArrayList<>();
     private ContentResolver contentResolver;
+    private Cursor cursor;
     private Menu menu;
 
 
@@ -73,7 +74,7 @@ public class TvShowDetailActivity extends AppCompatActivity implements FragmentM
         tvShow = getIntent().getParcelableExtra(EXTRA_TV_SHOW);
 
         //get genre's name based the id
-        List<Integer> genresId = tvShow.getGenreIds();
+        List<Integer> genresId = Objects.requireNonNull(tvShow).getGenreIds();
         if(genresId != null){
             String genresName = getGenresName(genresId);
             genres.setText(genresName);
@@ -168,7 +169,7 @@ public class TvShowDetailActivity extends AppCompatActivity implements FragmentM
 
     private boolean isCheckedFav(int id) {
         Uri uri = Uri.parse(TvShowColumns.CONTENT_URI+"/"+id);
-        Cursor cursor = contentResolver.query(uri,null,null,null,null);
+        cursor = contentResolver.query(uri,null,null,null,null);
         return  cursor != null && cursor.getCount() > 0;
     }
 
@@ -211,6 +212,7 @@ public class TvShowDetailActivity extends AppCompatActivity implements FragmentM
             //parse string to date
             date = toDate.parse(releaseDate);
             //convert date into string with a format pattern
+            assert date != null;
             str =toString.format(date);
             return  str;
         } catch (ParseException e) {
@@ -236,5 +238,11 @@ public class TvShowDetailActivity extends AppCompatActivity implements FragmentM
         };
     }
 
-
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        if(cursor != null){
+            cursor.close();
+        }
+    }
 }

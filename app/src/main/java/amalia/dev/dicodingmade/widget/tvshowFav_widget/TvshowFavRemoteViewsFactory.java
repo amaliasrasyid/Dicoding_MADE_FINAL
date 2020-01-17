@@ -22,7 +22,7 @@ import amalia.dev.dicodingmade.repository.realm.RealmContract;
 public class TvshowFavRemoteViewsFactory implements RemoteViewsService.RemoteViewsFactory {
     private static final String BASE_URL_IMG = "https://image.tmdb.org/t/p/w185";
     private ArrayList<TvShowRealmObject> widgetItem = new ArrayList<>();
-    private Context mContext;
+    private final Context mContext;
 
     TvshowFavRemoteViewsFactory(Context context) {
         this.mContext = context;

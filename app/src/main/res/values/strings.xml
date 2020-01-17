@@ -32,6 +32,7 @@
     <string name="key_languange_change" translatable="false">languange_change</string>
     <string name="text_search">Search</string>
     <string name="msg_not_found">Not Found</string>
+    <string name="msg_poster_favorite">Poster Favorite</string>
 
 
 </resources>
