@@ -52,10 +52,21 @@
                 android:name="android.appwidget.provider"
                 android:resource="@xml/img_favorites_widget_info" />
         </receiver>
+<!--        Alarm Manager(reminder)-->
         <receiver
             android:name=".reminder.ReminderReceiver"
-            android:enabled="true" />
+            android:exported="true"
+            android:enabled="true" >
+            <intent-filter>
+                <action android:name="android.intent.action.BOOT_COMPLETED"/>
+                <action android:name="android.intent.action.LOCKED_BOOT_COMPLETED"/>
+            </intent-filter>
+        </receiver>
 
+        <service android:name=".reminder.ReminderService"
+            android:exported="true"
+            android:enabled="true"
+            android:process=":remote" />
         <service
             android:name=".widget.movieFav_widget.MovieFavWidgetService"
             android:permission="android.permission.BIND_REMOTEVIEWS" />

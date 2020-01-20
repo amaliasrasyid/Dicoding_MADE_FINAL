@@ -39,7 +39,7 @@ public class ReminderReceiver extends BroadcastReceiver {
     public static final String ACTION_DAILY_RECEIVER = "action daily receiver";
     public static final String ACTION_RELEASE_TODAY_RECEIVER = "action release today receiver";
     public static final String CHANNEL_ID = "ChannelId";
-    public static final String EXTRA_DATA_RELEASE_TODAY = "extraDataReleaseToday";
+
     ArrayList<MovieRealmObject> listNewRelease;
 
     private static final String TAG = "reminderReceiver";
@@ -51,6 +51,8 @@ public class ReminderReceiver extends BroadcastReceiver {
     public void onReceive(Context context, Intent intent) {
         if (intent.getAction() != null) {
             if (intent.getAction().equals(ACTION_DAILY_RECEIVER)) {
+
+
                 showNotification(context, "Catalogue Movie", "Catalogue Movie Missing You", NOTIF_ID_DAILY);
             } else if (intent.getAction().equals(ACTION_RELEASE_TODAY_RECEIVER)) {
                 getListReleaseToday(context);
@@ -60,7 +62,7 @@ public class ReminderReceiver extends BroadcastReceiver {
 
     }
 
-    public void setRepeatingDaily(Context context) {
+    public  void setRepeatingDaily(Context context) {
         AlarmManager reminderManager = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
 
         Intent intent = new Intent(context, ReminderReceiver.class);
@@ -90,9 +92,10 @@ public class ReminderReceiver extends BroadcastReceiver {
                 reminderManager.setInexactRepeating(AlarmManager.RTC_WAKEUP, startTime.getTimeInMillis(), AlarmManager.INTERVAL_DAY, pendingIntent);
             }
         }
+
     }
 
-    public void setReleaseToday(Context context) {
+    public  void setReleaseToday(Context context) {
         AlarmManager releaseToday = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
 
         Intent intent = new Intent(context, ReminderReceiver.class);

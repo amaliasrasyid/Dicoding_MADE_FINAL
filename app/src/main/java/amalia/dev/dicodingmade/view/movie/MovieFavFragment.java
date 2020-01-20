@@ -20,6 +20,7 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.DefaultItemAnimator;
@@ -58,27 +59,29 @@ public class MovieFavFragment extends Fragment implements MovieFavTouchHelper.Re
     private DataObserver dataObserver;
 
 
+
     public MovieFavFragment() {
         // Required empty public constructor
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        View view = inflater.inflate(R.layout.fragment_movie_fav, container, false);
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+
+        //initiation View (create reference view) & the logic
         constraintLayout = view.findViewById(R.id.constraintLayout_movie_fav_fragment_container);
         imgNoFav = view.findViewById(R.id.image_moviefav_nofavorites);
         tvNoFav = view.findViewById(R.id.text_moviefav_nofavorites);
         progressBar = view.findViewById(R.id.progress_circular_favorites);
         RecyclerView rv = view.findViewById(R.id.recyclerview_moviefav);
-        adapter = new MovieAdapter(getActivity());
+
 
         rv.setAdapter(adapter);
         rv.setLayoutManager(new LinearLayoutManager(getActivity()));
         rv.setHasFixedSize(true);
         rv.setItemAnimator(new DefaultItemAnimator());
         rv.addItemDecoration(new DividerItemDecoration(Objects.requireNonNull(getActivity()), DividerItemDecoration.VERTICAL));
+        adapter = new MovieAdapter(getActivity());
 
         //adding item touch listener
         ItemTouchHelper.SimpleCallback listener = new MovieFavTouchHelper(0, ItemTouchHelper.LEFT, this);
@@ -102,7 +105,13 @@ public class MovieFavFragment extends Fragment implements MovieFavTouchHelper.Re
             }
         }
 
-        return view;
+    }
+
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                             Bundle savedInstanceState) {
+        // Inflate the layout for this fragment
+        return inflater.inflate(R.layout.fragment_movie_fav, container, false);
     }
 
     //making data persisted when device rotated

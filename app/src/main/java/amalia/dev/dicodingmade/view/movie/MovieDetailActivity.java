@@ -35,7 +35,6 @@ import java.util.Objects;
 
 import amalia.dev.dicodingmade.R;
 import amalia.dev.dicodingmade.model.MovieRealmObject;
-import amalia.dev.dicodingmade.reminder.ReminderReceiver;
 import amalia.dev.dicodingmade.repository.MappingHelper;
 import amalia.dev.dicodingmade.repository.realm.RealmContract;
 import amalia.dev.dicodingmade.widget.movieFav_widget.MovieFavWidget;
@@ -67,15 +66,6 @@ public class MovieDetailActivity extends AppCompatActivity implements FragmentMa
         ProgressBar pbBackPoster = findViewById(R.id.progressBar_moviedetail_backposter);
         ProgressBar pbPoster = findViewById(R.id.progressBar_moviedetail_poster);
         contentResolver = this.getContentResolver();
-
-        if(getIntent().getParcelableExtra(ReminderReceiver.EXTRA_DATA_RELEASE_TODAY) != null){
-            //getting data from notification that clicked
-            movie= getIntent().getParcelableExtra(ReminderReceiver.EXTRA_DATA_RELEASE_TODAY);
-        }else{
-            //getting data from the objek that clicked in list
-            movie = getIntent().getParcelableExtra(EXTRA_MOVIE);
-        }
-
 
         //get genre's name based the id
         List<Integer> genresId = Objects.requireNonNull(movie).getGenreIds();

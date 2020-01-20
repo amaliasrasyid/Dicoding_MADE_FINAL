@@ -15,6 +15,7 @@ import java.util.Objects;
 
 import amalia.dev.dicodingmade.R;
 import amalia.dev.dicodingmade.reminder.ReminderReceiver;
+//import amalia.dev.dicodingmade.reminder.ReminderService;
 
 public class SettingsActivity extends AppCompatActivity {
 

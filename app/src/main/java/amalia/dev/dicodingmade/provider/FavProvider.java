@@ -81,7 +81,6 @@ public class FavProvider extends ContentProvider {
     @Override
     public int update(@NonNull Uri uri, ContentValues values, String selection,
                       String[] selectionArgs) {
-        // TODO: Implement this to handle requests to update one or more rows.
         int count = 0;
         int idUpdate;
         boolean tmpDelete;
@@ -90,8 +89,6 @@ public class FavProvider extends ContentProvider {
         try {
             switch (uriMatcher.match(uri)) {
                 case MOVIE_ID:
-//                    idUpdate = Integer.parseInt(uri.getPathSegments().get(2));//id movie
-//                    tmpDelete = Boolean.parseBoolean(uri.getPathSegments().get(1));//false-true value
                     idUpdate = Integer.parseInt(uri.getPathSegments().get(1));
                     tmpDelete = values.getAsBoolean(MovieColumns.COLUMN_NAME_TMP_DELETE);
                     realmHelper.updateTmpDeleteM(idUpdate, tmpDelete);
@@ -100,11 +97,11 @@ public class FavProvider extends ContentProvider {
                 case TVSHOW_ID:
                     idUpdate = Integer.parseInt(uri.getPathSegments().get(1));
                     tmpDelete = values.getAsBoolean(TvShowColumns.COLUMN_NAME_TMP_DELETE);
-//                    idUpdate = Integer.parseInt(uri.getPathSegments().get(2));//id tvshow
-//                    tmpDelete = Boolean.parseBoolean(uri.getPathSegments().get(1));//false-true value
                     realmHelper.updateTmpDeleteTS(idUpdate, tmpDelete);
                     count++;
                     break;
+                default:
+                    throw new UnsupportedOperationException("Not yet implemented");
             }
         }finally {
             realm.close();
@@ -157,7 +154,6 @@ public class FavProvider extends ContentProvider {
             2. execute insert with the object that have been created
             3. return in uri form
          */
-        // TODO: Implement this to handle requests to insert a new row.
         Uri mUri;
         int id;
         RealmList<Integer> listGenreId;

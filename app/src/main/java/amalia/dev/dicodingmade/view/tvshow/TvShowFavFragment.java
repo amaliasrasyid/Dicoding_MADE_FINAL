@@ -21,6 +21,7 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.DefaultItemAnimator;
@@ -64,12 +65,11 @@ public class TvShowFavFragment extends Fragment implements TvShowFavTouchHelper.
         // Required empty public constructor
     }
 
-
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        View view = inflater.inflate(R.layout.fragment_tv_show_fav, container, false);
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+
+        //initiation View (create reference view) & the logic
         RecyclerView rv = view.findViewById(R.id.recyclerview_tvshowfav);
         progressBar = view.findViewById(R.id.progress_circular_favorites_tvshow);
         constraintLayout = view.findViewById(R.id.constraintLayout_tv_show_fragment_container);
@@ -106,7 +106,13 @@ public class TvShowFavFragment extends Fragment implements TvShowFavTouchHelper.
             }
         }
 
-        return  view;
+    }
+
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                             Bundle savedInstanceState) {
+        // Inflate the layout for this fragment
+        return inflater.inflate(R.layout.fragment_tv_show_fav, container, false);
     }
 
     @Override

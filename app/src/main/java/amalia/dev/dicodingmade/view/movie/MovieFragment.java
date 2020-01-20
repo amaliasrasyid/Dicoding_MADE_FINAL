@@ -45,15 +45,20 @@ public class MovieFragment extends Fragment {
     }
 
     @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+
+        //initiation View (create reference view)
+        rvListMovies = view.findViewById(R.id.recyclerview_movie);
+        progressBar = view.findViewById(R.id.progress_circular_movie);
+        rvListMovies.setHasFixedSize(true);
+    }
+
+    @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View view = inflater.inflate(R.layout.fragment_movie, container, false);
-        rvListMovies = view.findViewById(R.id.recyclerview_movie);
-        progressBar = view.findViewById(R.id.progress_circular_movie);
-
-        rvListMovies.setHasFixedSize(true);
-        return view;
+        return inflater.inflate(R.layout.fragment_movie, container, false);
     }
 
 

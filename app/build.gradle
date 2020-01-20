@@ -41,7 +41,7 @@ dependencies {
     annotationProcessor 'androidx.lifecycle:lifecycle-compiler:2.2.0-rc03'
 
     //retrofit
-    implementation 'com.squareup.retrofit2:retrofit:2.3.0'
+    implementation 'com.squareup.retrofit2:retrofit:2.7.1'
     implementation 'com.squareup.retrofit2:converter-gson:2.3.0'
 
     //glide
@@ -55,5 +55,9 @@ dependencies {
 
     //adapter for rv realm
     implementation 'io.realm:android-adapters:2.1.1'
+
+    //workmanager
+    implementation "android.arch.work:work-runtime:1.0.1"
+
 
 }
