@@ -53,18 +53,17 @@
                 android:resource="@xml/img_favorites_widget_info" />
         </receiver>
 <!--        Alarm Manager(reminder)-->
+<!--        TODO:for broadcastreceiver still work when app destryed, it need registered in global not in activity,
+ but..kenapa itu hanya perlu dg deklarasikan tanpa intnet-filter. dan hanya bisa di emulator api 28, -->
         <receiver
-            android:name=".reminder.ReminderReceiver"
-            android:exported="true"
-            android:enabled="true" >
-            <intent-filter>
-                <action android:name="android.intent.action.BOOT_COMPLETED"/>
-                <action android:name="android.intent.action.LOCKED_BOOT_COMPLETED"/>
-            </intent-filter>
+            android:name=".reminder.ReminderReceiver">
+<!--            <intent-filter>-->
+<!--                <action android:name="android.intent.action.BOOT_COMPLETED"/>-->
+<!--                <action android:name="android.intent.action.LOCKED_BOOT_COMPLETED"/>-->
+<!--            </intent-filter>-->
         </receiver>
 
         <service android:name=".reminder.ReminderService"
-            android:exported="true"
             android:enabled="true"
             android:process=":remote" />
         <service

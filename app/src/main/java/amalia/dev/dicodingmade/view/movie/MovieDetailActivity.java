@@ -67,6 +67,9 @@ public class MovieDetailActivity extends AppCompatActivity implements FragmentMa
         ProgressBar pbPoster = findViewById(R.id.progressBar_moviedetail_poster);
         contentResolver = this.getContentResolver();
 
+        //getting data from the objek that clicked in list
+        movie = getIntent().getParcelableExtra(EXTRA_MOVIE);
+
         //get genre's name based the id
         List<Integer> genresId = Objects.requireNonNull(movie).getGenreIds();
         if (genresId != null) {

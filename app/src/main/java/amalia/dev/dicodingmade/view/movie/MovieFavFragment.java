@@ -75,13 +75,13 @@ public class MovieFavFragment extends Fragment implements MovieFavTouchHelper.Re
         progressBar = view.findViewById(R.id.progress_circular_favorites);
         RecyclerView rv = view.findViewById(R.id.recyclerview_moviefav);
 
-
+        adapter = new MovieAdapter(getActivity());
         rv.setAdapter(adapter);
         rv.setLayoutManager(new LinearLayoutManager(getActivity()));
         rv.setHasFixedSize(true);
         rv.setItemAnimator(new DefaultItemAnimator());
         rv.addItemDecoration(new DividerItemDecoration(Objects.requireNonNull(getActivity()), DividerItemDecoration.VERTICAL));
-        adapter = new MovieAdapter(getActivity());
+
 
         //adding item touch listener
         ItemTouchHelper.SimpleCallback listener = new MovieFavTouchHelper(0, ItemTouchHelper.LEFT, this);

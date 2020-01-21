@@ -58,11 +58,9 @@ public class ReminderReceiver extends BroadcastReceiver {
                 getListReleaseToday(context);
             }
         }
-
-
     }
 
-    public  void setRepeatingDaily(Context context) {
+    public void setRepeatingDaily(Context context) {
         AlarmManager reminderManager = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
 
         Intent intent = new Intent(context, ReminderReceiver.class);
@@ -95,7 +93,7 @@ public class ReminderReceiver extends BroadcastReceiver {
 
     }
 
-    public  void setReleaseToday(Context context) {
+    public void setReleaseToday(Context context) {
         AlarmManager releaseToday = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
 
         Intent intent = new Intent(context, ReminderReceiver.class);
