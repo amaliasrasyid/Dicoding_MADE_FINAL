@@ -54,21 +54,14 @@ public class FavProvider extends ContentProvider {
         //create URI content://amalia.dev.dicodingmade/movie/id
         uriMatcher.addURI(AUTHORITY,MovieColumns.TABLE_NAME+"/#",MOVIE_ID);
 
-//        //create URI content://amalia.dev.dicodingmade/movie/{tmpDelete}/{id}
-//        uriMatcher.addURI(AUTHORITY,MovieColumns.TABLE_NAME+"/*/#",MOVIE_TMP_DELETE);
-
         //create URI content://amalia.dev.dicodingmade/tvshow
         uriMatcher.addURI(AUTHORITY, TvShowColumns.TABLE_NAME,TVSHOW);
 
         //create URI content://amalia.dev.dicodingmade/tvshow/id
         uriMatcher.addURI(AUTHORITY, TvShowColumns.TABLE_NAME+"/#",TVSHOW_ID);
 
-//        //create URI content://amalia.dev.dicodingmade/tvshow/{tmpDelete}/{id}
-//        uriMatcher.addURI(AUTHORITY, TvShowColumns.TABLE_NAME+"/*/#",TVSHOW_TMP_DELETE);
-
         //create URI content://amalia.dev.dicodingmade/genre/id
         uriMatcher.addURI(AUTHORITY,GenreColumns.TABLE_NAME+"/#",GENRE_ID);
-
     }
     @Nullable
     @Override
@@ -332,7 +325,7 @@ public class FavProvider extends ContentProvider {
                 return matrixGenre;
             }
         }finally {
-            realm.close();//MUST CLOSING IT, because if not closing there is error "realm incorrect access thread" when open app consumer
+            realm.close();//MUST CLOSING IT, because if not closing there is error "realm incorrect access thread" when open consumer app
         }
 
 

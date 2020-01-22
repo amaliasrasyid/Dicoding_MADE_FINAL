@@ -27,8 +27,7 @@
         <activity android:name=".view.search.SearchResultsActivity" />
         <activity
             android:name=".view.settings.SettingsActivity"
-            android:label="@string/title_activity_settings"
-            android:parentActivityName=".view.MainActivity">
+            android:label="@string/title_activity_settings">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="amalia.dev.dicodingmade.view.MainActivity" />
@@ -54,24 +53,21 @@
         </receiver>
 <!--        Alarm Manager(reminder)-->
 <!--        TODO:for broadcastreceiver still work when app destryed, it need registered in global not in activity,
- but..kenapa itu hanya perlu dg deklarasikan tanpa intnet-filter. dan hanya bisa di emulator api 28, -->
-        <receiver
-            android:name=".reminder.ReminderReceiver">
-<!--            <intent-filter>-->
-<!--                <action android:name="android.intent.action.BOOT_COMPLETED"/>-->
-<!--                <action android:name="android.intent.action.LOCKED_BOOT_COMPLETED"/>-->
-<!--            </intent-filter>-->
-        </receiver>
+ but..kenapa itu hanya perlu dg deklarasikan tanpa intnet-filter. dan hanya bisa di emulator api 28.
+ pada android 8 dan ke atasnya, tidak bisa lagi menggunakan intent implicit di manifest (dia tidak bekerja/berfungsi lg) jika dideklarasikan
+ di manifest, harus secara programatically (seperti yg kuinginkan pd intent-filter). pada beberapa hp sepertio oppo,vivo,dll perlu konfigurasi manual agar berjalan alarmnya, dan bahkan tidak bisa juga
+ ini karena perbedaan OS android (ex:oppo -> osColor), sd di os lainnya (tes di hp asus) alarm bisa jalan meski app di destroy/killed
+ -->
+        <receiver  android:name=".reminder.ReminderReceiver"/>
 
-        <service android:name=".reminder.ReminderService"
-            android:enabled="true"
-            android:process=":remote" />
         <service
             android:name=".widget.movieFav_widget.MovieFavWidgetService"
             android:permission="android.permission.BIND_REMOTEVIEWS" />
         <service
             android:name=".widget.tvshowFav_widget.TvshowFavWidgetService"
             android:permission="android.permission.BIND_REMOTEVIEWS" />
+
+        <service android:name=".reminder.ReminderService" />
 
         <provider
             android:name=".provider.FavProvider"

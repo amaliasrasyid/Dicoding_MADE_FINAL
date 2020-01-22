@@ -104,7 +104,6 @@ public class MovieFavFragment extends Fragment implements MovieFavTouchHelper.Re
                 adapter.setData(list);
             }
         }
-
     }
 
     @Override

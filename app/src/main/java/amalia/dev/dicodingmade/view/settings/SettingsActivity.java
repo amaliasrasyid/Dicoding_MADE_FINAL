@@ -5,8 +5,8 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.provider.Settings;
 
-import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.FragmentManager;
 import androidx.preference.Preference;
 import androidx.preference.PreferenceFragmentCompat;
 import androidx.preference.SwitchPreference;
@@ -17,7 +17,7 @@ import amalia.dev.dicodingmade.R;
 import amalia.dev.dicodingmade.reminder.ReminderReceiver;
 //import amalia.dev.dicodingmade.reminder.ReminderService;
 
-public class SettingsActivity extends AppCompatActivity {
+public class SettingsActivity extends AppCompatActivity implements FragmentManager.OnBackStackChangedListener {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -27,10 +27,24 @@ public class SettingsActivity extends AppCompatActivity {
                 .beginTransaction()
                 .replace(R.id.settings, new SettingsFragment())
                 .commit();
-        ActionBar actionBar = getSupportActionBar();
-        if (actionBar != null) {
-            actionBar.setDisplayHomeAsUpEnabled(true);
+
+        //setting up button (custom)
+        if(getSupportActionBar()!= null){
+            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         }
+    }
+    @Override
+    public void onBackStackChanged(){
+        if(getSupportActionBar() != null){
+            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        }
+    }
+
+    @Override
+    public boolean onSupportNavigateUp(){
+        //this method is called when the up button is pressed. just destroy/finish activity
+        finish();
+        return true;
     }
 
     public static class SettingsFragment extends PreferenceFragmentCompat implements Preference.OnPreferenceChangeListener {
@@ -60,18 +74,17 @@ public class SettingsActivity extends AppCompatActivity {
             });
         }
 
-
         @Override
         public boolean onPreferenceChange(Preference preference, Object newValue) {
             if (preference.getKey().equals(getString(R.string.key_noification_release_today))) {
                 if (releaseTodayReminderPref.isChecked()) {
-                    reminderReceiver.cancelReminder(Objects.requireNonNull(getActivity()),ReminderReceiver.NOTIF_ID_RELEASE_TODAY);
+                    reminderReceiver.cancelReminder(Objects.requireNonNull(getActivity()), ReminderReceiver.NOTIF_ID_RELEASE_TODAY);
                 } else {
                     reminderReceiver.setReleaseToday(Objects.requireNonNull(getActivity()));
                 }
             } else if (preference.getKey().equals(getString(R.string.key_notification_daily_reminder))) {
                 if (dailyReminderPref.isChecked()) {
-                    reminderReceiver.cancelReminder(Objects.requireNonNull(getActivity()),ReminderReceiver.NOTIF_ID_DAILY);
+                    reminderReceiver.cancelReminder(Objects.requireNonNull(getActivity()), ReminderReceiver.NOTIF_ID_DAILY);
                 } else {
                     reminderReceiver.setRepeatingDaily(Objects.requireNonNull(getActivity()));
                 }
