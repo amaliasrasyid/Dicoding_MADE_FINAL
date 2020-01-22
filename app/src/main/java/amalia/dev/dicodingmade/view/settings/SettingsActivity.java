@@ -78,13 +78,13 @@ public class SettingsActivity extends AppCompatActivity implements FragmentManag
         public boolean onPreferenceChange(Preference preference, Object newValue) {
             if (preference.getKey().equals(getString(R.string.key_noification_release_today))) {
                 if (releaseTodayReminderPref.isChecked()) {
-                    reminderReceiver.cancelReminder(Objects.requireNonNull(getActivity()), ReminderReceiver.NOTIF_ID_RELEASE_TODAY);
+                    reminderReceiver.cancelReminder(Objects.requireNonNull(getActivity()), ReminderReceiver.REQ_CODE_RELEASE_TODAY);
                 } else {
                     reminderReceiver.setReleaseToday(Objects.requireNonNull(getActivity()));
                 }
             } else if (preference.getKey().equals(getString(R.string.key_notification_daily_reminder))) {
                 if (dailyReminderPref.isChecked()) {
-                    reminderReceiver.cancelReminder(Objects.requireNonNull(getActivity()), ReminderReceiver.NOTIF_ID_DAILY);
+                    reminderReceiver.cancelReminder(Objects.requireNonNull(getActivity()), ReminderReceiver.REQ_CODE_DAILY);
                 } else {
                     reminderReceiver.setRepeatingDaily(Objects.requireNonNull(getActivity()));
                 }

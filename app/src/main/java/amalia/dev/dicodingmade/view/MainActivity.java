@@ -23,6 +23,7 @@ import java.util.Objects;
 import amalia.dev.dicodingmade.BuildConfig;
 import amalia.dev.dicodingmade.R;
 import amalia.dev.dicodingmade.model.GenreResult;
+import amalia.dev.dicodingmade.reminder.ReminderService;
 import amalia.dev.dicodingmade.repository.api.ApiInterface;
 import amalia.dev.dicodingmade.repository.api.ApiRepository;
 import amalia.dev.dicodingmade.repository.realm.RealmHelper;
@@ -57,6 +58,9 @@ public class MainActivity extends AppCompatActivity{
             editor.putBoolean("JustOnce", true);
             editor.apply();
         }
+        //run Service for alarm/reminder
+        Intent intent = new Intent(this, ReminderService.class);
+        this.startService(intent);
     }
 
     private void loadGenre() {

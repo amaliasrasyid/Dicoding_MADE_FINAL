@@ -34,8 +34,8 @@ import retrofit2.Response;
 import retrofit2.Retrofit;
 
 public class ReminderReceiver extends BroadcastReceiver {
-    public static final int NOTIF_ID_DAILY = 500;
-    public static final int NOTIF_ID_RELEASE_TODAY = 600;
+    public static final int REQ_CODE_DAILY = 500;
+    public static final int REQ_CODE_RELEASE_TODAY = 600;
     public static final String ACTION_DAILY_RECEIVER = "action daily receiver";
     public static final String ACTION_RELEASE_TODAY_RECEIVER = "action release today receiver";
     public static final String CHANNEL_ID = "ChannelId";
@@ -53,7 +53,7 @@ public class ReminderReceiver extends BroadcastReceiver {
             if (intent.getAction().equals(ACTION_DAILY_RECEIVER)) {
 
 
-                showNotification(context, "Catalogue Movie", "Catalogue Movie Missing You", NOTIF_ID_DAILY);
+                showNotification(context, "Catalogue Movie", "Catalogue Movie Missing You", REQ_CODE_DAILY);
             } else if (intent.getAction().equals(ACTION_RELEASE_TODAY_RECEIVER)) {
                 getListReleaseToday(context);
             }
@@ -65,7 +65,7 @@ public class ReminderReceiver extends BroadcastReceiver {
 
         Intent intent = new Intent(context, ReminderReceiver.class);
         intent.setAction(ACTION_DAILY_RECEIVER);
-        PendingIntent pendingIntent = PendingIntent.getBroadcast(context, NOTIF_ID_DAILY, intent, PendingIntent.FLAG_UPDATE_CURRENT);//Retrieve a PendingIntent that will perform a broadcast (PendingIntent need Intent as the value that will pased)
+        PendingIntent pendingIntent = PendingIntent.getBroadcast(context, REQ_CODE_DAILY, intent, PendingIntent.FLAG_UPDATE_CURRENT);//Retrieve a PendingIntent that will perform a broadcast (PendingIntent need Intent as the value that will pased)
 
         //set the time every day at 7 am
         Calendar startTime = Calendar.getInstance();
@@ -98,7 +98,7 @@ public class ReminderReceiver extends BroadcastReceiver {
 
         Intent intent = new Intent(context, ReminderReceiver.class);
         intent.setAction(ACTION_RELEASE_TODAY_RECEIVER);
-        PendingIntent pendingIntent = PendingIntent.getBroadcast(context, NOTIF_ID_RELEASE_TODAY, intent, PendingIntent.FLAG_UPDATE_CURRENT);
+        PendingIntent pendingIntent = PendingIntent.getBroadcast(context, REQ_CODE_RELEASE_TODAY, intent, PendingIntent.FLAG_UPDATE_CURRENT);
 
         //start at every 8 am
         Calendar startTime = Calendar.getInstance();
@@ -191,7 +191,7 @@ public class ReminderReceiver extends BroadcastReceiver {
         call.enqueue(new Callback<MovieResult>() {
             @Override
             public void onResponse(@NonNull Call<MovieResult> call, @Nullable Response<MovieResult> response) {
-                int notificationId = NOTIF_ID_RELEASE_TODAY;
+                int notificationId = REQ_CODE_RELEASE_TODAY;
                 try {
                     if (response != null && response.body() != null) {
                         listNewRelease.addAll(response.body().getMoviesResults());
