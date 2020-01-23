@@ -51,8 +51,6 @@ public class ReminderReceiver extends BroadcastReceiver {
     public void onReceive(Context context, Intent intent) {
         if (intent.getAction() != null) {
             if (intent.getAction().equals(ACTION_DAILY_RECEIVER)) {
-
-
                 showNotification(context, "Catalogue Movie", "Catalogue Movie Missing You", REQ_CODE_DAILY);
             } else if (intent.getAction().equals(ACTION_RELEASE_TODAY_RECEIVER)) {
                 getListReleaseToday(context);
