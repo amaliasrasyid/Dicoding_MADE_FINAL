@@ -53,9 +53,7 @@
         </receiver>
 <!--        Alarm Manager(reminder)-->
 <!--        TODO:for broadcastreceiver still work when app destryed, it need registered in global not in activity,
- but..kenapa itu hanya perlu dg deklarasikan tanpa intnet-filter. dan hanya bisa di emulator api 28.
- pada android 8 dan ke atasnya, tidak bisa lagi menggunakan intent implicit di manifest (dia tidak bekerja/berfungsi lg) jika dideklarasikan
- di manifest, harus secara programatically (seperti yg kuinginkan pd intent-filter). pada beberapa hp sepertio oppo,vivo,dll perlu konfigurasi manual agar berjalan alarmnya, dan bahkan tidak bisa juga
+ but..kenapa itu hanya perlu dg deklarasikan tanpa intnet-filter. dan hanya bisa di emulator api 28. pada beberapa hp sepertio oppo,vivo,dll perlu konfigurasi manual agar berjalan alarmnya, dan bahkan tidak bisa juga
  ini karena perbedaan OS android (ex:oppo -> osColor), sd di os lainnya (tes di hp asus) alarm bisa jalan meski app di destroy/killed
  -->
         <receiver  android:name=".reminder.ReminderReceiver"/>
@@ -66,8 +64,6 @@
         <service
             android:name=".widget.tvshowFav_widget.TvshowFavWidgetService"
             android:permission="android.permission.BIND_REMOTEVIEWS" />
-
-        <service android:name=".reminder.ReminderService" />
 
         <provider
             android:name=".provider.FavProvider"

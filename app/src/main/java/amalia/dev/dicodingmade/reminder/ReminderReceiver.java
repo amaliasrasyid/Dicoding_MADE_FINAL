@@ -38,6 +38,7 @@ public class ReminderReceiver extends BroadcastReceiver {
     public static final int REQ_CODE_RELEASE_TODAY = 600;
     public static final String ACTION_DAILY_RECEIVER = "action daily receiver";
     public static final String ACTION_RELEASE_TODAY_RECEIVER = "action release today receiver";
+    public static final String ACTION_DESTROYED_ALARM = "action destroyed alarm";
     public static final String CHANNEL_ID = "ChannelId";
 
     ArrayList<MovieRealmObject> listNewRelease;
@@ -54,6 +55,8 @@ public class ReminderReceiver extends BroadcastReceiver {
                 showNotification(context, "Catalogue Movie", "Catalogue Movie Missing You", REQ_CODE_DAILY);
             } else if (intent.getAction().equals(ACTION_RELEASE_TODAY_RECEIVER)) {
                 getListReleaseToday(context);
+            }else if(intent.getAction().equals(ACTION_DESTROYED_ALARM)){
+                reScheduleAlarm(context);
             }
         }
     }
@@ -161,7 +164,6 @@ public class ReminderReceiver extends BroadcastReceiver {
 
     }
 
-
     public void cancelReminder(Context context, int notifId) {
         AlarmManager reminderManager = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
 
@@ -220,6 +222,26 @@ public class ReminderReceiver extends BroadcastReceiver {
         });
 
 
+    }
+
+    private void reScheduleAlarm(Context mContext){
+        //check if alarm exist
+        boolean reminderDaily = (PendingIntent.getBroadcast(
+                mContext, ReminderReceiver.REQ_CODE_DAILY, new Intent(ReminderReceiver.ACTION_DAILY_RECEIVER), PendingIntent.FLAG_NO_CREATE) != null);
+
+        boolean reminderReleaseToday = (PendingIntent.getBroadcast(
+                mContext, ReminderReceiver.REQ_CODE_RELEASE_TODAY, new Intent(ReminderReceiver.ACTION_RELEASE_TODAY_RECEIVER), PendingIntent.FLAG_NO_CREATE) != null
+        );
+        if(reminderDaily){
+            Log.d("ReminderService","Alarm/Reminder is already active");
+        }else{
+            setRepeatingDaily(mContext);
+        }
+        if (reminderReleaseToday) {
+            Log.d("ReminderService","Alarm/Reminder is already active");
+        }else{
+            setReleaseToday(mContext);
+        }
     }
 
     private String getCurrentTime() {
