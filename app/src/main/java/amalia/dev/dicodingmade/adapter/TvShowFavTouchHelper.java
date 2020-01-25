@@ -25,20 +25,20 @@ public class TvShowFavTouchHelper extends ItemTouchHelper.SimpleCallback {
     @Override
     public void onSelectedChanged(@Nullable RecyclerView.ViewHolder viewHolder, int actionState) {
         if(viewHolder != null){
-            View foregroundView = ((TvShowAdapter.ViewHolder)viewHolder).containerItem;
+            View foregroundView = ((TvShowAdapter.ViewHolder)viewHolder).foreground;
             getDefaultUIUtil().onSelected(foregroundView);
         }
     }
 
     @Override
     public void onChildDrawOver(@NonNull Canvas c, @NonNull RecyclerView recyclerView, RecyclerView.ViewHolder viewHolder, float dX, float dY, int actionState, boolean isCurrentlyActive) {
-        View foregroundView = ((TvShowAdapter.ViewHolder)viewHolder).containerItem;
+        View foregroundView = ((TvShowAdapter.ViewHolder)viewHolder).foreground;
         getDefaultUIUtil().onDrawOver(c, recyclerView,foregroundView, dX, dY, actionState, isCurrentlyActive);
     }
 
     @Override
     public void clearView(@NonNull RecyclerView recyclerView, @NonNull RecyclerView.ViewHolder viewHolder) {
-        View foregroundView = ((TvShowAdapter.ViewHolder)viewHolder).containerItem;
+        View foregroundView = ((TvShowAdapter.ViewHolder)viewHolder).foreground;
         getDefaultUIUtil().clearView(foregroundView);
     }
 
@@ -49,7 +49,7 @@ public class TvShowFavTouchHelper extends ItemTouchHelper.SimpleCallback {
 
     @Override
     public void onChildDraw(@NonNull Canvas c, @NonNull RecyclerView recyclerView, @NonNull RecyclerView.ViewHolder viewHolder, float dX, float dY, int actionState, boolean isCurrentlyActive) {
-        View foregroundView = ((TvShowAdapter.ViewHolder)viewHolder).containerItem;
+        View foregroundView = ((TvShowAdapter.ViewHolder)viewHolder).foreground;
         getDefaultUIUtil().onDraw(c, recyclerView, foregroundView, dX, dY, actionState, isCurrentlyActive);
     }
 

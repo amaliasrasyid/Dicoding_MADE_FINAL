@@ -66,7 +66,7 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.ViewHolder> 
         final TextView overview;
         final TextView rating;
         final TextView popularity;
-        final ConstraintLayout containerItem;
+        final ConstraintLayout foreground;
         final ConstraintLayout background;
         ViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -77,11 +77,11 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.ViewHolder> 
             overview = itemView.findViewById(R.id.rv_item_overview);
             popularity = itemView.findViewById(R.id.tv_item_popularity);
             rating = itemView.findViewById(R.id.rv_item_rating);
-            containerItem = itemView.findViewById(R.id.constraintlayout_rvitem_viewforeground);
+            foreground = itemView.findViewById(R.id.constraintlayout_rvitem_viewforeground);
             background = itemView.findViewById(R.id.constraintLayout_rvitem_background);
 
             //set listener
-            containerItem.setOnClickListener(this);
+            foreground.setOnClickListener(this);
         }
 
         void bind(MovieRealmObject movie){
