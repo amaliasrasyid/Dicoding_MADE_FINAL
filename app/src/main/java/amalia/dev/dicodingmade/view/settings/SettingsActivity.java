@@ -65,12 +65,9 @@ public class SettingsActivity extends AppCompatActivity implements FragmentManag
             //set listener
             dailyReminderPref.setOnPreferenceChangeListener(this);
             releaseTodayReminderPref.setOnPreferenceChangeListener(this);
-            Objects.requireNonNull(changeLanguagePref).setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
-                @Override
-                public boolean onPreferenceClick(Preference preference) {
-                    context.startActivity(new Intent(Settings.ACTION_LOCALE_SETTINGS));
-                    return true;
-                }
+            Objects.requireNonNull(changeLanguagePref).setOnPreferenceClickListener(preference -> {
+                context.startActivity(new Intent(Settings.ACTION_LOCALE_SETTINGS));
+                return true;
             });
         }
 
