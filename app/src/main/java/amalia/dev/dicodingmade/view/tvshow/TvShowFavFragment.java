@@ -127,22 +127,17 @@ public class TvShowFavFragment extends Fragment implements TvShowFavTouchHelper.
             cv.put(TvShowColumns.COLUMN_NAME_TMP_DELETE,true);
             final  int rowUpdated = contentResolver.update(uriUpdate,cv,null,null);
 
-
-
             //showing snackbar with undo option for restoring deleted tvshow fav
             if(rowUpdated > 0){
                 isTmpDeleteFalse = true;
                 Snackbar snackbar = Snackbar.make(constraintLayout, name + " deleted from favorites!", Snackbar.LENGTH_SHORT);
-                snackbar.setAction("RESTORE", new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        //restore deleted movie by changing value askedDeletion back to false
-                        Uri uri = Uri.parse(TvShowColumns.CONTENT_URI+"/"+idDeletedTvshow);
-                        cv.put(TvShowColumns.COLUMN_NAME_TMP_DELETE,false);
-                        contentResolver.update(uri,cv,null,null);
-                        isTmpDeleteFalse = false;
+                snackbar.setAction("RESTORE", v -> {
+                    //restore deleted movie by changing value askedDeletion back to false
+                    Uri uri = Uri.parse(TvShowColumns.CONTENT_URI+"/"+idDeletedTvshow);
+                    cv.put(TvShowColumns.COLUMN_NAME_TMP_DELETE,false);
+                    contentResolver.update(uri,cv,null,null);
+                    isTmpDeleteFalse = false;
 
-                    }
                 });
                 snackbar.setActionTextColor(Color.YELLOW);
                 snackbar.addCallback(new Snackbar.Callback() {
@@ -178,12 +173,7 @@ public class TvShowFavFragment extends Fragment implements TvShowFavTouchHelper.
     @Override
     public void preExecute() {
         if(getActivity() != null){
-            getActivity().runOnUiThread(new Runnable() {
-                @Override
-                public void run() {
-                    progressBar.setVisibility(View.VISIBLE);
-                }
-            });
+            getActivity().runOnUiThread(() -> progressBar.setVisibility(View.VISIBLE));
         }
     }
 
@@ -195,7 +185,7 @@ public class TvShowFavFragment extends Fragment implements TvShowFavTouchHelper.
             tvNoFav.setVisibility(View.INVISIBLE);
             imgNoFav.setVisibility(View.INVISIBLE);
         }else{
-            adapter.setData(new ArrayList<TvShowRealmObject>());
+            adapter.setData(new ArrayList<>());
             tvNoFav.setVisibility(View.VISIBLE);
             imgNoFav.setVisibility(View.VISIBLE);
         }
