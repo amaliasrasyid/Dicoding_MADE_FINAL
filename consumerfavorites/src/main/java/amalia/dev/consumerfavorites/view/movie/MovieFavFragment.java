@@ -236,15 +236,11 @@ public class MovieFavFragment extends Fragment implements MovieFavTouchHelper.Re
         }
     }
 
-//    private void notifyMessage(String msg) {
-//        Toast.makeText(getActivity(), msg, Toast.LENGTH_SHORT).show();
-//    }
-
     @Override
-    public void onPause() {
+    public void onDestroy() {
+        super.onDestroy();
         //avoiding memory leak
         Objects.requireNonNull(getActivity()).getContentResolver().unregisterContentObserver(dataObserver);
-        super.onPause();
     }
 }
 

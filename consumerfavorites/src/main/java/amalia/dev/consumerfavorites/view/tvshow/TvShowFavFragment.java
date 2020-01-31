@@ -237,8 +237,8 @@ public class TvShowFavFragment extends Fragment implements TvShowFavTouchHelper.
     }
 
     @Override
-    public void onPause() {
-        super.onPause();
+    public void onDestroy() {
+        super.onDestroy();
         contentResolver.unregisterContentObserver(dataObserver);
     }
 }
