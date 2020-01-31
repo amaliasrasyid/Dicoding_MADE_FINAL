@@ -14,7 +14,7 @@
         android:protectionLevel="normal" />
 
     <application
-        android:name=".repository.realm.RealmApplication"
+        android:name=".repository.local.RealmApplication"
         android:allowBackup="false"
         android:icon="@mipmap/ic_app_small"
         android:label="@string/app_name"

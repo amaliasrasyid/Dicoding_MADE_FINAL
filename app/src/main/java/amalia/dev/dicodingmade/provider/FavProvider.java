@@ -19,16 +19,16 @@ import javax.annotation.Nullable;
 import amalia.dev.dicodingmade.model.GenreRealmObject;
 import amalia.dev.dicodingmade.model.MovieRealmObject;
 import amalia.dev.dicodingmade.model.TvShowRealmObject;
-import amalia.dev.dicodingmade.repository.realm.RealmContract;
-import amalia.dev.dicodingmade.repository.realm.RealmHelper;
+import amalia.dev.dicodingmade.repository.local.RealmContract;
+import amalia.dev.dicodingmade.repository.local.RealmHelper;
 import io.realm.Realm;
 import io.realm.RealmConfiguration;
 import io.realm.RealmList;
 
-import static amalia.dev.dicodingmade.repository.realm.RealmContract.AUTHORITY;
-import static amalia.dev.dicodingmade.repository.realm.RealmContract.GenreColumns;
-import static amalia.dev.dicodingmade.repository.realm.RealmContract.MovieColumns;
-import static amalia.dev.dicodingmade.repository.realm.RealmContract.TvShowColumns;
+import static amalia.dev.dicodingmade.repository.local.RealmContract.AUTHORITY;
+import static amalia.dev.dicodingmade.repository.local.RealmContract.GenreColumns;
+import static amalia.dev.dicodingmade.repository.local.RealmContract.MovieColumns;
+import static amalia.dev.dicodingmade.repository.local.RealmContract.TvShowColumns;
 
 public class FavProvider extends ContentProvider {
     private static final String TAG_PROVIDERFAV = "provider fav";

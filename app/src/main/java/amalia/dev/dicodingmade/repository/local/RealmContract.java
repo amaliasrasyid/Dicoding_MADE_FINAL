@@ -1,4 +1,4 @@
-package amalia.dev.dicodingmade.repository.realm;
+package amalia.dev.dicodingmade.repository.local;
 
 import android.net.Uri;
 import android.provider.BaseColumns;

@@ -1,4 +1,4 @@
-package amalia.dev.dicodingmade.repository.api;
+package amalia.dev.dicodingmade.repository.remote;
 
 import amalia.dev.dicodingmade.model.GenreResult;
 import amalia.dev.dicodingmade.model.MovieResult;

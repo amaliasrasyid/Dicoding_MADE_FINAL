@@ -17,7 +17,7 @@ import java.util.ArrayList;
 import amalia.dev.dicodingmade.R;
 import amalia.dev.dicodingmade.model.TvShowRealmObject;
 import amalia.dev.dicodingmade.repository.MappingHelper;
-import amalia.dev.dicodingmade.repository.realm.RealmContract;
+import amalia.dev.dicodingmade.repository.local.RealmContract;
 
 public class TvshowFavRemoteViewsFactory implements RemoteViewsService.RemoteViewsFactory {
     private static final String BASE_URL_IMG = "https://image.tmdb.org/t/p/w185";

@@ -1,4 +1,4 @@
-package amalia.dev.dicodingmade.repository.api;
+package amalia.dev.dicodingmade.repository.remote;
 
 import java.security.cert.CertificateException;
 

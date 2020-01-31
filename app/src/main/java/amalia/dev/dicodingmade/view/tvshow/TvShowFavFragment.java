@@ -42,10 +42,10 @@ import amalia.dev.dicodingmade.adapter.TvShowAdapter;
 import amalia.dev.dicodingmade.adapter.TvShowFavTouchHelper;
 import amalia.dev.dicodingmade.model.TvShowRealmObject;
 import amalia.dev.dicodingmade.repository.MappingHelper;
-import amalia.dev.dicodingmade.repository.realm.RealmContract;
+import amalia.dev.dicodingmade.repository.local.RealmContract;
 import amalia.dev.dicodingmade.widget.tvshowFav_widget.TvshowFavWidget;
 
-import static amalia.dev.dicodingmade.repository.realm.RealmContract.TvShowColumns;
+import static amalia.dev.dicodingmade.repository.local.RealmContract.TvShowColumns;
 
 /**
  * A simple {@link Fragment} subclass.

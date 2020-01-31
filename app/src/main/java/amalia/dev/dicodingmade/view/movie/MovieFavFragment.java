@@ -40,10 +40,10 @@ import amalia.dev.dicodingmade.adapter.MovieAdapter;
 import amalia.dev.dicodingmade.adapter.MovieFavTouchHelper;
 import amalia.dev.dicodingmade.model.MovieRealmObject;
 import amalia.dev.dicodingmade.repository.MappingHelper;
-import amalia.dev.dicodingmade.repository.realm.RealmContract;
+import amalia.dev.dicodingmade.repository.local.RealmContract;
 import amalia.dev.dicodingmade.widget.movieFav_widget.MovieFavWidget;
 
-import static amalia.dev.dicodingmade.repository.realm.RealmContract.MovieColumns;
+import static amalia.dev.dicodingmade.repository.local.RealmContract.MovieColumns;
 
 /**
  * A simple {@link Fragment} subclass.

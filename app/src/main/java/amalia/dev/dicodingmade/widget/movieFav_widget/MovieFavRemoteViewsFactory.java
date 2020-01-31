@@ -17,7 +17,7 @@ import java.util.ArrayList;
 import amalia.dev.dicodingmade.R;
 import amalia.dev.dicodingmade.model.MovieRealmObject;
 import amalia.dev.dicodingmade.repository.MappingHelper;
-import amalia.dev.dicodingmade.repository.realm.RealmContract;
+import amalia.dev.dicodingmade.repository.local.RealmContract;
 
 //THIS CLASS WORK LIKE ADAPTER FOR LISTVIEW/RECYCLERVIEW
 public class MovieFavRemoteViewsFactory implements RemoteViewsService.RemoteViewsFactory {

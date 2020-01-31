@@ -36,10 +36,10 @@ import java.util.Objects;
 import amalia.dev.dicodingmade.R;
 import amalia.dev.dicodingmade.model.MovieRealmObject;
 import amalia.dev.dicodingmade.repository.MappingHelper;
-import amalia.dev.dicodingmade.repository.realm.RealmContract;
+import amalia.dev.dicodingmade.repository.local.RealmContract;
 import amalia.dev.dicodingmade.widget.movieFav_widget.MovieFavWidget;
 
-import static amalia.dev.dicodingmade.repository.realm.RealmContract.MovieColumns;
+import static amalia.dev.dicodingmade.repository.local.RealmContract.MovieColumns;
 
 
 public class MovieDetailActivity extends AppCompatActivity implements FragmentManager.OnBackStackChangedListener {

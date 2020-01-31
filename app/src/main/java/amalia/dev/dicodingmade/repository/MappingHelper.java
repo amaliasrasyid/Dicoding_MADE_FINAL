@@ -9,8 +9,8 @@ import amalia.dev.dicodingmade.model.MovieRealmObject;
 import amalia.dev.dicodingmade.model.TvShowRealmObject;
 import io.realm.RealmList;
 
-import static amalia.dev.dicodingmade.repository.realm.RealmContract.MovieColumns;
-import static amalia.dev.dicodingmade.repository.realm.RealmContract.TvShowColumns;
+import static amalia.dev.dicodingmade.repository.local.RealmContract.MovieColumns;
+import static amalia.dev.dicodingmade.repository.local.RealmContract.TvShowColumns;
 
 
 public class MappingHelper {
