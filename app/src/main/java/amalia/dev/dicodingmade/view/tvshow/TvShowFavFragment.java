@@ -13,6 +13,7 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.HandlerThread;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -49,8 +50,9 @@ import static amalia.dev.dicodingmade.repository.realm.RealmContract.TvShowColum
 /**
  * A simple {@link Fragment} subclass.
  */
-public class TvShowFavFragment extends Fragment implements TvShowFavTouchHelper.RecylerItemTouchHelperListener,LoadTvShowFavCallback {
-    private static  final String EXTRA_STATE = "EXTRA_STATE";
+public class TvShowFavFragment extends Fragment implements TvShowFavTouchHelper.RecylerItemTouchHelperListener, LoadTvShowFavCallback {
+    private static final String EXTRA_STATE = "EXTRA_STATE";
+    private static final String TAG_FRAGMENT_TVFAV = "fragment tv fav";
     private ConstraintLayout constraintLayout;
     private TextView tvNoFav;
     private ImageView imgNoFav;
@@ -82,26 +84,26 @@ public class TvShowFavFragment extends Fragment implements TvShowFavTouchHelper.
         rv.setLayoutManager(new LinearLayoutManager(getActivity()));
         rv.setHasFixedSize(true);
         rv.setItemAnimator(new DefaultItemAnimator());
-        rv.addItemDecoration(new DividerItemDecoration(Objects.requireNonNull(getActivity()),DividerItemDecoration.VERTICAL));
+        rv.addItemDecoration(new DividerItemDecoration(Objects.requireNonNull(getActivity()), DividerItemDecoration.VERTICAL));
 
         //adding item touch listener
-        ItemTouchHelper.SimpleCallback listener = new TvShowFavTouchHelper(0,ItemTouchHelper.LEFT,this);
+        ItemTouchHelper.SimpleCallback listener = new TvShowFavTouchHelper(0, ItemTouchHelper.LEFT, this);
         new ItemTouchHelper(listener).attachToRecyclerView(rv);
 
         //getting data(content provider) in background (async)
         HandlerThread handlerThread = new HandlerThread("DataObserver");
         handlerThread.start();
-        Handler handler= new Handler(handlerThread.getLooper());
+        Handler handler = new Handler(handlerThread.getLooper());
         //registering an Observer for observing data if there is change
-        dataObserver = new DataObserver(handler,getActivity(),this);
-        contentResolver.registerContentObserver(RealmContract.TvShowColumns.CONTENT_URI,true,dataObserver);
+        dataObserver = new DataObserver(handler, getActivity(), this);
+        contentResolver.registerContentObserver(RealmContract.TvShowColumns.CONTENT_URI, true, dataObserver);
 
         //handling data when device is rotating
-        if(savedInstanceState == null){
-            new LoadTvShowFavAsync(getActivity(),this).execute();
-        }else{
+        if (savedInstanceState == null) {
+            new LoadTvShowFavAsync(getActivity(), this).execute();
+        } else {
             ArrayList<TvShowRealmObject> list = savedInstanceState.getParcelableArrayList(EXTRA_STATE);
-            if(list != null){
+            if (list != null) {
                 adapter.setData(list);
             }
         }
@@ -111,6 +113,7 @@ public class TvShowFavFragment extends Fragment implements TvShowFavTouchHelper.
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+        Log.d(TAG_FRAGMENT_TVFAV, "on Create View/inflated layout");
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_tv_show_fav, container, false);
     }
@@ -123,19 +126,19 @@ public class TvShowFavFragment extends Fragment implements TvShowFavTouchHelper.
             String name = adapter.getData().get(position).getOriginalName();
             final int idDeletedTvshow = adapter.getData().get(position).getId();
             //remove favorite movie temporary by set true val tmpDelete
-            Uri uriUpdate = Uri.parse(TvShowColumns.CONTENT_URI+"/"+idDeletedTvshow);
-            cv.put(TvShowColumns.COLUMN_NAME_TMP_DELETE,true);
-            final  int rowUpdated = contentResolver.update(uriUpdate,cv,null,null);
+            Uri uriUpdate = Uri.parse(TvShowColumns.CONTENT_URI + "/" + idDeletedTvshow);
+            cv.put(TvShowColumns.COLUMN_NAME_TMP_DELETE, true);
+            final int rowUpdated = contentResolver.update(uriUpdate, cv, null, null);
 
             //showing snackbar with undo option for restoring deleted tvshow fav
-            if(rowUpdated > 0){
+            if (rowUpdated > 0) {
                 isTmpDeleteFalse = true;
                 Snackbar snackbar = Snackbar.make(constraintLayout, name + " deleted from favorites!", Snackbar.LENGTH_SHORT);
                 snackbar.setAction("RESTORE", v -> {
                     //restore deleted movie by changing value askedDeletion back to false
-                    Uri uri = Uri.parse(TvShowColumns.CONTENT_URI+"/"+idDeletedTvshow);
-                    cv.put(TvShowColumns.COLUMN_NAME_TMP_DELETE,false);
-                    contentResolver.update(uri,cv,null,null);
+                    Uri uri = Uri.parse(TvShowColumns.CONTENT_URI + "/" + idDeletedTvshow);
+                    cv.put(TvShowColumns.COLUMN_NAME_TMP_DELETE, false);
+                    contentResolver.update(uri, cv, null, null);
                     isTmpDeleteFalse = false;
 
                 });
@@ -145,9 +148,9 @@ public class TvShowFavFragment extends Fragment implements TvShowFavTouchHelper.
                     public void onDismissed(Snackbar transientBottomBar, int event) {
                         super.onDismissed(transientBottomBar, event);
                         //when snackbar closed, delete permanently
-                        if(isTmpDeleteFalse){//because the change will caught by Observer, i use another variable for determining value of tmpDelete is true or false
-                            Uri uri = Uri.parse(TvShowColumns.CONTENT_URI+"/"+idDeletedTvshow);
-                            contentResolver.delete(uri,null,null);
+                        if (isTmpDeleteFalse) {//because the change will caught by Observer, i use another variable for determining value of tmpDelete is true or false
+                            Uri uri = Uri.parse(TvShowColumns.CONTENT_URI + "/" + idDeletedTvshow);
+                            contentResolver.delete(uri, null, null);
                         }
                     }
                 });
@@ -161,10 +164,10 @@ public class TvShowFavFragment extends Fragment implements TvShowFavTouchHelper.
     @Override
     public void onSaveInstanceState(@NonNull Bundle outState) {
         super.onSaveInstanceState(outState);
-        outState.putParcelableArrayList(EXTRA_STATE,adapter.getData());
+        outState.putParcelableArrayList(EXTRA_STATE, adapter.getData());
     }
 
-    private void broadcasting(){
+    private void broadcasting() {
         Intent intent = new Intent(getActivity(), TvshowFavWidget.class);
         intent.setAction(TvshowFavWidget.UPDATE_WIDGET_TV);
         Objects.requireNonNull(getActivity()).sendBroadcast(intent);
@@ -172,7 +175,7 @@ public class TvShowFavFragment extends Fragment implements TvShowFavTouchHelper.
 
     @Override
     public void preExecute() {
-        if(getActivity() != null){
+        if (getActivity() != null) {
             getActivity().runOnUiThread(() -> progressBar.setVisibility(View.VISIBLE));
         }
     }
@@ -180,22 +183,22 @@ public class TvShowFavFragment extends Fragment implements TvShowFavTouchHelper.
     @Override
     public void postExecute(ArrayList<TvShowRealmObject> tvshow) {
         progressBar.setVisibility(View.INVISIBLE);
-        if(tvshow.size() > 0){
+        if (tvshow.size() > 0) {
             adapter.setData(tvshow);
             tvNoFav.setVisibility(View.INVISIBLE);
             imgNoFav.setVisibility(View.INVISIBLE);
-        }else{
+        } else {
             adapter.setData(new ArrayList<>());
             tvNoFav.setVisibility(View.VISIBLE);
             imgNoFav.setVisibility(View.VISIBLE);
         }
     }
 
-    static class LoadTvShowFavAsync extends AsyncTask<Void,Void, ArrayList<TvShowRealmObject>> {
+    static class LoadTvShowFavAsync extends AsyncTask<Void, Void, ArrayList<TvShowRealmObject>> {
         private final WeakReference<Context> weakContext;
         private final WeakReference<LoadTvShowFavCallback> weakCallback;
 
-        LoadTvShowFavAsync(Context context, LoadTvShowFavCallback callback){
+        LoadTvShowFavAsync(Context context, LoadTvShowFavCallback callback) {
             this.weakCallback = new WeakReference<>(callback);
             this.weakContext = new WeakReference<>(context);
         }
@@ -203,10 +206,10 @@ public class TvShowFavFragment extends Fragment implements TvShowFavTouchHelper.
         @Override
         protected ArrayList<TvShowRealmObject> doInBackground(Void... voids) {
             Context context = weakContext.get();
-            Cursor dataCursor = context.getContentResolver().query(TvShowColumns.CONTENT_URI,null,null,null,null);
-            if(dataCursor != null){
+            Cursor dataCursor = context.getContentResolver().query(TvShowColumns.CONTENT_URI, null, null, null, null);
+            if (dataCursor != null) {
                 return MappingHelper.tsCursorToArrayList(dataCursor);
-            }else {
+            } else {
                 return new ArrayList<>();
             }
         }
@@ -224,8 +227,8 @@ public class TvShowFavFragment extends Fragment implements TvShowFavTouchHelper.
         }
     }
 
-    static  class DataObserver extends ContentObserver{
-        final  Context context;
+    static class DataObserver extends ContentObserver { //ContentObserver just work if use ContentProvider that use notifyChange
+        final Context context;
         final LoadTvShowFavCallback callback;
 
         DataObserver(Handler handler, Context context, LoadTvShowFavCallback callback) {
@@ -237,18 +240,41 @@ public class TvShowFavFragment extends Fragment implements TvShowFavTouchHelper.
         @Override
         public void onChange(boolean selfChange) {
             super.onChange(selfChange);
+            Log.d(TAG_FRAGMENT_TVFAV, "there is change on data");
             //when there is change load data (query) in background (async)
-            new LoadTvShowFavAsync(context,callback).execute();
+            new LoadTvShowFavAsync(context, callback).execute();
         }
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        Log.d(TAG_FRAGMENT_TVFAV, "on Resume");
     }
 
     @Override
     public void onPause() {
         super.onPause();
-        contentResolver.unregisterContentObserver(dataObserver);
+        Log.d(TAG_FRAGMENT_TVFAV, "on Pause");
     }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        Log.d(TAG_FRAGMENT_TVFAV, "on Destroy view");
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        contentResolver.unregisterContentObserver(dataObserver);
+        Log.d(TAG_FRAGMENT_TVFAV, "On Destroy");
+    }
+
 }
-interface LoadTvShowFavCallback{
+
+interface LoadTvShowFavCallback {
     void preExecute();
+
     void postExecute(ArrayList<TvShowRealmObject> tvshow);
 }

@@ -59,7 +59,6 @@ public class MovieFavFragment extends Fragment implements MovieFavTouchHelper.Re
     private DataObserver dataObserver;
 
 
-
     public MovieFavFragment() {
         // Required empty public constructor
     }
@@ -120,7 +119,7 @@ public class MovieFavFragment extends Fragment implements MovieFavTouchHelper.Re
         outState.putParcelableArrayList(EXTRA_STATE, adapter.getData());
     }
 
-    private void broadcasting(){
+    private void broadcasting() {
         Intent intent = new Intent(getActivity(), MovieFavWidget.class);
         intent.setAction(MovieFavWidget.UPDATE_WIDGET_MOVIE);
         Objects.requireNonNull(getActivity()).sendBroadcast(intent);
@@ -135,19 +134,18 @@ public class MovieFavFragment extends Fragment implements MovieFavTouchHelper.Re
             final int idDeletedMovie = adapter.getData().get(position).getId();
             //remove favorite movie temporary by set true val tmpDelete(content provider)
             Uri uriUpdate = Uri.parse(MovieColumns.CONTENT_URI + "/" + idDeletedMovie);
-            cv.put(MovieColumns.COLUMN_NAME_TMP_DELETE,true);
-           final int rowUpdated = Objects.requireNonNull(getActivity()).getContentResolver().update(uriUpdate, cv, null, null);
-
+            cv.put(MovieColumns.COLUMN_NAME_TMP_DELETE, true);
+            final int rowUpdated = Objects.requireNonNull(getActivity()).getContentResolver().update(uriUpdate, cv, null, null);
 
             //showing snackbar with undo option for restoring deleted movie fav
-            if(rowUpdated > 0){
+            if (rowUpdated > 0) {
                 isTmpDeleteFalse = true;
                 Snackbar snackbar = Snackbar.make(constraintLayout, name + " deleted from favorites!", Snackbar.LENGTH_SHORT);
                 snackbar.setAction("RESTORE", new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
                         Uri uri = Uri.parse(MovieColumns.CONTENT_URI + "/" + idDeletedMovie);
-                        cv.put(MovieColumns.COLUMN_NAME_TMP_DELETE,false);
+                        cv.put(MovieColumns.COLUMN_NAME_TMP_DELETE, false);
                         //restore deleted movie by changing value askedDeletion back to false
                         Objects.requireNonNull(getActivity()).getContentResolver().update(uri, cv, null, null);
                         isTmpDeleteFalse = false;
@@ -160,8 +158,8 @@ public class MovieFavFragment extends Fragment implements MovieFavTouchHelper.Re
                         super.onDismissed(transientBottomBar, event);
                         //when snackbar closed, delete permanently
                         if (isTmpDeleteFalse) {//because the change will caught by Observer, i use another variable for determining value of tmpDelete
-                            Uri uri = Uri.parse(MovieColumns.CONTENT_URI + "/"+idDeletedMovie);
-                            Objects.requireNonNull(getActivity()).getContentResolver().delete(uri,null,null);
+                            Uri uri = Uri.parse(MovieColumns.CONTENT_URI + "/" + idDeletedMovie);
+                            Objects.requireNonNull(getActivity()).getContentResolver().delete(uri, null, null);
                         }
                     }
                 });
@@ -184,11 +182,11 @@ public class MovieFavFragment extends Fragment implements MovieFavTouchHelper.Re
     @Override
     public void postExecute(ArrayList<MovieRealmObject> movie) {
         progressBar.setVisibility(View.INVISIBLE);
-        if(movie.size() > 0){
+        if (movie.size() > 0) {
             tvNoFav.setVisibility(View.INVISIBLE);
             imgNoFav.setVisibility(View.INVISIBLE);
             adapter.setData(movie);
-        }else{
+        } else {
             adapter.setData(new ArrayList<MovieRealmObject>());
             tvNoFav.setVisibility(View.VISIBLE);
             imgNoFav.setVisibility(View.VISIBLE);
@@ -228,7 +226,7 @@ public class MovieFavFragment extends Fragment implements MovieFavTouchHelper.Re
         }
     }
 
-   public static class DataObserver extends ContentObserver {
+    public static class DataObserver extends ContentObserver {
         final Context context;
         final LoadMovieFavCallback callback;
 
@@ -241,6 +239,7 @@ public class MovieFavFragment extends Fragment implements MovieFavTouchHelper.Re
         @Override
         public void onChange(boolean selfChange) {
             super.onChange(selfChange);
+            //load again data when there's change on data
             new LoadMovieFavAsync(context, callback).execute();
         }
     }
@@ -249,16 +248,18 @@ public class MovieFavFragment extends Fragment implements MovieFavTouchHelper.Re
 //        Toast.makeText(getActivity(), msg, Toast.LENGTH_SHORT).show();
 //    }
 
+
     @Override
-    public void onPause() {
+    public void onDestroy() {
+        super.onDestroy();
         //avoiding memory leak
         Objects.requireNonNull(getActivity()).getContentResolver().unregisterContentObserver(dataObserver);
-        super.onPause();
     }
 }
 
 
 interface LoadMovieFavCallback {
     void preExecute();
+
     void postExecute(ArrayList<MovieRealmObject> movie);
 }
