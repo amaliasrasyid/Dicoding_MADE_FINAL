@@ -7,6 +7,7 @@ import android.content.UriMatcher;
 import android.database.Cursor;
 import android.database.MatrixCursor;
 import android.net.Uri;
+import android.util.Log;
 
 import androidx.annotation.NonNull;
 
@@ -30,6 +31,7 @@ import static amalia.dev.dicodingmade.repository.realm.RealmContract.MovieColumn
 import static amalia.dev.dicodingmade.repository.realm.RealmContract.TvShowColumns;
 
 public class FavProvider extends ContentProvider {
+    private static final String TAG_PROVIDERFAV = "provider fav";
     private Realm realm;
     private RealmHelper realmHelper;
     //id code for uri matcher
@@ -72,6 +74,18 @@ public class FavProvider extends ContentProvider {
     public FavProvider() {  }
 
     @Override
+    public boolean onCreate() {
+        Realm.init(Objects.requireNonNull(getContext()));
+        //konfigurasi Realm
+        RealmConfiguration configuration = new RealmConfiguration.Builder()
+                .schemaVersion(0)
+                .build();
+        Realm.setDefaultConfiguration(configuration);
+
+        return true;
+    }
+
+    @Override
     public int update(@NonNull Uri uri, ContentValues values, String selection,
                       String[] selectionArgs) {
         int count = 0;
@@ -102,6 +116,7 @@ public class FavProvider extends ContentProvider {
 
         if(count > 0){
             Objects.requireNonNull(getContext()).getContentResolver().notifyChange(uri,null);
+            Log.d(TAG_PROVIDERFAV,"notify observer that there's updated item");
         }
 
         return  count; //return number updated rows
@@ -135,6 +150,7 @@ public class FavProvider extends ContentProvider {
         }
         if(count > 0){
             Objects.requireNonNull(getContext()).getContentResolver().notifyChange(uri,null);
+            Log.d(TAG_PROVIDERFAV,"notify observer that there's removed item");
         }
 
         return  count;//return number deleted rows
@@ -209,29 +225,18 @@ public class FavProvider extends ContentProvider {
                     throw new UnsupportedOperationException("Not yet implemented");
             }
             Objects.requireNonNull(getContext()).getContentResolver().notifyChange(uri,null);
+            Log.d(TAG_PROVIDERFAV,"notify observer that there's new item inserted");
         }finally {
             realm.close();
         }
         return mUri;
     }
 
-    @Override
-    public boolean onCreate() {
-        Realm.init(Objects.requireNonNull(getContext()));
-        //konfigurasi Realm
-        RealmConfiguration configuration = new RealmConfiguration.Builder()
-                .schemaVersion(0)
-                .build();
-        Realm.setDefaultConfiguration(configuration);
-
-        return true;
-    }
 
     //get or read data
     @Override
     public Cursor query(@NonNull Uri uri, String[] projection, String selection,
                         String[] selectionArgs, String sortOrder) {
-        // TODO: Implement this to handle query requests from clients.
         MatrixCursor matrixMovie = new MatrixCursor(new String[]{
                 MovieColumns._ID,MovieColumns.COLUMN_NAME_OVERVIEW,MovieColumns.COLUMN_NAME_TITLE,
                 MovieColumns.COLUMN_NAME_BACKDROP_PATH,MovieColumns.COLUMN_NAME_GENRE_ID,
@@ -325,9 +330,8 @@ public class FavProvider extends ContentProvider {
                 return matrixGenre;
             }
         }finally {
-            realm.close();//MUST CLOSING IT, because if not closing there is error "realm incorrect access thread" when open consumer app
+            realm.close();//MUST CLOSE IT, because if not closing there is error "realm incorrect access thread" when open consumer app
         }
-
 
     }
 
