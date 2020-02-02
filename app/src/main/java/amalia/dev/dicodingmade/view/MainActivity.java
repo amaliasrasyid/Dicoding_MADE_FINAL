@@ -2,14 +2,11 @@ package amalia.dev.dicodingmade.view;
 
 
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.preference.PreferenceManager;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 
-import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
@@ -18,22 +15,10 @@ import androidx.navigation.ui.NavigationUI;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
-import java.util.Objects;
-
-import amalia.dev.dicodingmade.BuildConfig;
 import amalia.dev.dicodingmade.R;
-import amalia.dev.dicodingmade.model.GenreResult;
 import amalia.dev.dicodingmade.reminder.ReminderReceiver;
-import amalia.dev.dicodingmade.repository.remote.ApiInterface;
-import amalia.dev.dicodingmade.repository.remote.ApiRepository;
-import amalia.dev.dicodingmade.repository.local.RealmHelper;
+import amalia.dev.dicodingmade.service.LoadGenreIntentService;
 import amalia.dev.dicodingmade.view.settings.SettingsActivity;
-import io.realm.Realm;
-import io.realm.RealmConfiguration;
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
-import retrofit2.Retrofit;
 
 public class MainActivity extends AppCompatActivity{
 
@@ -51,47 +36,15 @@ public class MainActivity extends AppCompatActivity{
         NavigationUI.setupWithNavController(navView, navController);
 
 
-        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
-        if (!prefs.getBoolean("JustOnce", false)) {
-            loadGenre();
-            SharedPreferences.Editor editor = prefs.edit();
-            editor.putBoolean("JustOnce", true);
-            editor.apply();
-        }
-        //run Service for alarm/reminder
+        //run service load genre
+        Intent mIntentService = new Intent(this, LoadGenreIntentService.class);
+        startService(mIntentService);
+
+        //send broadcast for reschedule alarm
         Intent intent = new Intent(this, ReminderReceiver.class);
         intent.setAction(ReminderReceiver.ACTION_DESTROYED_ALARM);
         sendBroadcast(intent);
-    }
 
-    private void loadGenre() {
-        Retrofit retrofit = ApiRepository.getInstance();
-        ApiInterface apiInterface = retrofit.create(ApiInterface.class);
-        String apiKey = BuildConfig.TMDB_API_KEY;
-        Call<GenreResult> call = apiInterface.getGenres(apiKey);
-        call.enqueue(new Callback<GenreResult>() {
-            @Override
-            public void onResponse(@Nullable Call<GenreResult> call, @Nullable Response<GenreResult> response) {
-                if(response != null){
-                    if (response.isSuccessful()) {
-                        GenreResult result = response.body();
-                        for (int i = 0; i < Objects.requireNonNull(result).getGenres().size(); i++) {
-                            //open Realm
-                            RealmConfiguration realmConfiguration = new RealmConfiguration.Builder().build();
-                            Realm realm = Realm.getInstance(realmConfiguration);
-                            RealmHelper realmHelper = new RealmHelper(realm);
-                            realmHelper.insertGenre(result.getGenres().get(i));
-                            realm.close();
-                        }
-                    }
-                }
-            }
-
-            @Override
-            public void onFailure(@Nullable  Call<GenreResult> call, @Nullable  Throwable t) {
-
-            }
-        });
 
     }
 
